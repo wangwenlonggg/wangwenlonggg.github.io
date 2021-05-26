@@ -27,12 +27,14 @@
 <meta property="og:site_name" content="wangwenlonggg">
 <meta property="og:description" content="三维模型的表示方法  点云：   点云是在同一空间参考系下表达目标空间分布和目标表面特性的海量点集合。 结合激光测量和摄影测量原理得到点云，包括三维坐标（XYZ）、激光反射强度（Intensity）和颜色信息（RGB）。 在获取物体表面每个采样点的空间坐标后，得到的是一个点的集合，称之为&quot;点云&quot;。   网格(mesh)：   多边形网格（Polygon mesh）是三维计">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://wangwenlonggg.github.io/2021/05/20/3D-reconstruction%EF%BC%88%E4%B8%80%EF%BC%89/20190613203936288.PNG">
 <meta property="article:published_time" content="2021-05-20T11:59:31.000Z">
-<meta property="article:modified_time" content="2021-05-25T08:27:17.778Z">
+<meta property="article:modified_time" content="2021-05-26T01:39:46.880Z">
 <meta property="article:author" content="wangwenlonggg">
 <meta property="article:tag" content="点云">
 <meta property="article:tag" content="体素">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://wangwenlonggg.github.io/2021/05/20/3D-reconstruction%EF%BC%88%E4%B8%80%EF%BC%89/20190613203936288.PNG">
 
 <link rel="canonical" href="http://wangwenlonggg.github.io/2021/05/20/3D-reconstruction%EF%BC%88%E4%B8%80%EF%BC%89/">
 
@@ -192,7 +194,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-05-25 16:27:17" itemprop="dateModified" datetime="2021-05-25T16:27:17+08:00">2021-05-25</time>
+                <time title="修改时间：2021-05-26 09:39:46" itemprop="dateModified" datetime="2021-05-26T09:39:46+08:00">2021-05-26</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -248,7 +250,7 @@
 </ul>
 <h2 id="三维重建比较常见的流程">三维重建比较常见的流程</h2>
 <ul>
-<li>提取图像特征--&gt;利用特征将图像计算图像之间的特征匹配--&gt;基于匹配的特征进行稀疏重建，得到各个图像的相机位姿和稀疏的特征点云--&gt;基于相机位姿进行稠密重建，得到稠密点云--&gt;基于点云重建网格、体素或者纹理</li>
+<li>提取图像特征(SIFT、SURF等)--&gt;利用特征计算图像之间的特征匹配--&gt;基于匹配的特征进行稀疏重建，得到各个图像的相机位姿和稀疏的特征点云(SFM)--&gt;基于相机位姿进行稠密重建，得到稠密点云(PMVS/CMVS)--&gt;基于点云重建网格、体素或者纹理</li>
 </ul>
 <h2 id="三维重建技术方法">三维重建技术方法</h2>
 <ul>
@@ -301,6 +303,72 @@
 <ul>
 <li>红外设备以一定的角度向物体投射红外线，光遇到物体后发生反射并被CCD图像传感器所检测。随着目标物体的移动，此时获取的反射光线也会产生相应的偏移值。根据发射角度、偏移距离、中心矩值和位置关系，便能计算出发射器到物体之间的距离。</li>
 </ul>
+<h2 id="基于kinect深度图的三维重建">基于Kinect深度图的三维重建</h2>
+<p><img src="/2021/05/20/3D-reconstruction%EF%BC%88%E4%B8%80%EF%BC%89/20190613203936288.PNG"></p>
+<p>对获取到的每一帧深度图像均进行前六步操作，直到处理完若干帧，最后完成纹理映射。</p>
+<h3 id="深度图像获取">深度图像获取</h3>
+<h3 id="预处理">预处理</h3>
+<ul>
+<li>对图像进行去噪和修复等图像增强过程。</li>
+</ul>
+<h3 id="点云计算">点云计算</h3>
+<ul>
+<li>相机标定之后，利用相机的内外参数矩阵获得从图像坐标系到世界坐标系的映射。</li>
+</ul>
+<h3 id="点云配准">点云配准</h3>
+<p>点云配准过程，就是求一个两个点云之间的旋转平移矩阵（rigid transform or euclidean transform 刚性变换或欧式变换），将源点云(source cloud)变换到目标点云(target cloud)相同的坐标系下。</p>
+<p>可以表示为以下方程：</p>
+<p><span class="math display">\[
+p_{t} = R\cdot p_{s} \ + \ T
+\]</span></p>
+<p>其中 <span class="math inline">\(p_{t}, \  p_{s}\)</span> 就是target cloud与source cloud中的一对对应点。<br>
+而我们要求的就是其中的R与T旋转平移矩阵。<br>
+这里，我们并不知道两个点集中点的对应关系。这也就是配准的核心问题。</p>
+<h4 id="粗配准">粗配准</h4>
+<ul>
+<li><p>ICP算法的基本原理。它需要一个旋转平移矩阵的初值。这个初值如果不太正确，那么由于它的greedy优化的策略，会使其目标函数下降到某一个局部最优点（当然也是一个错误的旋转平移矩阵）。因此，我们需要找到一个比较准确的初值，这也就是粗配准需要做的。</p></li>
+<li><p>评价标准：比较通用的一个是LCP(Largetst Common Pointset)。给定两个点集P,Q，找到一个变换T(P)，使得变换后的P与Q的重叠度最大。在变换后的P内任意一点，如果在容差范围内有另外一个Q的点，则认为该点是重合点。</p></li>
+</ul>
+<h4 id="精配准">精配准</h4>
+<ul>
+<li>精配准就是在已知一个旋转平移的初值的情况下（这个初值大概已经是正确的了），进一步计算得到更加精确的旋转平移矩阵。</li>
+<li>精配准的模式基本上已经固定为使用ICP算法(Iterative Closest Point)及其各种变种。</li>
+<li>简要介绍一下点集到点集ICP配准的算法：</li>
+</ul>
+<ol type="1">
+<li>ICP算法核心是最小化一个目标函数</li>
+</ol>
+<p><span class="math display">\[
+f(R,T) = \frac{1}{N_{p}} \sum_{i=1}^{n}|p_{t}^i-R\cdot p_{s}^i-T|^2
+\]</span></p>
+<ul>
+<li><span class="math inline">\(p_{t}^i,\ p_{s}^i\)</span> 就是一对对应点，总共有<span class="math inline">\(N_{p}\)</span> 对对应点。这个目标函数实际上就是所有对应点之间的欧式距离的平方和。</li>
+</ul>
+<ol start="2" type="1">
+<li>寻找对应点</li>
+</ol>
+<p>  我们现在并不知道有哪些对应点。因此，我们在有初值的情况下，假设用初始的旋转平移矩阵对source cloud进行变换，得到的一个变换后的点云。然后将这个变换后的点云与target cloud进行比较，只要两个点云中存在距离小于一定阈值（ICP中的一个参数），我们就认为这两个点就是对应点。这也是"最邻近点"这个说法的来源。</p>
+<ol start="3" type="1">
+<li>R、T优化</li>
+</ol>
+<p>  有了对应点之后，我们就可以用对应点对旋转R与平移T进行估计。这里R和T中只有6个自由度，而我们的对应点数量是庞大的（存在多余观测值）。因此，我们可以采用最小二乘等方法求解最优的旋转平移矩阵，就是让R和T去拟合大多数的对应点。</p>
+<ol start="4" type="1">
+<li>迭代</li>
+</ol>
+<p>  我们优化得到了一个新的R与T，导致了一些点转换后的位置发生变化，一些最邻近点对也相应的发生了变化。因此，我们又回到了步骤2)中的寻找最邻近点方法。2)3)步骤不停迭代进行，直到满足一些迭代终止条件，如R、T的变化量小于一定值，或者上述目标函数的变化小于一定值，或者邻近点对不再变化等。（ICP算法中的一个参数）</p>
+<ul>
+<li>算法大致流程就是上面这样。这里的优化过程是一个贪心的策略。首先固定R跟T利用最邻近算法找到最优的点对，然后固定最优的点对来优化R和T，依次反复迭代进行。这两个步骤都使得目标函数值下降，所以ICP算法总是收敛的，这也就是原文中收敛性的证明过程。这种优化思想与K均值聚类的优化思想非常相似，固定类中心优化每个点的类别，固定每个点的类别优化类中心。</li>
+</ul>
+<h4 id="全局配准">全局配准</h4>
+<p>  全局配准是使用整幅图像直接计算转换矩阵。通过对两帧精细配准结果，按照一定的顺序或一次性的进行多帧图像的配准。这两种配准方式分别称为序列配准（Sequential Registration）和同步配准（Simultaneous Registration）。</p>
+<p>  配准过程中，匹配误差被均匀的分散到各个视角的多帧图像中，达到削减多次迭代引起的累积误差的效果。值得注意的是，虽然全局配准可以减小误差，但是其消耗了较大的内存存储空间，大幅度提升了算法的时间复杂度。</p>
+<h3 id="数据融合">数据融合</h3>
+<p>  经过配准后的深度信息仍为空间中散乱无序的点云数据，仅能展现景物的部分信息。因此必须对点云数据进行融合处理，以获得更加精细的重建模型。以Kinect传感器的初始位置为原点构造体积网格，网格把点云空间分割成极多的细小立方体，这种立方体叫做体素(Voxel)。通过为所有体素赋予<strong>SDF（Signed Distance Field，有效距离场）值</strong>，来隐式的模拟表面。</p>
+<p>  SDF值等于此体素到重建表面的最小距离值。当SDF值大于零，表示该体素在表面前；当SDF小于零时，表示该体素在表面后；当SDF值越接近于零，表示该体素越贴近于场景的真实表面。KinectFusion技术虽然对场景的重建具有高效实时的性能，但是其可重建的空间范围却较小，主要体现在消耗了极大的空间用来存取数目繁多的体素。</p>
+<p>  为了解决体素占用大量空间的问题，Curless等人提出了<strong>TSDF (Truncated Signed Distance Field，截断符号距离场)算法</strong>，该方法只存储距真实表面较近的数层体素，而非所有体素。因此能够大幅降低KinectFusion的内存消耗，减少模型冗余点。</p>
+<h3 id="表面生成">表面生成</h3>
+<p>  表面生成的目的是为了构造物体的可视等值面，常用体素级方法直接处理原始灰度体数据。Lorensen提出了经典体素级重建算法：<strong>MC（Marching Cube，移动立方体）法。</strong>移动立方体法首先将数据场中八个位置相邻的数据分别存放在一个四面体体元的八个顶点处。对于一个边界体素上一条棱边的两个端点而言，当其值一个大于给定的常数T，另一个小于T时，则这条棱边上一定有等值面的一个顶点。</p>
+<p>  然后计算该体元中十二条棱和等值面的交点，并构造体元中的三角面片，所有的三角面片把体元分成了等值面内与等值面外两块区域。最后连接此数据场中的所有体元的三角面片，构成等值面。合并所有立方体的等值面便可生成完整的三维表面。</p>
 
     </div>
 
@@ -385,7 +453,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E7%BB%B4%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%A1%A8%E7%A4%BA%E6%96%B9%E6%B3%95"><span class="nav-number">1.</span> <span class="nav-text">三维模型的表示方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E7%BB%B4%E9%87%8D%E5%BB%BA%E6%AF%94%E8%BE%83%E5%B8%B8%E8%A7%81%E7%9A%84%E6%B5%81%E7%A8%8B"><span class="nav-number">2.</span> <span class="nav-text">三维重建比较常见的流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E7%BB%B4%E9%87%8D%E5%BB%BA%E6%8A%80%E6%9C%AF%E6%96%B9%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">三维重建技术方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A2%AB%E5%8A%A8%E5%BC%8F%E4%B8%89%E7%BB%B4%E9%87%8D%E5%BB%BA%E6%8A%80%E6%9C%AF"><span class="nav-number">3.1.</span> <span class="nav-text">被动式三维重建技术</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E5%8A%A8%E5%BC%8F%E4%B8%89%E7%BB%B4%E9%87%8D%E5%BB%BA%E6%8A%80%E6%9C%AF"><span class="nav-number">3.2.</span> <span class="nav-text">主动式三维重建技术</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E7%BB%B4%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%A1%A8%E7%A4%BA%E6%96%B9%E6%B3%95"><span class="nav-number">1.</span> <span class="nav-text">三维模型的表示方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E7%BB%B4%E9%87%8D%E5%BB%BA%E6%AF%94%E8%BE%83%E5%B8%B8%E8%A7%81%E7%9A%84%E6%B5%81%E7%A8%8B"><span class="nav-number">2.</span> <span class="nav-text">三维重建比较常见的流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E7%BB%B4%E9%87%8D%E5%BB%BA%E6%8A%80%E6%9C%AF%E6%96%B9%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">三维重建技术方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A2%AB%E5%8A%A8%E5%BC%8F%E4%B8%89%E7%BB%B4%E9%87%8D%E5%BB%BA%E6%8A%80%E6%9C%AF"><span class="nav-number">3.1.</span> <span class="nav-text">被动式三维重建技术</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E5%8A%A8%E5%BC%8F%E4%B8%89%E7%BB%B4%E9%87%8D%E5%BB%BA%E6%8A%80%E6%9C%AF"><span class="nav-number">3.2.</span> <span class="nav-text">主动式三维重建技术</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8Ekinect%E6%B7%B1%E5%BA%A6%E5%9B%BE%E7%9A%84%E4%B8%89%E7%BB%B4%E9%87%8D%E5%BB%BA"><span class="nav-number">4.</span> <span class="nav-text">基于Kinect深度图的三维重建</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B7%B1%E5%BA%A6%E5%9B%BE%E5%83%8F%E8%8E%B7%E5%8F%96"><span class="nav-number">4.1.</span> <span class="nav-text">深度图像获取</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%84%E5%A4%84%E7%90%86"><span class="nav-number">4.2.</span> <span class="nav-text">预处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%82%B9%E4%BA%91%E8%AE%A1%E7%AE%97"><span class="nav-number">4.3.</span> <span class="nav-text">点云计算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%82%B9%E4%BA%91%E9%85%8D%E5%87%86"><span class="nav-number">4.4.</span> <span class="nav-text">点云配准</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B2%97%E9%85%8D%E5%87%86"><span class="nav-number">4.4.1.</span> <span class="nav-text">粗配准</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B2%BE%E9%85%8D%E5%87%86"><span class="nav-number">4.4.2.</span> <span class="nav-text">精配准</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%A8%E5%B1%80%E9%85%8D%E5%87%86"><span class="nav-number">4.4.3.</span> <span class="nav-text">全局配准</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E8%9E%8D%E5%90%88"><span class="nav-number">4.5.</span> <span class="nav-text">数据融合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A8%E9%9D%A2%E7%94%9F%E6%88%90"><span class="nav-number">4.6.</span> <span class="nav-text">表面生成</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -500,6 +568,59 @@
   
 
   
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 
