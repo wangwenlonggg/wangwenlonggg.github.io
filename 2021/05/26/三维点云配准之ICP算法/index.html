@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"wangwenlonggg.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="问题描述 点云配准（Point Cloud Registration）指的是输入两幅点云 \(P_s\) (source) 和 \(P_t\) (target) ，输出一个变换 T 使得 T( \(P_s\) ) 和 \(P_t\) 的重合程度尽可能高。变换 T 可以是刚性的(rigid)，也可以不是，本文下面只考虑刚性变换，即变换只包括旋转、平移。 点云配准可以分为粗配准（Coarse Re">
+<meta property="og:type" content="article">
+<meta property="og:title" content="三维点云配准之ICP算法">
+<meta property="og:url" content="http://wangwenlonggg.github.io/2021/05/26/%E4%B8%89%E7%BB%B4%E7%82%B9%E4%BA%91%E9%85%8D%E5%87%86%E4%B9%8BICP%E7%AE%97%E6%B3%95/index.html">
+<meta property="og:site_name" content="wangwenlonggg">
+<meta property="og:description" content="问题描述 点云配准（Point Cloud Registration）指的是输入两幅点云 \(P_s\) (source) 和 \(P_t\) (target) ，输出一个变换 T 使得 T( \(P_s\) ) 和 \(P_t\) 的重合程度尽可能高。变换 T 可以是刚性的(rigid)，也可以不是，本文下面只考虑刚性变换，即变换只包括旋转、平移。 点云配准可以分为粗配准（Coarse Re">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-05-26T02:02:28.000Z">
+<meta property="article:modified_time" content="2021-05-26T05:44:13.981Z">
+<meta property="article:author" content="wangwenlonggg">
+<meta property="article:tag" content="ICP">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://wangwenlonggg.github.io/2021/05/26/%E4%B8%89%E7%BB%B4%E7%82%B9%E4%BA%91%E9%85%8D%E5%87%86%E4%B9%8BICP%E7%AE%97%E6%B3%95/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>三维点云配准之ICP算法 | wangwenlonggg</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">wangwenlonggg</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://wangwenlonggg.github.io/2021/05/26/%E4%B8%89%E7%BB%B4%E7%82%B9%E4%BA%91%E9%85%8D%E5%87%86%E4%B9%8BICP%E7%AE%97%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/laugh.jpg">
+      <meta itemprop="name" content="wangwenlonggg">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="wangwenlonggg">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          三维点云配准之ICP算法
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-05-26 10:02:28 / 修改时间：13:44:13" itemprop="dateCreated datePublished" datetime="2021-05-26T10:02:28+08:00">2021-05-26</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/3D-reconstruction/" itemprop="url" rel="index"><span itemprop="name">3D reconstruction</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="问题描述">问题描述</h2>
+<p>点云配准（Point Cloud Registration）指的是输入两幅点云 <span class="math inline">\(P_s\)</span> (source) 和 <span class="math inline">\(P_t\)</span> (target) ，输出一个变换 T 使得 T( <span class="math inline">\(P_s\)</span> ) 和 <span class="math inline">\(P_t\)</span> 的重合程度尽可能高。变换 T 可以是刚性的(rigid)，也可以不是，本文下面只考虑刚性变换，即变换只包括旋转、平移。</p>
+<p>点云配准可以分为粗配准（Coarse Registration）和精配准（Fine Registration）两步。粗配准指的是在两幅点云之间的变换完全未知的情况下进行较为粗糙的配准，目的主要是为精配准提供较好的变换初值；精配准则是给定一个初始变换，进一步优化得到更精确的变换。</p>
+<p>目前应用最广泛的点云精配准算法是迭代最近点算法（Iterative Closest Point, ICP）及各种变种 ICP 算法。</p>
+<h2 id="算法描述">算法描述</h2>
+<p>对于T是刚性变换的情形，点云配准问题可以描述为：</p>
+<p><span class="math display">\[
+\begin{equation} R^{\ast},t^{\ast} = \mathop{\arg\min}_{R, t} \frac{1}{|P_s|} \sum_{i=1}^{|P_s|} ||p_t^i - (R \cdot p_s^i + t)||^2 \end{equation}
+\]</span></p>
+<p>这里 <span class="math inline">\(p_s\)</span> 和 <span class="math inline">\(p_t\)</span> 是源点云和目标点云中的一一对应点。</p>
+<p>ICP 算法的直观想法如下：</p>
+<ul>
+<li>如果我们知道两幅点云上点的对应关系，那么我们可以用 Least Squares 来求解 R, t 参数；</li>
+<li>怎么知道点的对应关系呢？如果我们已经知道了一个大概靠谱的 R, t 参数，那么我们可以通过贪心的方式找两幅点云上点的对应关系（直接找距离最近的点作为对应点）。</li>
+</ul>
+<p>ICP 算法实际上就是交替进行上述两个步骤，迭代进行计算，直到收敛。</p>
+<p>ICP 一般算法流程为：</p>
+<ol type="1">
+<li>点云预处理</li>
+</ol>
+<ul>
+<li>滤波、清理数据等</li>
+</ul>
+<ol start="2" type="1">
+<li>匹配</li>
+</ol>
+<ul>
+<li>应用上一步求解出的变换，找最近点</li>
+</ul>
+<ol start="3" type="1">
+<li>加权</li>
+</ol>
+<ul>
+<li>调整一些对应点对的权重</li>
+</ul>
+<ol start="4" type="1">
+<li>剔除不合理的对应点对</li>
+<li>计算 loss</li>
+<li>最小化 loss，求解当前最优变换</li>
+<li>回到步骤 2. 进行迭代，直到收敛</li>
+</ol>
+<p>整体上来看，ICP 把点云配准问题拆分成了两个子问题：</p>
+<ul>
+<li>找最近点</li>
+<li>找最优变换</li>
+</ul>
+<h3 id="找最近对应点find-closet-point">找最近对应点（Find Closet Point）</h3>
+<p>利用初始 <span class="math inline">\(R_0\)</span>、<span class="math inline">\(t_0\)</span> 或上一次迭代得到的 <span class="math inline">\(R_k−1\)</span>、<span class="math inline">\(t_k−1\)</span> 对初始点云进行变换，得到一个临时的变换点云，然后用这个点云和目标点云进行比较，找出源点云中每一个点在目标点云中的最近邻点。</p>
+<p>如果直接进行比较找最近邻点，需要进行两重循环，计算复杂度为 O(|<span class="math inline">\(P_s\)</span>|⋅|<span class="math inline">\(P_t\)</span>|) ，这一步会比较耗时，常见的加速方法有：</p>
+<ul>
+<li>设置距离阈值，当点与点距离小于一定阈值就认为找到了对应点，不用遍历完整个点集；</li>
+<li>使用 ANN(Approximate Nearest Neighbor) 加速查找，常用的有 KD-tree；</li>
+</ul>
+<h3 id="求解最优变换find-best-transform">求解最优变换（Find Best Transform）</h3>
+<p>对于 point-to-point ICP 问题，求最优变换是有闭形式解（closed-form solution）的，可以借助 SVD 分解来计算。</p>
+<p>先给出结论，在已知点的对应关系的情况下，设 <span class="math inline">\(\bar{p_s}\)</span>，<span class="math inline">\(\bar{p_t}\)</span> 分别表示源点云和目标点云的质心，令：</p>
+<p><span class="math display">\[
+\begin{split}
+\hat p_s^i &amp;= p_s^i - \bar{p_s} \\
+\hat p_t^i &amp;= p_t^i - \bar{p_t} \\
+H &amp;= \sum_{i=1}^{|P_s|} {\hat p_s^i} {\hat p_t^i}^T \end{split}
+\]</span></p>
+<p>H是一个 3x3 矩阵，对 H 进行 SVD 分解得到 <span class="math inline">\(H = U \Sigma V^T\)</span> ， point-to-point ICP 问题最优旋转为：</p>
+<p><span class="math display">\[
+\begin{equation} R^{\ast} = VU^t \end{equation}
+\]</span></p>
+<p>下面分别给出证明。</p>
+<h4 id="计算最优平移">计算最优平移</h4>
+<p>令 <span class="math inline">\(N=|P_s|\)</span>，设<span class="math inline">\(F(t) = \sum_{i=1}^{N} ||(R \cdot p_s^i + t) - p_t^i||^2\)</span>，对其进行求导，则有：</p>
+<p><span class="math display">\[
+\begin{equation} \begin{aligned} \frac{\partial F}{\partial t} &amp;= \sum_{i=1}^{N} 2 (R \cdot p_s^i + t - p_t^i) \\ &amp;= 2nt + 2R\sum_{i=1}^{N}p_s^i - 2\sum_{i=1}^{N}p_t^i \end{aligned} \end{equation}
+\]</span></p>
+<p>令导数为0，则有：</p>
+<p><span class="math display">\[
+\begin{equation} \begin{aligned} t &amp;= \frac{1}{N} \sum_{i=1}^{N} p_t^i - R \frac{1}{N} \sum_{i=1}^{N} p_s^i \\ &amp;= \bar p_t - R \bar p_s \end{aligned} \end{equation}
+\]</span></p>
+<p>无论 R 取值如何，根据上式我们都可以求得最优的 t，使得 loss 最小。下面我们来推导最优旋转的计算公式。</p>
+<h4 id="计算最优旋转">计算最优旋转</h4>
+<p>经过最优平移的推导，我们知道无论旋转如何取值，都可以通过计算点云的质心来得到最优平移，为了下面计算上的简便，我们不妨不考虑平移的影响，先将源点云和目标点云都转换到质心坐标下，这也就是之前令 $p_s^i = p_s^i - {p_s} ,  p_t^i = p_t^i - {p_t} $的意义。</p>
+<p>下面我们用<span class="math inline">\(\hat p_s^i\)</span> 和 <span class="math inline">\(\hat p_t^i\)</span> 进行推导。</p>
+<p>不考虑平移，则 loss 可以写成：</p>
+<p><span class="math display">\[
+\begin{equation} F(R) = \sum_{i=1}^{N} ||R \cdot \hat p_s^i - \hat p_t^i||^2 \end{equation}
+\]</span></p>
+<p>先简化<span class="math inline">\(||R \cdot \hat p_s^i - \hat p_t^i||^2\)</span>：</p>
+<p><span class="math display">\[
+\begin{equation} \begin{aligned} ||R \cdot \hat p_s^i - \hat p_t^i||^2 &amp;= (R \cdot \hat p_s^i - \hat p_t^i)^T(R \cdot \hat p_s^i - \hat p_t^i) \\ &amp;= ({\hat p_s^i}^T R^T - {\hat p_t^i}^T)(R \cdot \hat p_s^i - \hat p_t^i) \\ &amp;= {\hat p_s^i}^T R^T R {\hat p_s^i} - {\hat p_t^i}^T R {\hat p_s^i} - {\hat p_s^i}^T R^T {\hat p_t^i} + {\hat p_t^i}^T {\hat p_t^i} \\ &amp;= ||{\hat p_s^i}||^2 + ||{\hat p_t^i}||^2 - {\hat p_t^i}^T R {\hat p_s^i} - {\hat p_s^i}^T R^T {\hat p_t^i} \\ &amp;= ||{\hat p_s^i}||^2 + ||{\hat p_t^i}||^2 - 2{\hat p_t^i}^T R {\hat p_s^i} \end{aligned} \end{equation}
+\]</span></p>
+<p>这里利用到了<span class="math inline">\(R^TR = I\)</span> 和 <span class="math inline">\({\hat p_t^i}^T R {\hat p_s^i} = {\hat p_s^i}^T R^T {\hat p_t^i}\)</span>（标量的转置等于自身）的性质。</p>
+<p>由于点的坐标是确定的(和 R 无关)，所以最小化原 loss 等价于求：</p>
+<p><span class="math display">\[
+\begin{equation} R^{\ast} = \mathop{\arg\min}_{R} (-2 \sum_{i=1}^{N} {\hat p_t^i}^T R {\hat p_s^i}) \end{equation}
+\]</span></p>
+<p>也即为求：</p>
+<p><span class="math display">\[
+\begin{equation} R^{\ast} = \mathop{\arg\max}_{R} (\sum_{i=1}^{N} {\hat p_t^i}^T R {\hat p_s^i}) \end{equation}
+\]</span></p>
+<p>注意到<span class="math inline">\(\sum_{i=1}^{N} {\hat p_t^i}^T R {\hat p_s^i} = trace(P_t^T R P_s)\)</span>由矩阵乘法及 trace 的定义可得）</p>
+<p>则问题转化为：</p>
+<p><span class="math display">\[
+\begin{equation} R^{\ast} = \mathop{\arg\max}_{R} trace(P_t^T R P_s) \end{equation}
+\]</span></p>
+<p>根据trace的性质<span class="math inline">\(trace(AB) = trace(BA)\)</span>，（这里不要求 A, B 为方阵，只要 A*B 是方阵即可），有：</p>
+<p><span class="math display">\[
+\begin{equation} trace(P_t^T R P_s) = trace(R P_s P_t^T) \end{equation}
+\]</span></p>
+<p>还记得前面定义的矩阵 H 和其 SVD 分解吗？带入上式得到：</p>
+<p><span class="math display">\[
+\begin{equation} \begin{aligned} trace(P_t^T R P_s) &amp;= trace(R P_s P_t^T) \\ &amp;= trace(R H) \\ &amp;= trace(R U \Sigma V^T) \\ &amp;= trace(\Sigma V^T R U) \end{aligned} \end{equation}
+\]</span></p>
+<p>注意这里<span class="math inline">\(V, U, R\)</span> 都是正交矩阵（orthogonal matrices），所以 <span class="math inline">\(V^TRU\)</span> 也是正交矩阵。令</p>
+<p><span class="math display">\[
+M = V^T R U = \left[ \begin{array}{cccc} m_{11} &amp; m_{12} &amp; m_{13} \\ m_{21} &amp; m_{22} &amp; m_{23} \\ m_{31} &amp; m_{32} &amp; m_{33} \end{array} \right]
+\]</span></p>
+<p>则有：</p>
+<p><span class="math display">\[
+\begin{equation} \begin{aligned} trace(\Sigma V^T R U) &amp;= trace(\Sigma M) \\ &amp; = \sigma_1 m_{11} + \sigma_2 m_{22} + \sigma_1 m_{33} \end{aligned} \end{equation}
+\]</span></p>
+<p>根据奇异值非负的性质和正交矩阵的性质（正交矩阵中的元素绝对值不大于 1），容易证得只有当<span class="math inline">\(M\)</span>为单位矩阵时<span class="math inline">\(trace(\Sigma M)\)</span> 最大，即：</p>
+<p><span class="math display">\[
+\begin{equation} \begin{aligned} V^T R U = I \\ R = V U^T \end{aligned} \end{equation}
+\]</span></p>
+<p>所以有<span class="math inline">\(R^{\ast} = VU^T\)</span>。</p>
+<p>最后还需要进行 Orientation rectification，即验证<span class="math inline">\(R^{\ast} = VU^T\)</span>是不是一个旋转矩阵（检查是否有<span class="math inline">\(|R| = 1\)</span>，因为存在 <span class="math inline">\(|R|=−1\)</span> 的可能，此时 <span class="math inline">\(R\)</span> 表示的不是旋转而是一个 reflection，所以我们还要给上述优化求解加上一个$ |R|=1$ 的约束。</p>
+<p>根据矩阵行列式的性质，以及 U, V 都是正交阵：</p>
+<p><span class="math display">\[
+\begin{equation} \begin{aligned} |M| &amp;= |V^T| |U| |R| \\ &amp;= |V^T| |U| = \pm 1 \end{aligned} \end{equation}
+\]</span></p>
+<p>如果<span class="math inline">\(|VUT|=1\)</span> ，则$ |M|=1$， <span class="math inline">\(R^∗=VU^T\)</span>已经给出最优旋转；如果 <span class="math inline">\(|VU^T|=−1\)</span>，则<span class="math inline">\(|M|=−1\)</span>，我们需要求解此时的 <span class="math inline">\(R\)</span>，也就是分析 <span class="math inline">\(M\)</span> 应该具有何种形式。具体的讨论请参考<a target="_blank" rel="noopener" href="https://www.math.pku.edu.cn/teachers/yaoy/Fall2011/arun.pdf">这里</a>，本文直接给出结论：当 <span class="math inline">\(|M|=−1\)</span> 时，使得 <span class="math inline">\(trace(\Sigma M)\)</span> 最大的 <span class="math inline">\(M\)</span> 为：</p>
+<p><span class="math display">\[
+\begin{equation} M = \left[ \begin{array}{ccc} 1 &amp; 0 &amp; 0 \\ 0 &amp; 1 &amp; 0 \\ 0 &amp; 0 &amp; -1 \end{array} \right] \end{equation}
+\]</span></p>
+<p>综合考虑 <span class="math inline">\(|M|=1\)</span> 和<span class="math inline">\(|M|=−1\)</span> 两种情况，我们可以得到：</p>
+<p><span class="math display">\[
+\begin{equation} R^{\ast} = V \left[ \begin{array}{ccc} 1 &amp; 0 &amp; 0 \\ 0 &amp; 1 &amp; 0 \\ 0 &amp; 0 &amp; |V U^T| \end{array} \right] U^T \end{equation}
+\]</span></p>
+<p>至此公式推导完了，简单总结一下求解最优变换的步骤：</p>
+<p>1.计算源点云和目标点云质心；<br>
+2.将源点云和目标点云转换到质心坐标系；<br>
+3.计算矩阵 H（形式类似“协方差矩阵”）；<br>
+4.对 H 求 SVD 分解，根据公式求得 <span class="math inline">\(R^∗\)</span>；<br>
+5.根据公式计算 <span class="math inline">\(t^∗\)</span>。</p>
+<h4 id="迭代">迭代</h4>
+<p>每一次迭代我们都会得到当前的最优变换参数<span class="math inline">\(R_k, t_k\)</span> ，然后将该变换作用于当前源点云；"找最近对应点"和"求解最优变换"这两步不停迭代进行，直到满足迭代终止条件，常用的终止条件有：</p>
+<ul>
+<li><span class="math inline">\(R_k,t_k\)</span> 的变化量小于一定值</li>
+<li>loss 变化量小于一定值</li>
+<li>达到最大迭代次数</li>
+</ul>
+<h2 id="icp-的优缺点及一些改进算法">ICP 的优缺点及一些改进算法</h2>
+<p>ICP 优点：</p>
+<ul>
+<li>简单，不必对点云进行分割和特征提取</li>
+<li>初值较好情况下，精度和收敛性都不错</li>
+</ul>
+<p>ICP 缺点：</p>
+<ul>
+<li>找最近对应点的计算开销较大</li>
+<li>只考虑了点与点距离，缺少对点云结构信息的利用</li>
+</ul>
+<p>原始的 ICP 算法计算开销大，对初始变换敏感，容易陷入局部最优解。自 ICP 提出以来，有相当多的 ICP 改进算法，简要列举一些：</p>
+<ul>
+<li>Point-to-Plane ICP，原始 ICP 算法的代价函数中使用的 point-to-point 距离，point-to-plane 则是考虑源顶点到目标顶点所在面的距离，比起直接计算点到点距离，考虑了点云的局部结构，精度更高，不容易陷入局部最优；但要注意 point-to-plane 的优化是一个非线性问题，速度比较慢，一般使用其线性化近似；</li>
+<li>Plane-to-Plane ICP，point-to-plane 只考虑目标点云局部结构， plane-to-plane 顾名思义就是也考虑源点云的局部结构，计算面到面的距离；</li>
+<li>Generalized ICP (GICP)，综合考虑 point-to-point、point-to-plane 和 plane-to-plane 策略，精度、鲁棒性都有所提高；</li>
+<li>Normal Iterative Closest Point (NICP)，考虑法向量和局部曲率，更进一步利用了点云的局部结构信息，其论文中实验结果比 GICP 的性能更好。</li>
+</ul>
+<h2 id="实际使用中的一些注意事项">实际使用中的一些注意事项</h2>
+<ul>
+<li>ICP 比较依赖于变换初值，平移比较简单，直接用点云质心来估计；旋转初值的话可以手动调一个粗略值，或者沿每个轴的旋转进行采样、组合来尝试（不适合实时性应用）；</li>
+<li>点太多的话可以先降采样；</li>
+<li>找到一些 anchor 点对（比如先用特征点匹配），可以帮助加速收敛；</li>
+<li>对应用场景引入一些合理假设，比如限制旋转、平移的范围，变换自由度数量等。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/ICP/" <i class="fa fa-tag"></i>># ICP</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/05/24/%E7%9B%B8%E6%9C%BA%E6%A0%87%E5%AE%9A%EF%BC%88camera-calibration%EF%BC%89/" rel="prev" title="相机标定（camera calibration）">
+      <i class="fa fa-chevron-left"></i> 相机标定（camera calibration）
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E6%8F%8F%E8%BF%B0"><span class="nav-number">2.</span> <span class="nav-text">算法描述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%BE%E6%9C%80%E8%BF%91%E5%AF%B9%E5%BA%94%E7%82%B9find-closet-point"><span class="nav-number">2.1.</span> <span class="nav-text">找最近对应点（Find Closet Point）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B1%82%E8%A7%A3%E6%9C%80%E4%BC%98%E5%8F%98%E6%8D%A2find-best-transform"><span class="nav-number">2.2.</span> <span class="nav-text">求解最优变换（Find Best Transform）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%80%E4%BC%98%E5%B9%B3%E7%A7%BB"><span class="nav-number">2.2.1.</span> <span class="nav-text">计算最优平移</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%80%E4%BC%98%E6%97%8B%E8%BD%AC"><span class="nav-number">2.2.2.</span> <span class="nav-text">计算最优旋转</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%AD%E4%BB%A3"><span class="nav-number">2.2.3.</span> <span class="nav-text">迭代</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#icp-%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9%E5%8F%8A%E4%B8%80%E4%BA%9B%E6%94%B9%E8%BF%9B%E7%AE%97%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">ICP 的优缺点及一些改进算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E9%99%85%E4%BD%BF%E7%94%A8%E4%B8%AD%E7%9A%84%E4%B8%80%E4%BA%9B%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">4.</span> <span class="nav-text">实际使用中的一些注意事项</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="wangwenlonggg"
+      src="/images/laugh.jpg">
+  <p class="site-author-name" itemprop="name">wangwenlonggg</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wangwenlonggg</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>
