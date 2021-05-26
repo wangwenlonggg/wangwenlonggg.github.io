@@ -873,7 +873,7 @@ OSI七层：<strong>物链网输会示用</strong>；低三层是通信子网，
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-05-26 09:39:46" itemprop="dateModified" datetime="2021-05-26T09:39:46+08:00">2021-05-26</time>
+                <time title="修改时间：2021-05-26 09:56:45" itemprop="dateModified" datetime="2021-05-26T09:56:45+08:00">2021-05-26</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -983,7 +983,7 @@ OSI七层：<strong>物链网输会示用</strong>；低三层是通信子网，
 <li>红外设备以一定的角度向物体投射红外线，光遇到物体后发生反射并被CCD图像传感器所检测。随着目标物体的移动，此时获取的反射光线也会产生相应的偏移值。根据发射角度、偏移距离、中心矩值和位置关系，便能计算出发射器到物体之间的距离。</li>
 </ul>
 <h2 id="基于kinect深度图的三维重建">基于Kinect深度图的三维重建</h2>
-<p><img src="/2021/05/20/3D-reconstruction%EF%BC%88%E4%B8%80%EF%BC%89/20190613203936288.PNG"></p>
+<p><img src="/2021/05/20/3D-reconstruction%EF%BC%88%E4%B8%80%EF%BC%89/20190613203936288.png"></p>
 <p>对获取到的每一帧深度图像均进行前六步操作，直到处理完若干帧，最后完成纹理映射。</p>
 <h3 id="深度图像获取">深度图像获取</h3>
 <h3 id="预处理">预处理</h3>
@@ -1020,9 +1020,7 @@ p_{t} = R\cdot p_{s} \ + \ T
 <p><span class="math display">\[
 f(R,T) = \frac{1}{N_{p}} \sum_{i=1}^{n}|p_{t}^i-R\cdot p_{s}^i-T|^2
 \]</span></p>
-<ul>
-<li><span class="math inline">\(p_{t}^i,\ p_{s}^i\)</span> 就是一对对应点，总共有<span class="math inline">\(N_{p}\)</span> 对对应点。这个目标函数实际上就是所有对应点之间的欧式距离的平方和。</li>
-</ul>
+<p><span class="math inline">\(p_{t}^i,\ p_{s}^i\)</span> 就是一对对应点，总共有<span class="math inline">\(N_{p}\)</span> 对对应点。这个目标函数实际上就是所有对应点之间的欧式距离的平方和。</p>
 <ol start="2" type="1">
 <li>寻找对应点</li>
 </ol>
