@@ -6,8 +6,8 @@
 <meta name="theme-color" content="#222">
 <meta name="generator" content="Hexo 5.4.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/penguin-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/penguin-16x16-next.png">
   <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
 <link rel="stylesheet" href="/css/main.css">
@@ -17,7 +17,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"wangwenlonggg.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"wangwenlonggg.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
   <meta property="og:type" content="website">
@@ -178,10 +178,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2021-05-26 10:02:28 / 修改时间：16:46:50" itemprop="dateCreated datePublished" datetime="2021-05-26T10:02:28+08:00">2021-05-26</time>
+              <time title="创建时间：2021-05-26 10:02:28" itemprop="dateCreated datePublished" datetime="2021-05-26T10:02:28+08:00">2021-05-26</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-05-27 08:10:42" itemprop="dateModified" datetime="2021-05-27T08:10:42+08:00">2021-05-27</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -207,6 +213,7 @@
 <p>点云配准（Point Cloud Registration）指的是输入两幅点云 <span class="math inline">\(P_s\)</span> (source) 和 <span class="math inline">\(P_t\)</span> (target) ，输出一个变换 T 使得 T( <span class="math inline">\(P_s\)</span> ) 和 <span class="math inline">\(P_t\)</span> 的重合程度尽可能高。变换 T 可以是刚性的(rigid)，也可以不是，本文下面只考虑刚性变换，即变换只包括旋转、平移。</p>
 <p>点云配准可以分为粗配准（Coarse Registration）和精配准（Fine Registration）两步。粗配准指的是在两幅点云之间的变换完全未知的情况下进行较为粗糙的配准，目的主要是为精配准提供较好的变换初值；精配准则是给定一个初始变换，进一步优化得到更精确的变换。</p>
 <p>目前应用最广泛的点云精配准算法是迭代最近点算法（Iterative Closest Point, ICP）及各种变种 ICP 算法。</p>
+<span id="more"></span>
 <h2 id="算法描述">算法描述</h2>
 <p>对于T是刚性变换的情形，点云配准问题可以描述为：</p>
 <p><span class="math display">\[
@@ -214,174 +221,14 @@
 \]</span></p>
 <p>这里 <span class="math inline">\(p_s\)</span> 和 <span class="math inline">\(p_t\)</span> 是源点云和目标点云中的一一对应点。</p>
 <p>ICP 算法的直观想法如下：</p>
-<ul>
-<li>如果我们知道两幅点云上点的对应关系，那么我们可以用 Least Squares 来求解 R, t 参数；</li>
-<li>怎么知道点的对应关系呢？如果我们已经知道了一个大概靠谱的 R, t 参数，那么我们可以通过贪心的方式找两幅点云上点的对应关系（直接找距离最近的点作为对应点）。</li>
-</ul>
-<p>ICP 算法实际上就是交替进行上述两个步骤，迭代进行计算，直到收敛。</p>
-<p>ICP 一般算法流程为：</p>
-<ol type="1">
-<li>点云预处理</li>
-</ol>
-<ul>
-<li>滤波、清理数据等</li>
-</ul>
-<ol start="2" type="1">
-<li>匹配</li>
-</ol>
-<ul>
-<li>应用上一步求解出的变换，找最近点</li>
-</ul>
-<ol start="3" type="1">
-<li>加权</li>
-</ol>
-<ul>
-<li>调整一些对应点对的权重</li>
-</ul>
-<ol start="4" type="1">
-<li>剔除不合理的对应点对</li>
-<li>计算 loss</li>
-<li>最小化 loss，求解当前最优变换</li>
-<li>回到步骤 2. 进行迭代，直到收敛</li>
-</ol>
-<p>整体上来看，ICP 把点云配准问题拆分成了两个子问题：</p>
-<ul>
-<li>找最近点</li>
-<li>找最优变换</li>
-</ul>
-<h3 id="找最近对应点find-closet-point">找最近对应点（Find Closet Point）</h3>
-<p>利用初始 <span class="math inline">\(R_0\)</span>、<span class="math inline">\(t_0\)</span> 或上一次迭代得到的 <span class="math inline">\(R_k−1\)</span>、<span class="math inline">\(t_k−1\)</span> 对初始点云进行变换，得到一个临时的变换点云，然后用这个点云和目标点云进行比较，找出源点云中每一个点在目标点云中的最近邻点。</p>
-<p>如果直接进行比较找最近邻点，需要进行两重循环，计算复杂度为 O(|<span class="math inline">\(P_s\)</span>|⋅|<span class="math inline">\(P_t\)</span>|) ，这一步会比较耗时，常见的加速方法有：</p>
-<ul>
-<li>设置距离阈值，当点与点距离小于一定阈值就认为找到了对应点，不用遍历完整个点集；</li>
-<li>使用 ANN(Approximate Nearest Neighbor) 加速查找，常用的有 KD-tree；</li>
-</ul>
-<h3 id="求解最优变换find-best-transform">求解最优变换（Find Best Transform）</h3>
-<p>对于 point-to-point ICP 问题，求最优变换是有闭形式解（closed-form solution）的，可以借助 SVD 分解来计算。</p>
-<p>先给出结论，在已知点的对应关系的情况下，设 <span class="math inline">\(\bar{p_s}\)</span>，<span class="math inline">\(\bar{p_t}\)</span> 分别表示源点云和目标点云的质心，令：</p>
-<p><span class="math display">\[
-\begin{split}
-\hat p_s^i &amp;= p_s^i - \bar{p_s} \\
-\hat p_t^i &amp;= p_t^i - \bar{p_t} \\
-H &amp;= \sum_{i=1}^{|P_s|} {\hat p_s^i} {\hat p_t^i}^T \end{split}
-\]</span></p>
-<p>H是一个 3x3 矩阵，对 H 进行 SVD 分解得到 <span class="math inline">\(H = U \Sigma V^T\)</span> ， point-to-point ICP 问题最优旋转为：</p>
-<p><span class="math display">\[
-\begin{equation} R^{\ast} = VU^t \end{equation}
-\]</span></p>
-<p>下面分别给出证明。</p>
-<h4 id="计算最优平移">计算最优平移</h4>
-<p>令 <span class="math inline">\(N=|P_s|\)</span>，设<span class="math inline">\(F(t) = \sum_{i=1}^{N} ||(R \cdot p_s^i + t) - p_t^i||^2\)</span>，对其进行求导，则有：</p>
-<p><span class="math display">\[
-\begin{equation} \begin{aligned} \frac{\partial F}{\partial t} &amp;= \sum_{i=1}^{N} 2 (R \cdot p_s^i + t - p_t^i) \\ &amp;= 2nt + 2R\sum_{i=1}^{N}p_s^i - 2\sum_{i=1}^{N}p_t^i \end{aligned} \end{equation}
-\]</span></p>
-<p>令导数为0，则有：</p>
-<p><span class="math display">\[
-\begin{equation} \begin{aligned} t &amp;= \frac{1}{N} \sum_{i=1}^{N} p_t^i - R \frac{1}{N} \sum_{i=1}^{N} p_s^i \\ &amp;= \bar p_t - R \bar p_s \end{aligned} \end{equation}
-\]</span></p>
-<p>无论 R 取值如何，根据上式我们都可以求得最优的 t，使得 loss 最小。下面我们来推导最优旋转的计算公式。</p>
-<h4 id="计算最优旋转">计算最优旋转</h4>
-<p>经过最优平移的推导，我们知道无论旋转如何取值，都可以通过计算点云的质心来得到最优平移，为了下面计算上的简便，我们不妨不考虑平移的影响，先将源点云和目标点云都转换到质心坐标下，这也就是之前令 $p_s^i = p_s^i - {p_s} ,  p_t^i = p_t^i - {p_t} $的意义。</p>
-<p>下面我们用<span class="math inline">\(\hat p_s^i\)</span> 和 <span class="math inline">\(\hat p_t^i\)</span> 进行推导。</p>
-<p>不考虑平移，则 loss 可以写成：</p>
-<p><span class="math display">\[
-\begin{equation} F(R) = \sum_{i=1}^{N} ||R \cdot \hat p_s^i - \hat p_t^i||^2 \end{equation}
-\]</span></p>
-<p>先简化<span class="math inline">\(||R \cdot \hat p_s^i - \hat p_t^i||^2\)</span>：</p>
-<p><span class="math display">\[
-\begin{equation} \begin{aligned} ||R \cdot \hat p_s^i - \hat p_t^i||^2 &amp;= (R \cdot \hat p_s^i - \hat p_t^i)^T(R \cdot \hat p_s^i - \hat p_t^i) \\ &amp;= ({\hat p_s^i}^T R^T - {\hat p_t^i}^T)(R \cdot \hat p_s^i - \hat p_t^i) \\ &amp;= {\hat p_s^i}^T R^T R {\hat p_s^i} - {\hat p_t^i}^T R {\hat p_s^i} - {\hat p_s^i}^T R^T {\hat p_t^i} + {\hat p_t^i}^T {\hat p_t^i} \\ &amp;= ||{\hat p_s^i}||^2 + ||{\hat p_t^i}||^2 - {\hat p_t^i}^T R {\hat p_s^i} - {\hat p_s^i}^T R^T {\hat p_t^i} \\ &amp;= ||{\hat p_s^i}||^2 + ||{\hat p_t^i}||^2 - 2{\hat p_t^i}^T R {\hat p_s^i} \end{aligned} \end{equation}
-\]</span></p>
-<p>这里利用到了<span class="math inline">\(R^TR = I\)</span> 和 <span class="math inline">\({\hat p_t^i}^T R {\hat p_s^i} = {\hat p_s^i}^T R^T {\hat p_t^i}\)</span>（标量的转置等于自身）的性质。</p>
-<p>由于点的坐标是确定的(和 R 无关)，所以最小化原 loss 等价于求：</p>
-<p><span class="math display">\[
-\begin{equation} R^{\ast} = \mathop{\arg\min}_{R} (-2 \sum_{i=1}^{N} {\hat p_t^i}^T R {\hat p_s^i}) \end{equation}
-\]</span></p>
-<p>也即为求：</p>
-<p><span class="math display">\[
-\begin{equation} R^{\ast} = \mathop{\arg\max}_{R} (\sum_{i=1}^{N} {\hat p_t^i}^T R {\hat p_s^i}) \end{equation}
-\]</span></p>
-<p>注意到<span class="math inline">\(\sum_{i=1}^{N} {\hat p_t^i}^T R {\hat p_s^i} = trace(P_t^T R P_s)\)</span>由矩阵乘法及 trace 的定义可得）</p>
-<p>则问题转化为：</p>
-<p><span class="math display">\[
-\begin{equation} R^{\ast} = \mathop{\arg\max}_{R} trace(P_t^T R P_s) \end{equation}
-\]</span></p>
-<p>根据trace的性质<span class="math inline">\(trace(AB) = trace(BA)\)</span>，（这里不要求 A, B 为方阵，只要 A*B 是方阵即可），有：</p>
-<p><span class="math display">\[
-\begin{equation} trace(P_t^T R P_s) = trace(R P_s P_t^T) \end{equation}
-\]</span></p>
-<p>还记得前面定义的矩阵 H 和其 SVD 分解吗？带入上式得到：</p>
-<p><span class="math display">\[
-\begin{equation} \begin{aligned} trace(P_t^T R P_s) &amp;= trace(R P_s P_t^T) \\ &amp;= trace(R H) \\ &amp;= trace(R U \Sigma V^T) \\ &amp;= trace(\Sigma V^T R U) \end{aligned} \end{equation}
-\]</span></p>
-<p>注意这里<strong><span class="math inline">\(V, U, R\)</span> 都是正交矩阵（orthogonal matrices）</strong>，所以 <span class="math inline">\(V^TRU\)</span> 也是正交矩阵。令</p>
-<p><span class="math display">\[
-M = V^T R U = \left[ \begin{array}{cccc} m_{11} &amp; m_{12} &amp; m_{13} \\ m_{21} &amp; m_{22} &amp; m_{23} \\ m_{31} &amp; m_{32} &amp; m_{33} \end{array} \right]
-\]</span></p>
-<p>则有：</p>
-<p><span class="math display">\[
-\begin{equation} \begin{aligned} trace(\Sigma V^T R U) &amp;= trace(\Sigma M) \\ &amp; = \sigma_1 m_{11} + \sigma_2 m_{22} + \sigma_1 m_{33} \end{aligned} \end{equation}
-\]</span></p>
-<p>根据奇异值非负的性质和正交矩阵的性质（正交矩阵中的元素绝对值不大于 1），容易证得只有当<span class="math inline">\(M\)</span>为单位矩阵时<span class="math inline">\(trace(\Sigma M)\)</span> 最大，即：</p>
-<p><span class="math display">\[
-\begin{equation} \begin{aligned} V^T R U = I \\ R = V U^T \end{aligned} \end{equation}
-\]</span></p>
-<p>所以有<span class="math inline">\(R^{\ast} = VU^T\)</span>。</p>
-<p>最后还需要进行 Orientation rectification，即验证<span class="math inline">\(R^{\ast} = VU^T\)</span>是不是一个旋转矩阵（检查是否有<span class="math inline">\(|R| = 1\)</span>，因为存在 <span class="math inline">\(|R|=−1\)</span> 的可能，此时 <span class="math inline">\(R\)</span> 表示的不是旋转而是一个 reflection，所以我们还要给上述优化求解加上一个$ |R|=1$ 的约束。</p>
-<p>根据矩阵行列式的性质，以及 U, V 都是正交阵：</p>
-<p><span class="math display">\[
-\begin{equation} \begin{aligned} |M| &amp;= |V^T| |U| |R| \\ &amp;= |V^T| |U| = \pm 1 \end{aligned} \end{equation}
-\]</span></p>
-<p>如果<span class="math inline">\(|VUT|=1\)</span> ，则$ |M|=1$， <span class="math inline">\(R^∗=VU^T\)</span>已经给出最优旋转；如果 <span class="math inline">\(|VU^T|=−1\)</span>，则<span class="math inline">\(|M|=−1\)</span>，我们需要求解此时的 <span class="math inline">\(R\)</span>，也就是分析 <span class="math inline">\(M\)</span> 应该具有何种形式。具体的讨论请参考<a target="_blank" rel="noopener" href="https://www.math.pku.edu.cn/teachers/yaoy/Fall2011/arun.pdf">这里</a>，本文直接给出结论：当 <span class="math inline">\(|M|=−1\)</span> 时，使得 <span class="math inline">\(trace(\Sigma M)\)</span> 最大的 <span class="math inline">\(M\)</span> 为：</p>
-<p><span class="math display">\[
-\begin{equation} M = \left[ \begin{array}{ccc} 1 &amp; 0 &amp; 0 \\ 0 &amp; 1 &amp; 0 \\ 0 &amp; 0 &amp; -1 \end{array} \right] \end{equation}
-\]</span></p>
-<p>综合考虑 <span class="math inline">\(|M|=1\)</span> 和<span class="math inline">\(|M|=−1\)</span> 两种情况，我们可以得到：</p>
-<p><span class="math display">\[
-\begin{equation} R^{\ast} = V \left[ \begin{array}{ccc} 1 &amp; 0 &amp; 0 \\ 0 &amp; 1 &amp; 0 \\ 0 &amp; 0 &amp; |V U^T| \end{array} \right] U^T \end{equation}
-\]</span></p>
-<p>至此公式推导完了，简单总结一下求解最优变换的步骤：</p>
-<p>1.计算源点云和目标点云质心；<br>
-2.将源点云和目标点云转换到质心坐标系；<br>
-3.计算矩阵 H（形式类似“协方差矩阵”）；<br>
-4.对 H 求 SVD 分解，根据公式求得 <span class="math inline">\(R^∗\)</span>；<br>
-5.根据公式计算 <span class="math inline">\(t^∗\)</span>。</p>
-<h4 id="迭代">迭代</h4>
-<p>每一次迭代我们都会得到当前的最优变换参数<span class="math inline">\(R_k, t_k\)</span> ，然后将该变换作用于当前源点云；"找最近对应点"和"求解最优变换"这两步不停迭代进行，直到满足迭代终止条件，常用的终止条件有：</p>
-<ul>
-<li><span class="math inline">\(R_k,t_k\)</span> 的变化量小于一定值</li>
-<li>loss 变化量小于一定值</li>
-<li>达到最大迭代次数</li>
-</ul>
-<h2 id="icp-的优缺点及一些改进算法">ICP 的优缺点及一些改进算法</h2>
-<p>ICP 优点：</p>
-<ul>
-<li>简单，不必对点云进行分割和特征提取</li>
-<li>初值较好情况下，精度和收敛性都不错</li>
-</ul>
-<p>ICP 缺点：</p>
-<ul>
-<li>找最近对应点的计算开销较大</li>
-<li>只考虑了点与点距离，缺少对点云结构信息的利用</li>
-</ul>
-<p>原始的 ICP 算法计算开销大，对初始变换敏感，容易陷入局部最优解。自 ICP 提出以来，有相当多的 ICP 改进算法，简要列举一些：</p>
-<ul>
-<li>Point-to-Plane ICP，原始 ICP 算法的代价函数中使用的 point-to-point 距离，point-to-plane 则是考虑源顶点到目标顶点所在面的距离，比起直接计算点到点距离，考虑了点云的局部结构，精度更高，不容易陷入局部最优；但要注意 point-to-plane 的优化是一个非线性问题，速度比较慢，一般使用其线性化近似；</li>
-<li>Plane-to-Plane ICP，point-to-plane 只考虑目标点云局部结构， plane-to-plane 顾名思义就是也考虑源点云的局部结构，计算面到面的距离；</li>
-<li>Generalized ICP (GICP)，综合考虑 point-to-point、point-to-plane 和 plane-to-plane 策略，精度、鲁棒性都有所提高；</li>
-<li>Normal Iterative Closest Point (NICP)，考虑法向量和局部曲率，更进一步利用了点云的局部结构信息，其论文中实验结果比 GICP 的性能更好。</li>
-</ul>
-<h2 id="实际使用中的一些注意事项">实际使用中的一些注意事项</h2>
-<ul>
-<li>ICP 比较依赖于变换初值，平移比较简单，直接用点云质心来估计；旋转初值的话可以手动调一个粗略值，或者沿每个轴的旋转进行采样、组合来尝试（不适合实时性应用）；</li>
-<li>点太多的话可以先降采样；</li>
-<li>找到一些 anchor 点对（比如先用特征点匹配），可以帮助加速收敛；</li>
-<li>对应用场景引入一些合理假设，比如限制旋转、平移的范围，变换自由度数量等。</li>
-</ul>
-<h2 id="参考">参考</h2>
-<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/caster99/p/4703033.html">旋转矩阵(Rotate Matrix)的性质分析</a></p>
-<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/53826008">KD(k-dimensional)树</a></p>
-<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/29846048">奇异值分解SVD</a></p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/05/26/%E4%B8%89%E7%BB%B4%E7%82%B9%E4%BA%91%E9%85%8D%E5%87%86%E4%B9%8BICP%E7%AE%97%E6%B3%95/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -431,7 +278,7 @@ M = V^T R U = \left[ \begin{array}{cccc} m_{11} &amp; m_{12} &amp; m_{13} \\ m_{
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-05-26 17:21:05" itemprop="dateModified" datetime="2021-05-26T17:21:05+08:00">2021-05-26</time>
+                <time title="修改时间：2021-05-27 08:11:08" itemprop="dateModified" datetime="2021-05-27T08:11:08+08:00">2021-05-27</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -456,6 +303,7 @@ M = V^T R U = \left[ \begin{array}{cccc} m_{11} &amp; m_{12} &amp; m_{13} \\ m_{
       
           <h2 id="相机标定的目的和意义">相机标定的目的和意义</h2>
 <p>我们所处的世界是三维的，而照片是二维的，这样我们可以把相机认为是一个函数，输入量是一个场景，输出量是一幅灰度图。这个从三维到二维的过程的函数是不可逆的。</p>
+<span id="more"></span>
 <p><img src="/2021/05/24/%E7%9B%B8%E6%9C%BA%E6%A0%87%E5%AE%9A%EF%BC%88camera-calibration%EF%BC%89/v2-a471b2757c15580c127769261e52a441_r.png"></p>
 <p>相机标定的目标是我们找一个合适的数学模型，求出这个模型的参数，这样我们能够近似这个三维到二维的过程，使这个三维到二维的过程的函数找到反函数。</p>
 <p><img src="/2021/05/24/%E7%9B%B8%E6%9C%BA%E6%A0%87%E5%AE%9A%EF%BC%88camera-calibration%EF%BC%89/v2-afff3b4901966569a5203751afb5e50f_r.jpg"></p>
@@ -467,196 +315,14 @@ M = V^T R U = \left[ \begin{array}{cccc} m_{11} &amp; m_{12} &amp; m_{13} \\ m_{
 <li>图像坐标系(image coordinate system)</li>
 </ul>
 <p>一般来说，标定的过程分为两个部分：</p>
-<ul>
-<li>第一步是从世界坐标系转换为相机坐标系，这一步是三维点到三维点的转换，包括 R ，t （相机外参）等参数。</li>
-<li>第二部是从相机坐标系转为图像坐标系，这一步是三维点到二维点的转换，包括 K（相机内参）等参数。</li>
-</ul>
-<h2 id="相机坐标系转换到图像坐标系">相机坐标系转换到图像坐标系</h2>
-<h3 id="坐标系介绍">坐标系介绍</h3>
-<p><img src="/2021/05/24/%E7%9B%B8%E6%9C%BA%E6%A0%87%E5%AE%9A%EF%BC%88camera-calibration%EF%BC%89/9c3151f32b104bd09a105b1efc663f32.png"></p>
-<ul>
-<li>C 点表示camera centre，即相机的中心点，也是相机坐标系的中心点；</li>
-<li>Z 轴表示principal axis，即相机的主轴；</li>
-<li>p 点所在的平面表示image plane，即相机的像平面，也就是图片坐标系所在的二维平面；</li>
-<li>p 点表示principal point，即主点，主轴与像平面相交的点；</li>
-<li>C 点到 p 点的距离，也就是右边图中的 f 表示focal length，即相机的焦距；</li>
-<li>像平面上的 x 和 y 坐标轴是与相机坐标系上的 X 和 Y 坐标轴互相平行的；</li>
-<li>相机坐标系是以 X ，Y ，Z 三个轴组成的且原点在 C 点，度量值为米(m)；</li>
-<li>像平面坐标系是以 x，y（小写）两个轴组成的且原点在 p 点，度量值为米(m)；</li>
-<li>图像坐标系一般指图片相对坐标系，在这里可以认为和像平面坐标系在一个平面上，不过相平面坐标系的原点是在图片的角上，而且度量值为像素的个数(pixel)；</li>
-</ul>
-<h3 id="相机转换到像平面">相机转换到像平面</h3>
-<p>如果知道相机坐标系中的一个点X（现实三维世界中的点），在像平面坐标系对应的点是 x，要求求从相机坐标系转为像平面坐标系的转换，也就是从X点的( X , Y , Z )通过一定的转换变为x点的(x, y)。</p>
-<p>注意( X , Y , Z )是在相机坐标系，而( x , y )是在像平面坐标系（还不是图像坐标系，因为原点不同。）观察第二个图，很简单的可以得到这个转换：</p>
-<p><span class="math display">\[
-x = \frac{fX}{Z}
-\]</span></p>
-<p><span class="math display">\[
-y = \frac{fY}{Z}
-\]</span></p>
-<p><span class="math display">\[
-(X, Y, Z)\longrightarrow (\frac{fX}{Z}, \frac{fY}{Z})
-\]</span></p>
-<p>可以表示为矩阵计算为（在这里用的是齐次坐标的表示方式，关于齐次坐标文章最下面有介绍）：</p>
-<p><span class="math display">\[
-\begin{bmatrix}
-X \\ Y \\ Z \\ 1 
-\end{bmatrix} \longrightarrow 
-\begin{bmatrix}
-fX \\ fY \\ Z
-\end{bmatrix} = 
-\begin{bmatrix}
-f&amp;&amp;&amp;0 \\ &amp;f&amp;&amp;0 \\ &amp;&amp;1&amp;0
-\end{bmatrix}
-\begin{bmatrix}
-X \\ Y \\ Z \\ 1 
-\end{bmatrix}
-\]</span></p>
-<p>可以简写为（P就是所谓的投影矩阵，当然现在还不完整）：</p>
-<p><span class="math display">\[
-x = PX 
-\]</span></p>
-<h3 id="加入偏移量">加入偏移量</h3>
-<p>通过上面，可以把相机坐标系转换到像平面坐标系，但是像平面坐标系和图像坐标系虽然在同一个平面上，但是原点并不是同一个，而目标是要转换到图像坐标系下，所以还需要一步操作，如下图：</p>
-<p><img src="/2021/05/24/%E7%9B%B8%E6%9C%BA%E6%A0%87%E5%AE%9A%EF%BC%88camera-calibration%EF%BC%89/69c2ab944924e3dc2baef495d5295828.png"></p>
-<p>如上图所示，其中主点 p 是像平面坐标系的原点，但在图像坐标系中的位置为</p>
-<p><span class="math display">\[
-(p_{x}, p_{y})
-\]</span></p>
-<p>在这里，图形坐标系的原点是图片的左下角，所以可以得到：</p>
-<p><span class="math display">\[
-(X, Y, Z) \longrightarrow (\frac{fX}{Z} + p_{x}, \frac{fY}{Z} + p_{y},)
-\]</span></p>
-<p>相当于在上面的基础上加了一个p点坐标的偏移量，同时可以表示为矩阵计算为（在这里用的是齐次坐标的表示方式）：</p>
-<p><span class="math display">\[
-\begin{bmatrix}
-X \\ Y \\ Z \\ 1 
-\end{bmatrix} \longrightarrow 
-\begin{bmatrix}
-fX + Zp_{x} \\ fY + Zp_{y} \\ Z
-\end{bmatrix} = 
-\begin{bmatrix}
-f&amp;&amp;p_{x}&amp;0 \\ &amp;f&amp;p_{y}&amp; \\ &amp;&amp;1&amp;0
-\end{bmatrix}
-\begin{bmatrix}
-X \\ Y \\ Z \\ 1 
-\end{bmatrix}
-\]</span></p>
-<p>整理一下得：</p>
-<p><span class="math display">\[
-\begin{bmatrix}
-fX + Zp_{x} \\ fY + Zp_{y} \\ Z
-\end{bmatrix} = 
-\begin{bmatrix}
-f&amp;&amp;p_{x} \\ &amp;f&amp;p_{y} \\ &amp;&amp;1
-\end{bmatrix}
-\begin{bmatrix}
-1&amp;&amp;&amp;0 \\ &amp;1&amp;&amp;0 \\ &amp;&amp;1&amp;0
-\end{bmatrix}
-\begin{bmatrix}
-X \\ Y \\ Z \\ 1 
-\end{bmatrix}
-\]</span></p>
-<p>所以最后可以得到 K，也就是平时所说的相机内参（Intrinsic parameters）：</p>
-<p><span class="math display">\[
-\begin{bmatrix}
-f&amp;&amp;p_{x} \\ &amp;f&amp;p_{y} \\ &amp;&amp;1
-\end{bmatrix}
-\]</span></p>
-<p>以及投影矩阵P（在这里可以认为旋转矩阵R为单位矩阵I，平移矩阵t都为0，这也是为什么要拆成这种方式），为：</p>
-<p><span class="math display">\[
-P = K[I \  \rvert \ 0]
-\]</span></p>
-<h3 id="像素坐标">像素坐标</h3>
-<p>前面也提到了在图像坐标系中用的不是现实生活中的m来度量，而是用的 pixel 的个数，所以在上面转换到图像坐标系中还有个问题，就是坐标的表示还是m，并没有转换到像素坐标系统；在这里需要引入一个新概念就是：</p>
-<ul>
-<li><span class="math inline">\(m_{x}\)</span>表示在水平方向1m的长度包含的像素的个数;</li>
-<li><span class="math inline">\(m_{y}\)</span>表示在竖直方向1m的长度包含的像素的个数;</li>
-</ul>
-<p>可能有人奇怪为啥不是一个值，还需要分别指定 <span class="math inline">\(m_{x}\)</span>,<span class="math inline">\(m_{y}\)</span>呀，这是因为通过上面可以得到一个像素点的大小（m度量）为：</p>
-<p><span class="math display">\[
-\frac{1}{m_{x}} \times \frac{1}{m_{y}}
-\]</span></p>
-<p>需要说明的是像素并不一定是一个正方形，有时候可能也是一个矩形，所以要分别指定。 所以可以把上面相机内参 K 变为更新为，转换公式把 K 替换即可，其他不变：</p>
-<p><span class="math display">\[
-K = \begin{bmatrix}
-m_{x}&amp;&amp; \\ &amp;m_{y}&amp; \\ &amp;&amp;1 \end{bmatrix}
-\begin{bmatrix}
-f&amp;&amp;p_{x} \\ &amp;f&amp;p_{y} \\ &amp;&amp;1 \end{bmatrix} = 
-\begin{bmatrix}
-\alpha _{x} &amp;&amp;\beta _{x} \\ &amp;\alpha _{y}&amp;\beta _{y} \\ &amp;&amp;1 \end{bmatrix}
-\]</span></p>
-<h2 id="世界坐标系转换到图像坐标系">世界坐标系转换到图像坐标系</h2>
-<h3 id="坐标系介绍-1">坐标系介绍</h3>
-<p><img src="/2021/05/24/%E7%9B%B8%E6%9C%BA%E6%A0%87%E5%AE%9A%EF%BC%88camera-calibration%EF%BC%89/f3639e2ffd0767171634ad603c7ad0c6.png"></p>
-<p>如上图所示，从世界坐标系转换到相机坐标系是三维空间到三维空间的变换，一般来说需要一个平移操作和一个旋转操作就可以完成这个转换，用公式表示如下（可以理解为世界坐标系原点先平移到相机坐标系的位置然后在做一次坐标系旋转，使坐标轴对齐。）</p>
-<p><span class="math display">\[
-\tilde{X}_{cam} = R(\tilde{X} \ - \ \tilde{C})
-\]</span></p>
-<ul>
-<li>R 表示旋转矩阵;</li>
-<li><span class="math inline">\(\tilde{X}\)</span>表示 X 点在世界坐标系中的位置;</li>
-<li><span class="math inline">\(\tilde{C}\)</span>表示相机原点 C 在世界坐标系中的位置;</li>
-<li><span class="math inline">\(\tilde{X}_{cam}\)</span>表示 X 点在相机坐标系中的位置;</li>
-</ul>
-<h3 id="世界转换到相机">世界转换到相机</h3>
-<p>根据上面的公式可以得到从一个三维点从世界坐标系转换到相机坐标的变换公式如下（也是用的齐次坐标的表示方式）：</p>
-<p><span class="math display">\[
-X_{cam} = \begin{bmatrix} 
-\tilde{X}_{cam} \\ 1 \end{bmatrix} = 
-\begin{bmatrix}
-R&amp;-R\tilde{C} \\ 0&amp;1 \end{bmatrix}
-\begin{bmatrix}
-\tilde{X} \\ 1 \end{bmatrix} = 
-\begin{bmatrix}
-R&amp;-R\tilde{C} \\ 0&amp;1 \end{bmatrix}X
-\]</span></p>
-<h3 id="世界转换到图像">世界转换到图像</h3>
-<p>根据上面的讨论知道了怎样从世界坐标系转换到相机坐标系（平移和旋转）以及从相机坐标系转换到图像坐标系（相机内参变换），所以带入上面的矩阵计算，可以得到：</p>
-<p><span class="math display">\[
-x = K[I \ | \ 0]X_{cam} = K[R \ | \ -R\tilde{C}] X
-\]</span></p>
-<p>这样就得到了最终的投影矩阵 P:</p>
-<p><span class="math display">\[
-P = K[R \ | \ t]
-\]</span></p>
-<p>其中：</p>
-<p><span class="math display">\[
-t = -R\tilde{C}
-\]</span></p>
-<p>在这里，K 一般称为相机内参（intrinsic parameters），描述了相机的内部参数，包括焦距 f 、主点 p 的位置、以及像素与真实环境的大小比例等，这个是固有属性，是提供好的；R 和 t 称为相机外参（extrinsic parameters），R 在这里是旋转矩阵，可以转换为三维的旋转向量，分别表示绕x ，y ，z 三个轴的旋转角度，t 目前就是一个平移向量，分别表示在x ，y ，z 三个方向上的平移量。</p>
-<h2 id="畸变参数distortion-parameters">畸变参数(distortion parameters)</h2>
-<p>在几何光学和阴极射线管(CRT)显示中，畸变（distortion） 是对直线投影（rectilinear projection）的一种偏移。简单来说直线投影是场景内的一条直线投影到图片上也保持为一条直线。那畸变简单来说就是一条直线投影到图片上不能保持为一条直线了，这是一种光学畸变（optical aberration）。可能由于摄像机镜头的原因，这里不讨论，有兴趣的可以查阅光学畸变的相关的资料。 畸变一般可以分为两大类，包括径向畸变和切向畸变。主要的一般径向畸变有时也会有轻微的切向畸变。</p>
-<h3 id="径向畸变radial-distortion">径向畸变（Radial distortion）</h3>
-<p>径向畸变的效应有三种，一种是桶形畸变（barrel distortion），另一种是枕形畸变（pincushion distortion），还有一种是两种的结合叫做胡子畸变（mustache distortion），从图片中可以很容易看出区别，具体见下图:</p>
-<p><img src="/2021/05/24/%E7%9B%B8%E6%9C%BA%E6%A0%87%E5%AE%9A%EF%BC%88camera-calibration%EF%BC%89/09ea55c6320d551fc0cafe2d32beb5dd.png"></p>
-<p>径向畸变可以用如下公式修正：</p>
-<p><span class="math display">\[
-x_{corr} = x_{dis}(1+k_{1}r^{2}+k_{2}r^{4}+k_{3}r^{6})
-\]</span> <span class="math display">\[
-y_{corr} = y_{dis}(1+k_{1}r^{2}+k_{2}r^{4}+k_{3}r^{6})
-\]</span></p>
-<h3 id="切向畸变tangential-distortion">切向畸变（tangential distortion）</h3>
-<p>切向畸变是由于透镜与成像平面不严格的平行，其可以用如下公式修正：</p>
-<p><span class="math display">\[
-x_{corr} = x_{dis}+[2p_{1}xy+p_{2}(r^{2}+2x^{2})]
-\]</span> <span class="math display">\[
-y_{corr} = y_{dis}+[2p_{2}xy+p_{1}(r^{2}+2y^{2})]
-\]</span></p>
-<p>其中：</p>
-<ul>
-<li><span class="math inline">\(x_{dis}\)</span>和<span class="math inline">\(y_{dis}\)</span>表示有畸变的坐标;</li>
-<li><span class="math inline">\(x_{corr}\)</span>和<span class="math inline">\(y_{corr}\)</span>表示修复后的坐标;</li>
-<li><span class="math inline">\(k_{1},k_{2},k_{3}\)</span>表示径向畸变参数;</li>
-<li><span class="math inline">\(p_{1},p_{2}\)</span>表示切向畸变参数;</li>
-</ul>
-<p>所以最终得到5个畸变参数：</p>
-<p><span class="math display">\[
-D=(k_{1},k_{2},p_{1},p_{2},k_{3})
-\]</span></p>
-<h2 id="齐次坐标">齐次坐标</h2>
-<p>就是将一个原本是n维的向量用一个n+1维向量来表示。 许多图形应用涉及到几何变换，主要包括平移、旋转、缩放。以矩阵表达式来计算这些变换时，平移是矩阵相加，旋转和缩放则是矩阵相乘，综合起来可以表示为 x = R ∗ X + t （注：因为习惯的原因，实际使用时一般使用变化矩阵左乘向量）(R 旋转缩放矩阵，t 为平移矩阵，X 为原向量，x 为变换后的向量)。引入齐次坐标的目的主要是合并矩阵运算中的乘法和加法，表示为 x = P ∗ X 的形式。即它提供了用矩阵运算把二维、三维甚至高维空间中的一个点集从一个坐标系变换到另一个坐标系的有效方法。和上面的计算过程是对应的。</p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/05/24/%E7%9B%B8%E6%9C%BA%E6%A0%87%E5%AE%9A%EF%BC%88camera-calibration%EF%BC%89/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -706,7 +372,7 @@ D=(k_{1},k_{2},p_{1},p_{2},k_{3})
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-05-23 11:20:41" itemprop="dateModified" datetime="2021-05-23T11:20:41+08:00">2021-05-23</time>
+                <time title="修改时间：2021-05-27 08:10:59" itemprop="dateModified" datetime="2021-05-27T08:10:59+08:00">2021-05-27</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -731,8 +397,9 @@ D=(k_{1},k_{2},p_{1},p_{2},k_{3})
       
           <h3 id="物理层的概念">物理层的概念</h3>
 <p>  物理层是计算机网络的第一层，它虽然处于最底层，却是整个开放系统的基础。物理层为设备之间的数据通信提供传输媒体及互连设备，为数据传输提供可靠的环境。<br>
-  物理层规定传输数据所需要的物理链路创建、维持、拆除，而提供具有<strong>机械的，电气的，功能的和规程的</strong>特性，主要关心如何传输信号。<br>
-  比如说我们通常知道数字信号其实是由0和1组成的，那么我们是怎么规定0和1的（电压大小），如何确保0和1在传输过程中种种干扰的准确性（传输媒体、编码方式等）。其实物理层的相关知识，仅仅包含通讯信号的特性（机械特性、电气特性、 功能特性、过程特性），但传输媒体实体并不属于物理层。</p>
+  物理层规定传输数据所需要的物理链路创建、维持、拆除，而提供具有<strong>机械的，电气的，功能的和规程的</strong>特性，主要关心如何传输信号。</p>
+<span id="more"></span>
+<p>  比如说我们通常知道数字信号其实是由0和1组成的，那么我们是怎么规定0和1的（电压大小），如何确保0和1在传输过程中种种干扰的准确性（传输媒体、编码方式等）。其实物理层的相关知识，仅仅包含通讯信号的特性（机械特性、电气特性、 功能特性、过程特性），但传输媒体实体并不属于物理层。</p>
 <h3 id="物理层要解决的主要问题">物理层要解决的主要问题</h3>
 <ol type="1">
 <li>物理层要尽可能地屏蔽掉物理设备和传输媒体，通信手段的不同，使数据链路层感觉不到这些差异，只考虑完成本层的协议和服务。</li>
@@ -756,43 +423,14 @@ D=(k_{1},k_{2},p_{1},p_{2},k_{3})
 <li>规程特性：<br>
   指明利用接口传输比特流的全过程及各项用于传输的事件发生的合法顺序，包括事件的执行顺序和数据传输方式。</li>
 </ol>
-<ul>
-<li>以上4个特性实现了物理层在传输数据时，对于信号、接口和传输介质的规定。</li>
-</ul>
-<h3 id="信道的基本概念">信道的基本概念</h3>
-<p>信道一般表示向一个方向传输信息的媒介。所以通信线路往往包含一条发送信息的信道和一条接收信息的信道。</p>
-<ol type="1">
-<li>单向通信(单工通信)——只能有一个方向的通信，没有反向交互。无线电广播或有线电广播以及电视广播就属于这种类型。</li>
-<li>双向交替通信(半双工通信)——通信的双方都可以发送信息，但是不能双方同时发送或接收。</li>
-<li>双向同时通信(全双工通信)——通信的双发可以同时发送和接收。</li>
-</ol>
-<h3 id="基带信号和带通信号">基带信号和带通信号</h3>
-<ol type="1">
-<li>基带信号：(基本频率信号)——来自信源的信号，例如计算机输出的代表各种文字或图像文件的数据信号都属于基带信号。基带信号就是发出的直接表达了要传输的信息的信号，比如说我们说话的声波。</li>
-<li>带通信号：把基带信号经过载波<strong>调制</strong>后（载波频率高），把信号的频率范围迁移到较高的频段以便在信道中传输(即仅在一段频率范围内能够通过信道)。</li>
-</ol>
-<ul>
-<li>因此在传输距离较近时，采用基带传输方式(衰减不大，信号内容不会变化)，传输距离较远时，采用带通传输方式。</li>
-</ul>
-<h3 id="调制与编码">调制与编码</h3>
-<h3 id="奈氏准则">奈氏准则</h3>
-<ol type="1">
-<li>在假定的理想条件下，为了避免码间串扰，也就是<strong>没有噪声的干扰</strong>，码元的传输速率的上限值。</li>
-<li>在任何信道中，码元传输的速率是有上限的，否则就会出现码间串扰的问题，使接收端对码元的判决（即识别）成为不可能。</li>
-<li>如果信道的频带越宽，也就是能够通过的信号高频分量越多（在频分复用处可以体现出频带越宽，能够通过的频率上下界限越大，所携带的信息越多），那么就可以用更高的速率传送码元而不出现码间串扰。</li>
-</ol>
-<h3 id="香农公式">香农公式</h3>
-<ol type="1">
-<li>香农(Shannon)用信息论的理论推导出了带宽受限且有高斯白噪声干扰的信道的极限、无差错的信息传输速率。</li>
-<li>信道的带宽或信道中的信噪比(S/N)越大，则信息的极限传输速率C就越高。</li>
-<li>只要信息传输速率小于信道的极限传输速率C，就一定能实现某种无差错传输。</li>
-<li>若带宽W或信噪比(S/N)没有上限，则极限传输速率C也没有上限(实际中不可能)。实际上，信道最高传输速率要比C低不少。</li>
-</ol>
-<h3 id="物理层下面的传输媒体">物理层下面的传输媒体</h3>
-<ul>
-<li>导向传输媒体和非导向传输媒体</li>
-</ul>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/05/22/%E7%89%A9%E7%90%86%E5%B1%82/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -834,10 +472,16 @@ D=(k_{1},k_{2},p_{1},p_{2},k_{3})
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2021-05-22 09:06:18 / 修改时间：14:03:01" itemprop="dateCreated datePublished" datetime="2021-05-22T09:06:18+08:00">2021-05-22</time>
+              <time title="创建时间：2021-05-22 09:06:18" itemprop="dateCreated datePublished" datetime="2021-05-22T09:06:18+08:00">2021-05-22</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-05-27 08:11:31" itemprop="dateModified" datetime="2021-05-27T08:11:31+08:00">2021-05-27</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -859,7 +503,8 @@ D=(k_{1},k_{2},p_{1},p_{2},k_{3})
     <div class="post-body" itemprop="articleBody">
 
       
-          <ul>
+          <span id="more"></span>
+<ul>
 <li>首先看一下这些网络设备分别处于计算机网络的哪些层次：</li>
 </ul>
 <table>
@@ -898,32 +543,14 @@ D=(k_{1},k_{2},p_{1},p_{2},k_{3})
 <p>  <strong>网桥(Bridge)是一个局域网与另一个局域网之间建立连接的桥梁</strong>。网桥是属于数据链路层的一种设备，它的作用是扩展网络和通信手段，在各种传输介质中转发数据信号，扩展网络的距离，同时又有选择地将现有地址的信号从一个传输介质发送到另一个传输介质，并能有效地限制两个介质系统中无关紧要的通信。<br>
   网桥工作在数据链路层，将两个LAN连起来，根据MAC地址来转发帧，可以看作一个“低层的路由器”。</p>
 <h3 id="交换机">交换机</h3>
-<p>  交换机（Swich)工作在第二层（即数据链路层），它要比集线器智能一些，<strong>它能分辨出帧中的源MAC地址和目的MAC地址</strong>，因此可以在任意两个端口间建立联系，在数据帧的始发者和目标接收者之间建立临时的交换路径，使数据帧直接由源地址到达目的地址。交换机通过对信息进行重新生成，并经过内部处理后转发至指定端口，具备自动寻址能力和交换作用。但是 交换机并不懂得IP地址，它只知道MAC地址。<br>
-  交换机，可以理解为高级的网桥，他有网桥的功能，但性能比网桥强。交换机和网桥的细微差别就在于：<strong>交换机常常用来连接独立的计算机，而网桥连接的目标是LAN，所以交换机的端口较网桥多</strong>。</p>
-<h3 id="路由器">路由器</h3>
-<p>  路由器（Router)工作在第三层（即网络层），它比交换机还要“聪明”一些，它能理解数据中的IP地址，如果它接收到一个数据包，就检查其中的IP地址，如果目标地址是本地网络的就不理会，如果是其他网络的，就将数据包转发出本地网络。与工作在网络物理层，从物理上划分网段的交换机不同，<strong>路由器使用专门的软件协议从逻辑上对整个网络进行划分</strong>。例如，一台支持IP协议的路由器可以把网络划分成多个子网段，只有指向特殊IP地址的网络流量才可以通过路由器。当IP子网中的一台主机发送IP分组给同一IP子网的另一台主机时，它将直接把IP分组送到网络上，对方就能收到。而要送给不同IP于网上的主机时，它要选择一个能到达目的子网上的路由器，把IP分组送给该路由器，由路由器负责把IP分组送到目的地。如果没有找到这样的路由器，主机就把IP分组送给一个称为“缺省网关（default gateway）”的路由器上。对于每一个接收到的数据包，路由器都会重新计算其校验值，并写入新的物理地址。网络中的设备用它们的网络地址（TCP／IP网络中为IP地址）互相通信。IP地址是与硬件地址无关的“逻辑”地址。<br>
-  <strong>路由器用于连接多个逻辑上分开的网络，几个使用不同协议和体系结构的网络</strong>。路由器利用网络层定义的“逻辑”上的网络地址（即IP地址）来区别不同的网络，实现网络的互连和隔离，保持各个网络的独立性。当一个子网传输到另外一个子网时，可以用路由器完成。它具有判断网络地址和选择路径的功能，过滤和分隔网络信息流。一方面能够跨越不同的物理网络类型（DDN、FDDI、以太网等等），另一方面在逻辑上将整个互连网络分割成逻辑上独立的网络单位，使网络具有一定的逻辑结构。</p>
-<h3 id="网关">网关</h3>
-<p>  网关(Gateway)又称<strong>网间连接器、协议转换器</strong>。网关在网络层以上实现网络互连，是最复杂的网络互连设备，仅用于两个高层协议不同的网络互连。网关既可以用于广域网互连，也可以用于局域网互连。 网关是一种充当转换重任的计算机系统或设备。使用在不同的通信协议、数据格式或语言，甚至体系结构完全不同的两种系统之间，<strong>网关是一个翻译器</strong>。与网桥只是简单地传达信息不同，网关对收到的信息要重新打包，以适应目的系统的需求。</p>
-<hr>
-<h3 id="中继器或集线器既不能隔离冲突域又不能隔离广播域网桥或交换机只能隔离冲突域不能隔离广播域路由器既能隔离冲突域又能隔离广播域为什么">中继器或集线器既不能隔离冲突域又不能隔离广播域，网桥或交换机只能隔离冲突域不能隔离广播域，路由器既能隔离冲突域又能隔离广播域，为什么？</h3>
-<p>  首先要清楚什么是冲突域和广播域，当一块网卡发送信息时有可能和另一块网卡冲突的所有的网卡的集合称为冲突域。一块网卡发出一个广播，能收到这个广播的所有的网卡的集合称为一个广播域。一般来说一个网段就是一个冲突域，一个局域网就是一个广播域。</p>
-<ul>
-<li><p>集线器：<br>
-  中继器就是普通集线器的前身，集线器实际就是一种多端口的中继器。集线器一般有4、8、16、24、32等数量的RJ45接口，通过这些接口，集线器便能为相应数量的电脑完成“中继”功能。由于它在网络中处于一种“中心”位置，因此集线器也叫做“Hub”。 集线器的工作原理很简单，假设有一个8个接口的集线器，共连接了8台电脑。集线器处于网络的“中心”，通过集线器对信号进行转发，8台电脑之间可以互连互通。具体通信过程是这样的：假如计算机1要将一条信息发送给计算机8，当计算机1的网卡将信息通过双绞线送到集线器上时，集线器并不会直接将信息送给计算机8，它会将信息进行“广播”——将信息同时发送给8个端口，当8个端口上的计算机接收到这条广播信息时，会对信息进行检查，如果发现该信息是发给自己的，则接收，否则不予理睬。由于该信息是计算机1发给计算机8的，因此最终计算机8会接收该信息，而其它7台电脑看完信息后，会因为信息不是自己的而不接收该信息，大家用一个现实生活的例子来联想，假如你在出差，有一个陌生来电，接了之后你却发现打错了，要花费不少漫游费，你生不生气？当然很生气（冲突），所以集线器所有端口都属于一个冲突域，故集线器不能分割冲突域。集线器在一个时钟周期中只能传输一组信息，如果一台集线器连接的机器数目较多，并且多台机器经常需要同时通信时，将导致集线器的工作效率很差，如发生信息堵塞、碰撞等。为什么会这样呢?打给比方，一个集线器连接8台计算机，当计算机1正在通过集线器发信息给计算机8时，如果此时计算机2也想通过集线器将信息发给计算机7，当它试图与集线器联系时，却发现集线器正在忙计算机1的事情，于是计算机2便会“带”着数据站在集线器的面前等待，并时时要求集线器停下计算机1的活来帮自己干。如果计算机2成功地将集线器“抢”过来了（由于集线器是“共享”的，因此很容易抢到手），此时正处于传输状态的计算机1的数据便会停止，于是计算机1也会去 “抢”集线器，可见，集线器上每个端口的真实速度除了与集线器的带宽有关外，与同时工作的设备数量也有关。比如说一个带宽为10Mb的集线器上连接了8台计算机，当这8台计算机同时工作时，则每台计算机真正所拥有的带宽是10/8=1.25Mb。</p></li>
-<li><p>交换机：<br>
-  交换机也叫交换式集线器，它通过对信息进行重新生成，并经过内部处理后转发至指定端口，具备自动寻址能力和交换作用，由于交换机根据所传递信息包的目的地址，将每一信息包独立地从源端口送至目的端口，避免了和其他端口发生碰撞。简单的说就是，交换机某端口连接的主机想和另一个端口连接的主机通信，交换机就会通过转发表发送那个端口，不可能去其他端口，不存在发错端口（即打错电话），所以交换机的每一个端口都是一个<strong>冲突域</strong>，也就是说交换机可以<strong>隔离冲突域</strong>。交换机的工作原理：在计算机网络系统中，交换机是针对共享工作模式的弱点而推出的。集线器是采用共享工作模式的代表，如果把集线器比作一个邮递员，那么这个邮递员是个不认识字的“傻瓜”，如要要他去送信，他不知道直接根据信件上的地址将信件送给收信人，只会拿着信分发给所有的人，然后让接收的人根据地址信息来判断是不是自己的，而交换机则是一个“聪明”的邮递员——交换机拥有一条高带宽的背部总线和内部交换矩阵。交换机的所有的端口都挂接在这条背部总线上，当控制电路收到数据包以后，处理端口会查找内存中的地址对照表以确定目的MAC地址应该从哪个端口发出，通过内部交换矩阵迅速将数据包传送到目的端口。目的MAC地址若不存在，交换机才广播到所有的端口，接收端口回应后交换机会“学习”新的地址，并把它添加入内部地址表中。可见，交换机在收到某个网卡发过来的“信件”时，会根据上面的地址信息，以及自己掌握的“常住居民户口簿”快速将信件送到收信人的手中。万一收信人的地址不在“户口簿”上，交换机才会像集线器一样将信分发给所有的人，然后从中找到收信人。而找到收信人之后，交换机会立刻将这个人的信息登记到“户口簿”上，这样以后再为该客户服务时，就可以迅速将信件送达了。<br>
-  由于交换机能够智能化地根据地址信息将数据快速送到目的地，因此它不会像集线器那样在传输数据时“打扰”那些非收信人。这样一来，交换机在同一时刻可进行多个端口组之间的数据传输。并且每个端口都可视为是独立的网段，相互通信的双方独自享有全部的带宽，无须同其他设备竞争使用。比如说，当A主机向D主机发送数据时，B主机可同时向C主机发送数据，而且这两个传输都享有网络的全部带宽——假设此时它们使用的是10M的交换机，那么该交换机此时的总流通量就等于2×10Mb=20Mb。</p></li>
-<li><p>路由器：<br>
-  前面我们已经讲过中继器或集线器不能隔离冲突域，交换机可以隔离冲突域，自然路由肯定也可以隔离冲突域（因为也有一张转发表去转发）；下面来讨论一下广播域。首先前面说了广播其实可以看成一个单独的网络，如果一个主机要发送一个广播数据，这样就应该在整个网络都可以听得见，但是<strong>集线器和交换机分别工作在物理层和数据链路层，不能连接两个不同的网络</strong>，所以说不管是集线器还是交换机遇到广播数据都要每个端口发一遍（因为每个端口连接的网络仍然是属于同一个网络），这样的话又存在打错电话的情况了，所以集线器和交换机不能隔离广播域，但是路由器可以连接不同的网络，且路由器在默认情况下是不转发广播报文的（因为每个端口连接的是不同的网络），故路由器的每一个端口都是一个广播域，故路由器可以隔离广播域。</p></li>
-<li><p>尽管交换机也叫作多端口网桥，但是交换机和网桥还是有不同之处，下面一一列出：</p></li>
-</ul>
-<ol type="1">
-<li>网桥的端口一般连接局域网，而交换机的端口一般直接与局域网的主机相连。</li>
-<li>交换机允许多对计算机同时通信，而网桥允许每个网段上的计算机同时通信。</li>
-<li>网桥采用存储转发形式进行转发，而以太网交换机还可以采用直通方式进行转发，且以太网交换机采用了专用的交换机构芯片，转发速度比网桥快。</li>
-</ol>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/05/22/%E4%B8%AD%E7%BB%A7%E5%99%A8%E3%80%81%E9%9B%86%E7%BA%BF%E5%99%A8(HUB)%E3%80%81%E7%BD%91%E6%A1%A5%E3%80%81%E4%BA%A4%E6%8D%A2%E6%9C%BA%E3%80%81%E8%B7%AF%E7%94%B1%E5%99%A8%E6%AF%94%E8%BE%83/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -965,10 +592,16 @@ D=(k_{1},k_{2},p_{1},p_{2},k_{3})
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2021-05-21 10:29:00 / 修改时间：15:31:17" itemprop="dateCreated datePublished" datetime="2021-05-21T10:29:00+08:00">2021-05-21</time>
+              <time title="创建时间：2021-05-21 10:29:00" itemprop="dateCreated datePublished" datetime="2021-05-21T10:29:00+08:00">2021-05-21</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-05-27 08:10:15" itemprop="dateModified" datetime="2021-05-27T08:10:15+08:00">2021-05-27</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -1000,6 +633,7 @@ D=(k_{1},k_{2},p_{1},p_{2},k_{3})
 <li>第n层向n+1层提供服务时，此服务不仅包含第n层本身的功能，还包括由下层服务提供的功能。</li>
 <li>仅仅在相邻层间有接口，且所提供服务的具体实现细节对上一层完全屏蔽。</li>
 </ul>
+<span id="more"></span>
 <h3 id="计算机网络分层">计算机网络分层</h3>
 <ul>
 <li><p>无论是体系结构中的哪一层，都不是针对具体设备或者具体软件而言，而只是针对每层中所要实现的网络服务功能来划分的；每一层所代表的是一组网络功能。</p></li>
@@ -1014,67 +648,14 @@ D=(k_{1},k_{2},p_{1},p_{2},k_{3})
 </ol>
 <hr>
 <h3 id="协议">协议</h3>
-<ol type="1">
-<li>概念：为进行网络中的<strong>对等实体</strong>数据交换而建立的规则、标准或约定称为网络协议。</li>
-<li>组成：</li>
-</ol>
-<ul>
-<li>语法规定了传输数据的格式。</li>
-<li>语义规定了所要完成的功能，即需要发出何种控制信息、完成何种动作及做出何种应答。</li>
-<li>同步规定了执行各种操作的条件、时序关系等，即事件实现顺序的详细说明。</li>
-</ul>
-<ol start="3" type="1">
-<li>功能：一个完整的协议通常具有线路管理（建立、释放连接）、错差控制、数据转换等功能。</li>
-</ol>
-<h3 id="接口">接口</h3>
-<ul>
-<li>接口是同一结点内相邻两层间交换信息的连接点，是一个系统内部的规定。每层只能为紧邻的层次之间定义接口，不能跨层定义接口。在典型的接口上，同一结点相邻两层的实体通过<strong>服务访问点（Service Access Point,SAP）</strong>进行交互。服务是通过SAP提供给上层使用的，第n层的SAP就是n+1层可以访问第n层服务的地方。每个SAP都有一个能够表示它的地方。SAP是一个抽象的概念，它实际上是一个逻辑接口，和通常所说的两个设备之间的硬件接口是很不一样的。</li>
-</ul>
-<h3 id="服务">服务</h3>
-<ul>
-<li>服务是指下层为紧邻的上层提供的功能调用，它是垂直的。对等实体在协议的控制下，使得本层能为上一层提供服务，但要实现本层协议还需要使用下一层所提供的服务。</li>
-</ul>
-<h1 id="参考模型">参考模型</h1>
-<h3 id="osi参考模型">OSI参考模型</h3>
-<p><strong>国际标准化组织（ISO）于1984年提出开放系统互连（OSI）参考模型</strong>。<br>
-OSI七层：<strong>物链网输会示用</strong>；低三层是通信子网，高四层是资源子网。</p>
-<ol type="1">
-<li>通信子网（点到点）：由各种传输介质、通信设备和相应的网络协议组成，它使网络具有数据传输、交换、控制和存储的能力，实现联网计算机之间的通信。</li>
-<li>资源子网（端到端）：实现资源共享功能的设备及其软件的集合向网络用户提供共享其他计算机上的资源服务。</li>
-</ol>
-<hr>
-<ul>
-<li><p>应用层：提供各种网络应用接口</p></li>
-<li><p>表示层：数据表示、压缩与加密</p></li>
-<li><p>会话层：主机间的会话管理</p></li>
-<li><p>传输层：端到端的可靠设备</p></li>
-<li><p>网络层：为不同网络间的主机通信提供网络寻址和路由转发；以分组为基本格式提供流量控制、拥塞控制和差错控制。</p></li>
-<li><p>数据链路层：相邻节点间的可靠传输；<strong>同一局域网内部</strong>的网络/数据通信提供<strong>点对点</strong>的数据传输通道，通过MAC地址寻址把数据转到目的节点。</p></li>
-<li><p>物理层：二进制比特流的<strong>透明传输</strong>；用来构建计算机网络通信和数据传输的通道，不针对具体的传输介、设备和通信协议，只要能实现物理层的某种功能就行了。</p></li>
-</ul>
-<hr>
-<h3 id="计算机网络体系结构通信原理">计算机网络体系结构通信原理</h3>
-<ul>
-<li>发送端自上而下，接收端自下而上。</li>
-<li>通信会话方面双方都必须是逻辑上的对等层次，也就就对等通信原理相同，发送端网络层只能与接收端网路层通信，不能交错通信。（只有双方是对等层次的会话才可能使用相同类型的协议）</li>
-</ul>
-<h3 id="各层上传输的数据格式">各层上传输的数据格式</h3>
-<ul>
-<li>对等层之间传送的数据单位称为PDU（Protocol Data Unit，协议数据单元）</li>
-</ul>
-<ol type="1">
-<li>物理层：比特流格式</li>
-<li>数据链路层：帧，一个帧包括多个比特，但大小必须是一个整数字节，不同协议的帧大小也不一样。（DPDU）</li>
-<li>网络层：分组或包，一个分组包括多个帧，不同协议的分组大小也不一样。（NPDU）</li>
-<li>传输层：数据段（TCP）；数据报（UDP）</li>
-<li>会话层、表示层、应用层：数据报文</li>
-</ol>
-<h3 id="协议头和协议尾的封装">协议头和协议尾的封装</h3>
-<ul>
-<li>只有数据链路层不仅需要封装协议头，还要封装协议尾。</li>
-<li>协议头用来封装PDU；协议尾代表本层封装结束。</li>
-</ul>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/05/21/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E4%B8%8E%E5%8F%82%E8%80%83%E6%A8%A1%E5%9E%8B/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1124,7 +705,7 @@ OSI七层：<strong>物链网输会示用</strong>；低三层是通信子网，
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-05-26 21:22:03" itemprop="dateModified" datetime="2021-05-26T21:22:03+08:00">2021-05-26</time>
+                <time title="修改时间：2021-05-27 08:09:48" itemprop="dateModified" datetime="2021-05-27T08:09:48+08:00">2021-05-27</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1156,6 +737,7 @@ OSI七层：<strong>物链网输会示用</strong>；低三层是通信子网，
 <li>结合激光测量和摄影测量原理得到点云，包括<strong>三维坐标（XYZ）、激光反射强度（Intensity）和颜色信息（RGB）。</strong></li>
 <li>在获取物体表面每个采样点的空间坐标后，得到的是一个点的集合，称之为"点云"。</li>
 </ul>
+<span id="more"></span>
 <ol start="2" type="1">
 <li>网格(mesh)：</li>
 </ol>
@@ -1178,126 +760,14 @@ OSI七层：<strong>物链网输会示用</strong>；低三层是通信子网，
 <li>深度图像经过坐标转换可以计算为点云数据，有规则及必要信息的点云数据也可以反算为深度图像数据。</li>
 <li>深度值的大小只与距离有关，而与环境、光线、方向等因素无关。</li>
 </ul>
-<h2 id="三维重建比较常见的流程">三维重建比较常见的流程</h2>
-<ul>
-<li>提取图像特征(SIFT、SURF等)--&gt;利用特征计算图像之间的特征匹配--&gt;基于匹配的特征进行稀疏重建，得到各个图像的相机位姿和稀疏的特征点云(SFM)--&gt;基于相机位姿进行稠密重建，得到稠密点云(PMVS/CMVS)--&gt;基于点云重建网格、体素或者纹理</li>
-</ul>
-<h2 id="三维重建技术方法">三维重建技术方法</h2>
-<ul>
-<li><strong>三维重建技术的重点在于如何获取目标场景或物体的深度信息。在景物深度信息已知的条件下，只需要经过点云数据的配准及融合，即可实现景物的三维重建。</strong></li>
-<li>人们按照被动式测量与主动式测量对目标物体深度信息的获取方法进行了分类：</li>
-</ul>
-<h3 id="被动式三维重建技术">被动式三维重建技术</h3>
-<ul>
-<li>被动式一般利用周围环境如自然光的反射，使用相机获取图像，然后通过特定算法计算得到物体的立体空间信息。主要有以下三种方法：</li>
-</ul>
-<ol type="1">
-<li>纹理恢复形状法</li>
-</ol>
-<ul>
-<li>作为图像视野中不断重复的视觉基元，纹理元覆盖在各个位置和方向上。当某个布满纹理元的物体被投射在平面上时，其相应的纹理元也会发生弯折与变化。</li>
-<li>例如透视收缩变形使与图像平面夹角越小的纹理元越长，投影变形会使离图像平面越近的纹理元越大。通过对图像的测量来获取变形，进而根据变形后的纹理元，逆向计算出<strong>深度数据。</strong></li>
-</ul>
-<ol start="2" type="1">
-<li>阴影恢复形状法</li>
-</ol>
-<ul>
-<li>图像的阴影边界包含了图像的轮廓特征信息，因此能够利用不同光照条件下的图像的明暗程度与阴影来计算物体表面的<strong>深度信息</strong>，并以反射光照模型进行三维重建。</li>
-</ul>
-<ol start="3" type="1">
-<li>立体视觉法（MVS）</li>
-</ol>
-<ul>
-<li>主要包括直接利用测距器获取程距信息、通过一幅图像推测三维信息和利用不同视点上的两幅或多幅图像恢复三维信息等三种方式。</li>
-</ul>
-<h3 id="主动式三维重建技术">主动式三维重建技术</h3>
-<ul>
-<li>主动式是指利用如激光、声波、电磁波等光源或能量源发射至目标物体，通过接收返回的光波来获取物体的<strong>深度信息</strong>。</li>
-</ul>
-<ol type="1">
-<li>飞行时间法（ToF）</li>
-</ol>
-<ul>
-<li>通过测量发射信号与接收信号的飞行时间间隔来获得距离的方法。</li>
-</ul>
-<ol start="2" type="1">
-<li>结构光法</li>
-</ol>
-<ul>
-<li>结构光是将已知图案（通常是栅格或水平条）投射到场景上的过程。这些物体在撞击表面时变形的信息来在视觉系统中计算场景中物体的深度和表面信息，用投影仪投射特定的光信息到物体表面后及背景后，由摄像头采集。根据物体造成的光信号的变化来计算物体的位置和深度等信息，进而复原整个三维空间。</li>
-<li>首先利用激光投影仪向目标物体投射可编码的光束，生成特征点；然后根据投射模式与投射光的几何图案，通过三角测量原理计算摄像机光心与特征点之间的距离，由此便可获取生成特征点的深度信息，实现模型重建。这种可编码的光束就是结构光。</li>
-</ul>
-<ol start="3" type="1">
-<li>三角测距法</li>
-</ol>
-<ul>
-<li>红外设备以一定的角度向物体投射红外线，光遇到物体后发生反射并被CCD图像传感器所检测。随着目标物体的移动，此时获取的反射光线也会产生相应的偏移值。根据发射角度、偏移距离、中心矩值和位置关系，便能计算出发射器到物体之间的距离。</li>
-</ul>
-<h2 id="基于kinect深度图的三维重建">基于Kinect深度图的三维重建</h2>
-<p><img src="/2021/05/20/3D-reconstruction%EF%BC%88%E4%B8%80%EF%BC%89/20190613203936288.png"></p>
-<p>对获取到的每一帧深度图像均进行前六步操作，直到处理完若干帧，最后完成纹理映射。</p>
-<h3 id="深度图像获取">深度图像获取</h3>
-<h3 id="预处理">预处理</h3>
-<ul>
-<li>对图像进行去噪和修复等图像增强过程。</li>
-</ul>
-<h3 id="点云计算">点云计算</h3>
-<ul>
-<li><a target="_blank" rel="noopener" href="http://xctx.online/2021/05/24/%E7%9B%B8%E6%9C%BA%E6%A0%87%E5%AE%9A%EF%BC%88camera-calibration%EF%BC%89/">相机标定</a>之后，利用相机的内外参数矩阵获得从图像坐标系到世界坐标系的映射。</li>
-</ul>
-<h3 id="点云配准">点云配准</h3>
-<p>点云配准过程，就是求一个两个点云之间的旋转平移矩阵（rigid transform or euclidean transform 刚性变换或欧式变换），将源点云(source cloud)变换到目标点云(target cloud)相同的坐标系下。</p>
-<p>可以表示为以下方程：</p>
-<p><span class="math display">\[
-p_{t} = R\cdot p_{s} \ + \ T
-\]</span></p>
-<p>其中 <span class="math inline">\(p_{t}, \  p_{s}\)</span> 就是target cloud与source cloud中的一对对应点。<br>
-而我们要求的就是其中的R与T旋转平移矩阵。<br>
-这里，我们并不知道两个点集中点的对应关系。这也就是配准的核心问题。</p>
-<h4 id="粗配准">粗配准</h4>
-<ul>
-<li><p><a target="_blank" rel="noopener" href="http://xctx.online/2021/05/26/%E4%B8%89%E7%BB%B4%E7%82%B9%E4%BA%91%E9%85%8D%E5%87%86%E4%B9%8BICP%E7%AE%97%E6%B3%95/">ICP算法的基本原理</a>。它需要一个旋转平移矩阵的初值。这个初值如果不太正确，那么由于它的greedy优化的策略，会使其目标函数下降到某一个局部最优点（当然也是一个错误的旋转平移矩阵）。因此，我们需要找到一个比较准确的初值，这也就是粗配准需要做的。</p></li>
-<li><p>评价标准：比较通用的一个是LCP(Largetst Common Pointset)。给定两个点集P,Q，找到一个变换T(P)，使得变换后的P与Q的重叠度最大。在变换后的P内任意一点，如果在容差范围内有另外一个Q的点，则认为该点是重合点。</p></li>
-</ul>
-<h4 id="精配准">精配准</h4>
-<ul>
-<li>精配准就是在已知一个旋转平移的初值的情况下（这个初值大概已经是正确的了），进一步计算得到更加精确的旋转平移矩阵。</li>
-<li>精配准的模式基本上已经固定为使用ICP算法(Iterative Closest Point)及其各种变种。</li>
-<li>简要介绍一下点集到点集ICP配准的算法：</li>
-</ul>
-<ol type="1">
-<li>ICP算法核心是最小化一个目标函数</li>
-</ol>
-<p><span class="math display">\[
-f(R,T) = \frac{1}{N_{p}} \sum_{i=1}^{n}|p_{t}^i-R\cdot p_{s}^i-T|^2
-\]</span></p>
-<p><span class="math inline">\(p_{t}^i,\ p_{s}^i\)</span> 就是一对对应点，总共有<span class="math inline">\(N_{p}\)</span> 对对应点。这个目标函数实际上就是所有对应点之间的欧式距离的平方和。</p>
-<ol start="2" type="1">
-<li>寻找对应点</li>
-</ol>
-<p>  我们现在并不知道有哪些对应点。因此，我们在有初值的情况下，假设用初始的旋转平移矩阵对source cloud进行变换，得到的一个变换后的点云。然后将这个变换后的点云与target cloud进行比较，只要两个点云中存在距离小于一定阈值（ICP中的一个参数），我们就认为这两个点就是对应点。这也是"最邻近点"这个说法的来源。</p>
-<ol start="3" type="1">
-<li>R、T优化</li>
-</ol>
-<p>  有了对应点之后，我们就可以用对应点对旋转R与平移T进行估计。这里R和T中只有6个自由度，而我们的对应点数量是庞大的（存在多余观测值）。因此，我们可以采用最小二乘等方法求解最优的旋转平移矩阵，就是让R和T去拟合大多数的对应点。</p>
-<ol start="4" type="1">
-<li>迭代</li>
-</ol>
-<p>  我们优化得到了一个新的R与T，导致了一些点转换后的位置发生变化，一些最邻近点对也相应的发生了变化。因此，我们又回到了步骤2)中的寻找最邻近点方法。2)3)步骤不停迭代进行，直到满足一些迭代终止条件，如R、T的变化量小于一定值，或者上述目标函数的变化小于一定值，或者邻近点对不再变化等。（ICP算法中的一个参数）</p>
-<ul>
-<li>算法大致流程就是上面这样。这里的优化过程是一个贪心的策略。首先固定R跟T利用最邻近算法找到最优的点对，然后固定最优的点对来优化R和T，依次反复迭代进行。这两个步骤都使得目标函数值下降，所以ICP算法总是收敛的，这也就是原文中收敛性的证明过程。这种优化思想与K均值聚类的优化思想非常相似，固定类中心优化每个点的类别，固定每个点的类别优化类中心。</li>
-</ul>
-<h4 id="全局配准">全局配准</h4>
-<p>  全局配准是使用整幅图像直接计算转换矩阵。通过对两帧精细配准结果，按照一定的顺序或一次性的进行多帧图像的配准。这两种配准方式分别称为序列配准（Sequential Registration）和同步配准（Simultaneous Registration）。</p>
-<p>  配准过程中，匹配误差被均匀的分散到各个视角的多帧图像中，达到削减多次迭代引起的累积误差的效果。值得注意的是，虽然全局配准可以减小误差，但是其消耗了较大的内存存储空间，大幅度提升了算法的时间复杂度。</p>
-<h3 id="数据融合">数据融合</h3>
-<p>  经过配准后的深度信息仍为空间中散乱无序的点云数据，仅能展现景物的部分信息。因此必须对点云数据进行融合处理，以获得更加精细的重建模型。以Kinect传感器的初始位置为原点构造体积网格，网格把点云空间分割成极多的细小立方体，这种立方体叫做体素(Voxel)。通过为所有体素赋予<strong>SDF（Signed Distance Field，有效距离场）值</strong>，来隐式的模拟表面。</p>
-<p>  SDF值等于此体素到重建表面的最小距离值。当SDF值大于零，表示该体素在表面前；当SDF小于零时，表示该体素在表面后；当SDF值越接近于零，表示该体素越贴近于场景的真实表面。KinectFusion技术虽然对场景的重建具有高效实时的性能，但是其可重建的空间范围却较小，主要体现在消耗了极大的空间用来存取数目繁多的体素。</p>
-<p>  为了解决体素占用大量空间的问题，Curless等人提出了<strong>TSDF (Truncated Signed Distance Field，截断符号距离场)算法</strong>，该方法只存储距真实表面较近的数层体素，而非所有体素。因此能够大幅降低KinectFusion的内存消耗，减少模型冗余点。</p>
-<h3 id="表面生成">表面生成</h3>
-<p>  表面生成的目的是为了构造物体的可视等值面，常用体素级方法直接处理原始灰度体数据。Lorensen提出了经典体素级重建算法：<strong>MC（Marching Cube，移动立方体）法。</strong>移动立方体法首先将数据场中八个位置相邻的数据分别存放在一个四面体体元的八个顶点处。对于一个边界体素上一条棱边的两个端点而言，当其值一个大于给定的常数T，另一个小于T时，则这条棱边上一定有等值面的一个顶点。</p>
-<p>  然后计算该体元中十二条棱和等值面的交点，并构造体元中的三角面片，所有的三角面片把体元分成了等值面内与等值面外两块区域。最后连接此数据场中的所有体元的三角面片，构成等值面。合并所有立方体的等值面便可生成完整的三维表面。</p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/05/20/3D-reconstruction%EF%BC%88%E4%B8%80%EF%BC%89/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1347,7 +817,7 @@ f(R,T) = \frac{1}{N_{p}} \sum_{i=1}^{n}|p_{t}^i-R\cdot p_{s}^i-T|^2
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-05-25 16:26:04" itemprop="dateModified" datetime="2021-05-25T16:26:04+08:00">2021-05-25</time>
+                <time title="修改时间：2021-05-27 08:10:03" itemprop="dateModified" datetime="2021-05-27T08:10:03+08:00">2021-05-27</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1376,6 +846,7 @@ f(R,T) = \frac{1}{N_{p}} \sum_{i=1}^{n}|p_{t}^i-R\cdot p_{s}^i-T|^2
 <li>速率即数据率或称数据传输率或比特率。</li>
 <li>连接在计算机网络上的主机在数字信道上传送数据位数的速率，单位是b/s kb/s Mb/s。</li>
 </ul>
+<span id="more"></span>
 <h3 id="带宽">带宽：</h3>
 <ul>
 <li>带宽原本指某个信号具有的频带宽度，即<strong>最高频率与最低频率之差</strong>，单位是赫兹（Hz）。</li>
@@ -1392,141 +863,14 @@ f(R,T) = \frac{1}{N_{p}} \sum_{i=1}^{n}|p_{t}^i-R\cdot p_{s}^i-T|^2
 <li><p>指数据（一个报文或分组）从网络（或链路）的一端传送到另一端所需要的总时间，它由4 部分构成：发送时延、传播时延、处理时延、排队时延。</p></li>
 <li><p>总时延=发送时延+传播时延+处理时延+排队时延</p></li>
 </ul>
-<ol type="1">
-<li>发送时延：</li>
-</ol>
-<ul>
-<li>结点将分组的所有比特推向（传输）链路所需要的时间，即从发送分组的第一个比特算起，到该分组的最后一个比特推向传输链路所需要的时间。也称传输时延。</li>
-</ul>
-<p><span class="math display">\[
-发送时延 = \frac{分组长度(数据长度)}{信道宽度(发送速率)}
-\]</span></p>
-<ol start="2" type="1">
-<li>传播时延：</li>
-</ol>
-<ul>
-<li>电磁波在信道中传播一定的距离需要花费的时间，即一个比特从链路的一端传播到另一端所需要的时间。</li>
-</ul>
-<p><span class="math display">\[
-传播时延 = \frac{信道长度(链路长度)}{电磁波在信道中的传播速率(2\times 10^{8}左右)}
-\]</span></p>
-<ol start="3" type="1">
-<li>排队时延：</li>
-</ol>
-<ul>
-<li>分组在进入路由器后要先在输入队列中排队等待处理。</li>
-</ul>
-<ol start="4" type="1">
-<li>处理时延：</li>
-</ol>
-<ul>
-<li>数据在交换结点为存储转发而进行的一些必要的处理所花费的时间。</li>
-</ul>
-<ol start="5" type="1">
-<li>时延带宽积：</li>
-</ol>
-<ul>
-<li>发送端发送的第一个比特即将到达终点时，发送端已经发出了多少个比特。</li>
-<li>时延带宽积又称为以比特为单位的链路长度；即某段链路现在有多少比特。</li>
-</ul>
-<p><span class="math display">\[
-时延带宽积 = {传播时延}\times{信道带宽}
-\]</span></p>
-<ol start="6" type="1">
-<li>往返时延（RTT）：</li>
-</ol>
-<ul>
-<li>从发送方发送数据开始，到发送方收到接受方的确认（接收方收到数据后立即发送确认），总共经历的时延。</li>
-<li><strong>RTT越大，在收到确认之前，可以发送的数据越多。</strong></li>
-</ul>
-<ol start="7" type="1">
-<li>信道利用率：</li>
-</ol>
-<p><span class="math display">\[
-信道利用率 = \frac{有数据通过时间}{(有 + 无)数据通过时间}
-\]</span></p>
-<ul>
-<li><strong>信道利用率越高时延越大</strong>。</li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://wangwenlonggg.github.io/2021/05/18/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/laugh.jpg">
-      <meta itemprop="name" content="wangwenlonggg">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="wangwenlonggg">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/05/18/hello-world/" class="post-title-link" itemprop="url">Hello World</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-05-18 09:35:11" itemprop="dateCreated datePublished" datetime="2021-05-18T09:35:11+08:00">2021-05-18</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-05-20 10:55:47" itemprop="dateModified" datetime="2021-05-20T10:55:47+08:00">2021-05-20</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="quick-start">Quick Start</h2>
-<h3 id="create-a-new-post">Create a new post</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="run-server">Run server</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="generate-static-files">Generate static files</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="deploy-to-remote-sites">Deploy to remote sites</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/05/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E6%A6%82%E8%BF%B0/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1609,7 +953,7 @@ f(R,T) = \frac{1}{N_{p}} \sum_{i=1}^{n}|p_{t}^i-R\cdot p_{s}^i-T|^2
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-count">7</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1655,7 +999,7 @@ f(R,T) = \frac{1}{N_{p}} \sum_{i=1}^{n}|p_{t}^i-R\cdot p_{s}^i-T|^2
   </span>
   <span class="author" itemprop="copyrightHolder">wangwenlonggg</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
   </div>
 
         
@@ -1681,7 +1025,7 @@ f(R,T) = \frac{1}{N_{p}} \sum_{i=1}^{n}|p_{t}^i-R\cdot p_{s}^i-T|^2
 <script src="/js/motion.js"></script>
 
 
-<script src="/js/schemes/pisces.js"></script>
+<script src="/js/schemes/muse.js"></script>
 
 
 <script src="/js/next-boot.js"></script>
