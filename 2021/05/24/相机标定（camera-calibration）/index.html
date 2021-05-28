@@ -20,12 +20,12 @@
     var CONFIG = {"hostname":"wangwenlonggg.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="相机标定的目的和意义我们所处的世界是三维的，而照片是二维的，这样我们可以把相机认为是一个函数，输入量是一个场景，输出量是一幅灰度图。这个从三维到二维的过程的函数是不可逆的。">
+  <meta name="description" content="相机标定的目的和意义 我们所处的世界是三维的，而照片是二维的，这样我们可以把相机认为是一个函数，输入量是一个场景，输出量是一幅灰度图。这个从三维到二维的过程的函数是不可逆的。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="相机标定（camera calibration）">
 <meta property="og:url" content="http://wangwenlonggg.github.io/2021/05/24/%E7%9B%B8%E6%9C%BA%E6%A0%87%E5%AE%9A%EF%BC%88camera-calibration%EF%BC%89/index.html">
 <meta property="og:site_name" content="wangwenlonggg">
-<meta property="og:description" content="相机标定的目的和意义我们所处的世界是三维的，而照片是二维的，这样我们可以把相机认为是一个函数，输入量是一个场景，输出量是一幅灰度图。这个从三维到二维的过程的函数是不可逆的。">
+<meta property="og:description" content="相机标定的目的和意义 我们所处的世界是三维的，而照片是二维的，这样我们可以把相机认为是一个函数，输入量是一个场景，输出量是一幅灰度图。这个从三维到二维的过程的函数是不可逆的。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://wangwenlonggg.github.io/2021/05/24/%E7%9B%B8%E6%9C%BA%E6%A0%87%E5%AE%9A%EF%BC%88camera-calibration%EF%BC%89/v2-a471b2757c15580c127769261e52a441_r.png">
 <meta property="og:image" content="http://wangwenlonggg.github.io/2021/05/24/%E7%9B%B8%E6%9C%BA%E6%A0%87%E5%AE%9A%EF%BC%88camera-calibration%EF%BC%89/v2-afff3b4901966569a5203751afb5e50f_r.jpg">
@@ -221,13 +221,14 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="相机标定的目的和意义"><a href="#相机标定的目的和意义" class="headerlink" title="相机标定的目的和意义"></a>相机标定的目的和意义</h2><p>我们所处的世界是三维的，而照片是二维的，这样我们可以把相机认为是一个函数，输入量是一个场景，输出量是一幅灰度图。这个从三维到二维的过程的函数是不可逆的。</p>
+        <h2 id="相机标定的目的和意义">相机标定的目的和意义</h2>
+<p>我们所处的世界是三维的，而照片是二维的，这样我们可以把相机认为是一个函数，输入量是一个场景，输出量是一幅灰度图。这个从三维到二维的过程的函数是不可逆的。</p>
 <span id="more"></span>
-<p><img src="/2021/05/24/%E7%9B%B8%E6%9C%BA%E6%A0%87%E5%AE%9A%EF%BC%88camera-calibration%EF%BC%89/v2-a471b2757c15580c127769261e52a441_r.png" alt></p>
+<p><img src="/2021/05/24/%E7%9B%B8%E6%9C%BA%E6%A0%87%E5%AE%9A%EF%BC%88camera-calibration%EF%BC%89/v2-a471b2757c15580c127769261e52a441_r.png"></p>
 <p>相机标定的目标是我们找一个合适的数学模型，求出这个模型的参数，这样我们能够近似这个三维到二维的过程，使这个三维到二维的过程的函数找到反函数。</p>
-<p><img src="/2021/05/24/%E7%9B%B8%E6%9C%BA%E6%A0%87%E5%AE%9A%EF%BC%88camera-calibration%EF%BC%89/v2-afff3b4901966569a5203751afb5e50f_r.jpg" alt></p>
+<p><img src="/2021/05/24/%E7%9B%B8%E6%9C%BA%E6%A0%87%E5%AE%9A%EF%BC%88camera-calibration%EF%BC%89/v2-afff3b4901966569a5203751afb5e50f_r.jpg"></p>
 <p>这个逼近的过程就是「相机标定」，我们用简单的数学模型来表达复杂的成像过程，并且求出成像的反过程。标定之后的相机，可以进行三维场景的重建，即深度的感知，这是计算机视觉的一大分支。</p>
-<p>基本的坐标系： </p>
+<p>基本的坐标系：</p>
 <ul>
 <li>世界坐标系(world coordinate system)</li>
 <li>相机坐标系(camera coordinate system)</li>
@@ -238,7 +239,9 @@
 <li>第一步是从世界坐标系转换为相机坐标系，这一步是三维点到三维点的转换，包括 R ，t （相机外参）等参数。</li>
 <li>第二部是从相机坐标系转为图像坐标系，这一步是三维点到二维点的转换，包括 K（相机内参）等参数。</li>
 </ul>
-<h2 id="相机坐标系转换到图像坐标系"><a href="#相机坐标系转换到图像坐标系" class="headerlink" title="相机坐标系转换到图像坐标系"></a>相机坐标系转换到图像坐标系</h2><h3 id="坐标系介绍"><a href="#坐标系介绍" class="headerlink" title="坐标系介绍"></a>坐标系介绍</h3><p><img src="/2021/05/24/%E7%9B%B8%E6%9C%BA%E6%A0%87%E5%AE%9A%EF%BC%88camera-calibration%EF%BC%89/9c3151f32b104bd09a105b1efc663f32.png" alt></p>
+<h2 id="相机坐标系转换到图像坐标系">相机坐标系转换到图像坐标系</h2>
+<h3 id="坐标系介绍">坐标系介绍</h3>
+<p><img src="/2021/05/24/%E7%9B%B8%E6%9C%BA%E6%A0%87%E5%AE%9A%EF%BC%88camera-calibration%EF%BC%89/9c3151f32b104bd09a105b1efc663f32.png"></p>
 <ul>
 <li>C 点表示camera centre，即相机的中心点，也是相机坐标系的中心点；</li>
 <li>Z 轴表示principal axis，即相机的主轴；</li>
@@ -250,13 +253,20 @@
 <li>像平面坐标系是以 x，y（小写）两个轴组成的且原点在 p 点，度量值为米(m)；</li>
 <li>图像坐标系一般指图片相对坐标系，在这里可以认为和像平面坐标系在一个平面上，不过相平面坐标系的原点是在图片的角上，而且度量值为像素的个数(pixel)；</li>
 </ul>
-<h3 id="相机转换到像平面"><a href="#相机转换到像平面" class="headerlink" title="相机转换到像平面"></a>相机转换到像平面</h3><p>如果知道相机坐标系中的一个点X（现实三维世界中的点），在像平面坐标系对应的点是 x，要求求从相机坐标系转为像平面坐标系的转换，也就是从X点的( X , Y , Z )通过一定的转换变为x点的(x, y)。</p>
+<h3 id="相机转换到像平面">相机转换到像平面</h3>
+<p>如果知道相机坐标系中的一个点X（现实三维世界中的点），在像平面坐标系对应的点是 x，要求求从相机坐标系转为像平面坐标系的转换，也就是从X点的( X , Y , Z )通过一定的转换变为x点的(x, y)。</p>
 <p>注意( X , Y , Z )是在相机坐标系，而( x , y )是在像平面坐标系（还不是图像坐标系，因为原点不同。）观察第二个图，很简单的可以得到这个转换：</p>
-<script type="math/tex; mode=display">
-x = \frac{fX}{Z}</script><script type="math/tex; mode=display">
-y = \frac{fY}{Z}</script><script type="math/tex; mode=display">
-(X, Y, Z)\longrightarrow (\frac{fX}{Z}, \frac{fY}{Z})</script><p>可以表示为矩阵计算为（在这里用的是齐次坐标的表示方式，关于齐次坐标文章最下面有介绍）：</p>
-<script type="math/tex; mode=display">
+<p><span class="math display">\[
+x = \frac{fX}{Z}
+\]</span></p>
+<p><span class="math display">\[
+y = \frac{fY}{Z}
+\]</span></p>
+<p><span class="math display">\[
+(X, Y, Z)\longrightarrow (\frac{fX}{Z}, \frac{fY}{Z})
+\]</span></p>
+<p>可以表示为矩阵计算为（在这里用的是齐次坐标的表示方式，关于齐次坐标文章最下面有介绍）：</p>
+<p><span class="math display">\[
 \begin{bmatrix}
 X \\ Y \\ Z \\ 1 
 \end{bmatrix} \longrightarrow 
@@ -264,20 +274,29 @@ X \\ Y \\ Z \\ 1
 fX \\ fY \\ Z
 \end{bmatrix} = 
 \begin{bmatrix}
-f&&&0 \\ &f&&0 \\ &&1&0
+f&amp;&amp;&amp;0 \\ &amp;f&amp;&amp;0 \\ &amp;&amp;1&amp;0
 \end{bmatrix}
 \begin{bmatrix}
 X \\ Y \\ Z \\ 1 
-\end{bmatrix}</script><p>可以简写为（P就是所谓的投影矩阵，当然现在还不完整）：</p>
-<script type="math/tex; mode=display">
-x = PX</script><h3 id="加入偏移量"><a href="#加入偏移量" class="headerlink" title="加入偏移量"></a>加入偏移量</h3><p>通过上面，可以把相机坐标系转换到像平面坐标系，但是像平面坐标系和图像坐标系虽然在同一个平面上，但是原点并不是同一个，而目标是要转换到图像坐标系下，所以还需要一步操作，如下图：</p>
-<p><img src="/2021/05/24/%E7%9B%B8%E6%9C%BA%E6%A0%87%E5%AE%9A%EF%BC%88camera-calibration%EF%BC%89/69c2ab944924e3dc2baef495d5295828.png" alt></p>
+\end{bmatrix}
+\]</span></p>
+<p>可以简写为（P就是所谓的投影矩阵，当然现在还不完整）：</p>
+<p><span class="math display">\[
+x = PX 
+\]</span></p>
+<h3 id="加入偏移量">加入偏移量</h3>
+<p>通过上面，可以把相机坐标系转换到像平面坐标系，但是像平面坐标系和图像坐标系虽然在同一个平面上，但是原点并不是同一个，而目标是要转换到图像坐标系下，所以还需要一步操作，如下图：</p>
+<p><img src="/2021/05/24/%E7%9B%B8%E6%9C%BA%E6%A0%87%E5%AE%9A%EF%BC%88camera-calibration%EF%BC%89/69c2ab944924e3dc2baef495d5295828.png"></p>
 <p>如上图所示，其中主点 p 是像平面坐标系的原点，但在图像坐标系中的位置为</p>
-<script type="math/tex; mode=display">
-(p_{x}, p_{y})</script><p>在这里，图形坐标系的原点是图片的左下角，所以可以得到：</p>
-<script type="math/tex; mode=display">
-(X, Y, Z) \longrightarrow (\frac{fX}{Z} + p_{x}, \frac{fY}{Z} + p_{y},)</script><p>相当于在上面的基础上加了一个p点坐标的偏移量，同时可以表示为矩阵计算为（在这里用的是齐次坐标的表示方式）：</p>
-<script type="math/tex; mode=display">
+<p><span class="math display">\[
+(p_{x}, p_{y})
+\]</span></p>
+<p>在这里，图形坐标系的原点是图片的左下角，所以可以得到：</p>
+<p><span class="math display">\[
+(X, Y, Z) \longrightarrow (\frac{fX}{Z} + p_{x}, \frac{fY}{Z} + p_{y},)
+\]</span></p>
+<p>相当于在上面的基础上加了一个p点坐标的偏移量，同时可以表示为矩阵计算为（在这里用的是齐次坐标的表示方式）：</p>
+<p><span class="math display">\[
 \begin{bmatrix}
 X \\ Y \\ Z \\ 1 
 \end{bmatrix} \longrightarrow 
@@ -285,87 +304,126 @@ X \\ Y \\ Z \\ 1
 fX + Zp_{x} \\ fY + Zp_{y} \\ Z
 \end{bmatrix} = 
 \begin{bmatrix}
-f&&p_{x}&0 \\ &f&p_{y}& \\ &&1&0
+f&amp;&amp;p_{x}&amp;0 \\ &amp;f&amp;p_{y}&amp; \\ &amp;&amp;1&amp;0
 \end{bmatrix}
 \begin{bmatrix}
 X \\ Y \\ Z \\ 1 
-\end{bmatrix}</script><p>整理一下得：</p>
-<script type="math/tex; mode=display">
+\end{bmatrix}
+\]</span></p>
+<p>整理一下得：</p>
+<p><span class="math display">\[
 \begin{bmatrix}
 fX + Zp_{x} \\ fY + Zp_{y} \\ Z
 \end{bmatrix} = 
 \begin{bmatrix}
-f&&p_{x} \\ &f&p_{y} \\ &&1
+f&amp;&amp;p_{x} \\ &amp;f&amp;p_{y} \\ &amp;&amp;1
 \end{bmatrix}
 \begin{bmatrix}
-1&&&0 \\ &1&&0 \\ &&1&0
+1&amp;&amp;&amp;0 \\ &amp;1&amp;&amp;0 \\ &amp;&amp;1&amp;0
 \end{bmatrix}
 \begin{bmatrix}
 X \\ Y \\ Z \\ 1 
-\end{bmatrix}</script><p>所以最后可以得到 K，也就是平时所说的相机内参（Intrinsic parameters）：</p>
-<script type="math/tex; mode=display">
+\end{bmatrix}
+\]</span></p>
+<p>所以最后可以得到 K，也就是平时所说的相机内参（Intrinsic parameters）：</p>
+<p><span class="math display">\[
 \begin{bmatrix}
-f&&p_{x} \\ &f&p_{y} \\ &&1
-\end{bmatrix}</script><p>以及投影矩阵P（在这里可以认为旋转矩阵R为单位矩阵I，平移矩阵t都为0，这也是为什么要拆成这种方式），为：</p>
-<script type="math/tex; mode=display">
-P = K[I \  \rvert \ 0]</script><h3 id="像素坐标"><a href="#像素坐标" class="headerlink" title="像素坐标"></a>像素坐标</h3><p>前面也提到了在图像坐标系中用的不是现实生活中的m来度量，而是用的 pixel 的个数，所以在上面转换到图像坐标系中还有个问题，就是坐标的表示还是m，并没有转换到像素坐标系统；在这里需要引入一个新概念就是： </p>
+f&amp;&amp;p_{x} \\ &amp;f&amp;p_{y} \\ &amp;&amp;1
+\end{bmatrix}
+\]</span></p>
+<p>以及投影矩阵P（在这里可以认为旋转矩阵R为单位矩阵I，平移矩阵t都为0，这也是为什么要拆成这种方式），为：</p>
+<p><span class="math display">\[
+P = K[I \  \rvert \ 0]
+\]</span></p>
+<h3 id="像素坐标">像素坐标</h3>
+<p>前面也提到了在图像坐标系中用的不是现实生活中的m来度量，而是用的 pixel 的个数，所以在上面转换到图像坐标系中还有个问题，就是坐标的表示还是m，并没有转换到像素坐标系统；在这里需要引入一个新概念就是：</p>
 <ul>
-<li>$m_{x}$表示在水平方向1m的长度包含的像素的个数;</li>
-<li>$m_{y}$表示在竖直方向1m的长度包含的像素的个数;</li>
+<li><span class="math inline">\(m_{x}\)</span>表示在水平方向1m的长度包含的像素的个数;</li>
+<li><span class="math inline">\(m_{y}\)</span>表示在竖直方向1m的长度包含的像素的个数;</li>
 </ul>
-<p>可能有人奇怪为啥不是一个值，还需要分别指定 $m_{x}$,$m_{y}$呀，这是因为通过上面可以得到一个像素点的大小（m度量）为：</p>
-<script type="math/tex; mode=display">
-\frac{1}{m_{x}} \times \frac{1}{m_{y}}</script><p>需要说明的是像素并不一定是一个正方形，有时候可能也是一个矩形，所以要分别指定。<br>所以可以把上面相机内参 K 变为更新为，转换公式把 K 替换即可，其他不变：</p>
-<script type="math/tex; mode=display">
+<p>可能有人奇怪为啥不是一个值，还需要分别指定 <span class="math inline">\(m_{x}\)</span>,<span class="math inline">\(m_{y}\)</span>呀，这是因为通过上面可以得到一个像素点的大小（m度量）为：</p>
+<p><span class="math display">\[
+\frac{1}{m_{x}} \times \frac{1}{m_{y}}
+\]</span></p>
+<p>需要说明的是像素并不一定是一个正方形，有时候可能也是一个矩形，所以要分别指定。 所以可以把上面相机内参 K 变为更新为，转换公式把 K 替换即可，其他不变：</p>
+<p><span class="math display">\[
 K = \begin{bmatrix}
-m_{x}&& \\ &m_{y}& \\ &&1 \end{bmatrix}
+m_{x}&amp;&amp; \\ &amp;m_{y}&amp; \\ &amp;&amp;1 \end{bmatrix}
 \begin{bmatrix}
-f&&p_{x} \\ &f&p_{y} \\ &&1 \end{bmatrix} = 
+f&amp;&amp;p_{x} \\ &amp;f&amp;p_{y} \\ &amp;&amp;1 \end{bmatrix} = 
 \begin{bmatrix}
-\alpha _{x} &&\beta _{x} \\ &\alpha _{y}&\beta _{y} \\ &&1 \end{bmatrix}</script><h2 id="世界坐标系转换到图像坐标系"><a href="#世界坐标系转换到图像坐标系" class="headerlink" title="世界坐标系转换到图像坐标系"></a>世界坐标系转换到图像坐标系</h2><h3 id="坐标系介绍-1"><a href="#坐标系介绍-1" class="headerlink" title="坐标系介绍"></a>坐标系介绍</h3><p><img src="/2021/05/24/%E7%9B%B8%E6%9C%BA%E6%A0%87%E5%AE%9A%EF%BC%88camera-calibration%EF%BC%89/f3639e2ffd0767171634ad603c7ad0c6.png" alt></p>
+\alpha _{x} &amp;&amp;\beta _{x} \\ &amp;\alpha _{y}&amp;\beta _{y} \\ &amp;&amp;1 \end{bmatrix}
+\]</span></p>
+<h2 id="世界坐标系转换到图像坐标系">世界坐标系转换到图像坐标系</h2>
+<h3 id="坐标系介绍-1">坐标系介绍</h3>
+<p><img src="/2021/05/24/%E7%9B%B8%E6%9C%BA%E6%A0%87%E5%AE%9A%EF%BC%88camera-calibration%EF%BC%89/f3639e2ffd0767171634ad603c7ad0c6.png"></p>
 <p>如上图所示，从世界坐标系转换到相机坐标系是三维空间到三维空间的变换，一般来说需要一个平移操作和一个旋转操作就可以完成这个转换，用公式表示如下（可以理解为世界坐标系原点先平移到相机坐标系的位置然后在做一次坐标系旋转，使坐标轴对齐。）</p>
-<script type="math/tex; mode=display">
-\tilde{X}_{cam} = R(\tilde{X} \ - \ \tilde{C})</script><ul>
+<p><span class="math display">\[
+\tilde{X}_{cam} = R(\tilde{X} \ - \ \tilde{C})
+\]</span></p>
+<ul>
 <li>R 表示旋转矩阵;</li>
-<li>$\tilde{X}$表示 X 点在世界坐标系中的位置;</li>
-<li>$\tilde{C}$表示相机原点 C  在世界坐标系中的位置;</li>
-<li>$\tilde{X}_{cam}$表示 X 点在相机坐标系中的位置;</li>
+<li><span class="math inline">\(\tilde{X}\)</span>表示 X 点在世界坐标系中的位置;</li>
+<li><span class="math inline">\(\tilde{C}\)</span>表示相机原点 C 在世界坐标系中的位置;</li>
+<li><span class="math inline">\(\tilde{X}_{cam}\)</span>表示 X 点在相机坐标系中的位置;</li>
 </ul>
-<h3 id="世界转换到相机"><a href="#世界转换到相机" class="headerlink" title="世界转换到相机"></a>世界转换到相机</h3><p>根据上面的公式可以得到从一个三维点从世界坐标系转换到相机坐标的变换公式如下（也是用的齐次坐标的表示方式）：</p>
-<script type="math/tex; mode=display">
+<h3 id="世界转换到相机">世界转换到相机</h3>
+<p>根据上面的公式可以得到从一个三维点从世界坐标系转换到相机坐标的变换公式如下（也是用的齐次坐标的表示方式）：</p>
+<p><span class="math display">\[
 X_{cam} = \begin{bmatrix} 
 \tilde{X}_{cam} \\ 1 \end{bmatrix} = 
 \begin{bmatrix}
-R&-R\tilde{C} \\ 0&1 \end{bmatrix}
+R&amp;-R\tilde{C} \\ 0&amp;1 \end{bmatrix}
 \begin{bmatrix}
 \tilde{X} \\ 1 \end{bmatrix} = 
 \begin{bmatrix}
-R&-R\tilde{C} \\ 0&1 \end{bmatrix}X</script><h3 id="世界转换到图像"><a href="#世界转换到图像" class="headerlink" title="世界转换到图像"></a>世界转换到图像</h3><p>根据上面的讨论知道了怎样从世界坐标系转换到相机坐标系（平移和旋转）以及从相机坐标系转换到图像坐标系（相机内参变换），所以带入上面的矩阵计算，可以得到：</p>
-<script type="math/tex; mode=display">
-x = K[I \ | \ 0]X_{cam} = K[R \ | \ -R\tilde{C}] X</script><p>这样就得到了最终的投影矩阵 P:</p>
-<script type="math/tex; mode=display">
-P = K[R \ | \ t]</script><p>其中：</p>
-<script type="math/tex; mode=display">
-t = -R\tilde{C}</script><p>在这里，K 一般称为相机内参（intrinsic parameters），描述了相机的内部参数，包括焦距 f 、主点 p  的位置、以及像素与真实环境的大小比例等，这个是固有属性，是提供好的；R  和 t  称为相机外参（extrinsic parameters），R  在这里是旋转矩阵，可以转换为三维的旋转向量，分别表示绕x ，y ，z  三个轴的旋转角度，t  目前就是一个平移向量，分别表示在x ，y ，z  三个方向上的平移量。</p>
-<h2 id="畸变参数-distortion-parameters"><a href="#畸变参数-distortion-parameters" class="headerlink" title="畸变参数(distortion parameters)"></a>畸变参数(distortion parameters)</h2><p>在几何光学和阴极射线管(CRT)显示中，畸变（distortion） 是对直线投影（rectilinear projection）的一种偏移。简单来说直线投影是场景内的一条直线投影到图片上也保持为一条直线。那畸变简单来说就是一条直线投影到图片上不能保持为一条直线了，这是一种光学畸变（optical aberration）。可能由于摄像机镜头的原因，这里不讨论，有兴趣的可以查阅光学畸变的相关的资料。<br>畸变一般可以分为两大类，包括径向畸变和切向畸变。主要的一般径向畸变有时也会有轻微的切向畸变。</p>
-<h3 id="径向畸变（Radial-distortion）"><a href="#径向畸变（Radial-distortion）" class="headerlink" title="径向畸变（Radial distortion）"></a>径向畸变（Radial distortion）</h3><p>径向畸变的效应有三种，一种是桶形畸变（barrel distortion），另一种是枕形畸变（pincushion distortion），还有一种是两种的结合叫做胡子畸变（mustache distortion），从图片中可以很容易看出区别，具体见下图:</p>
-<p><img src="/2021/05/24/%E7%9B%B8%E6%9C%BA%E6%A0%87%E5%AE%9A%EF%BC%88camera-calibration%EF%BC%89/09ea55c6320d551fc0cafe2d32beb5dd.png" alt></p>
+R&amp;-R\tilde{C} \\ 0&amp;1 \end{bmatrix}X
+\]</span></p>
+<h3 id="世界转换到图像">世界转换到图像</h3>
+<p>根据上面的讨论知道了怎样从世界坐标系转换到相机坐标系（平移和旋转）以及从相机坐标系转换到图像坐标系（相机内参变换），所以带入上面的矩阵计算，可以得到：</p>
+<p><span class="math display">\[
+x = K[I \ | \ 0]X_{cam} = K[R \ | \ -R\tilde{C}] X
+\]</span></p>
+<p>这样就得到了最终的投影矩阵 P:</p>
+<p><span class="math display">\[
+P = K[R \ | \ t]
+\]</span></p>
+<p>其中：</p>
+<p><span class="math display">\[
+t = -R\tilde{C}
+\]</span></p>
+<p>在这里，K 一般称为相机内参（intrinsic parameters），描述了相机的内部参数，包括焦距 f 、主点 p 的位置、以及像素与真实环境的大小比例等，这个是固有属性，是提供好的；R 和 t 称为相机外参（extrinsic parameters），R 在这里是旋转矩阵，可以转换为三维的旋转向量，分别表示绕x ，y ，z 三个轴的旋转角度，t 目前就是一个平移向量，分别表示在x ，y ，z 三个方向上的平移量。</p>
+<h2 id="畸变参数distortion-parameters">畸变参数(distortion parameters)</h2>
+<p>在几何光学和阴极射线管(CRT)显示中，畸变（distortion） 是对直线投影（rectilinear projection）的一种偏移。简单来说直线投影是场景内的一条直线投影到图片上也保持为一条直线。那畸变简单来说就是一条直线投影到图片上不能保持为一条直线了，这是一种光学畸变（optical aberration）。可能由于摄像机镜头的原因，这里不讨论，有兴趣的可以查阅光学畸变的相关的资料。 畸变一般可以分为两大类，包括径向畸变和切向畸变。主要的一般径向畸变有时也会有轻微的切向畸变。</p>
+<h3 id="径向畸变radial-distortion">径向畸变（Radial distortion）</h3>
+<p>径向畸变的效应有三种，一种是桶形畸变（barrel distortion），另一种是枕形畸变（pincushion distortion），还有一种是两种的结合叫做胡子畸变（mustache distortion），从图片中可以很容易看出区别，具体见下图:</p>
+<p><img src="/2021/05/24/%E7%9B%B8%E6%9C%BA%E6%A0%87%E5%AE%9A%EF%BC%88camera-calibration%EF%BC%89/09ea55c6320d551fc0cafe2d32beb5dd.png"></p>
 <p>径向畸变可以用如下公式修正：</p>
-<script type="math/tex; mode=display">
-x_{corr} = x_{dis}(1+k_{1}r^{2}+k_{2}r^{4}+k_{3}r^{6})</script><script type="math/tex; mode=display">
-y_{corr} = y_{dis}(1+k_{1}r^{2}+k_{2}r^{4}+k_{3}r^{6})</script><h3 id="切向畸变（tangential-distortion）"><a href="#切向畸变（tangential-distortion）" class="headerlink" title="切向畸变（tangential distortion）"></a>切向畸变（tangential distortion）</h3><p>切向畸变是由于透镜与成像平面不严格的平行，其可以用如下公式修正：</p>
-<script type="math/tex; mode=display">
-x_{corr} = x_{dis}+[2p_{1}xy+p_{2}(r^{2}+2x^{2})]</script><script type="math/tex; mode=display">
-y_{corr} = y_{dis}+[2p_{2}xy+p_{1}(r^{2}+2y^{2})]</script><p>其中：</p>
+<p><span class="math display">\[
+x_{corr} = x_{dis}(1+k_{1}r^{2}+k_{2}r^{4}+k_{3}r^{6})
+\]</span> <span class="math display">\[
+y_{corr} = y_{dis}(1+k_{1}r^{2}+k_{2}r^{4}+k_{3}r^{6})
+\]</span></p>
+<h3 id="切向畸变tangential-distortion">切向畸变（tangential distortion）</h3>
+<p>切向畸变是由于透镜与成像平面不严格的平行，其可以用如下公式修正：</p>
+<p><span class="math display">\[
+x_{corr} = x_{dis}+[2p_{1}xy+p_{2}(r^{2}+2x^{2})]
+\]</span> <span class="math display">\[
+y_{corr} = y_{dis}+[2p_{2}xy+p_{1}(r^{2}+2y^{2})]
+\]</span></p>
+<p>其中：</p>
 <ul>
-<li>$x_{dis}$和$y_{dis}$表示有畸变的坐标; </li>
-<li>$x_{corr}$和$y_{corr}$表示修复后的坐标; </li>
-<li>$k_{1},k_{2},k_{3}$表示径向畸变参数; </li>
-<li>$p_{1},p_{2}$表示切向畸变参数;</li>
+<li><span class="math inline">\(x_{dis}\)</span>和<span class="math inline">\(y_{dis}\)</span>表示有畸变的坐标;</li>
+<li><span class="math inline">\(x_{corr}\)</span>和<span class="math inline">\(y_{corr}\)</span>表示修复后的坐标;</li>
+<li><span class="math inline">\(k_{1},k_{2},k_{3}\)</span>表示径向畸变参数;</li>
+<li><span class="math inline">\(p_{1},p_{2}\)</span>表示切向畸变参数;</li>
 </ul>
 <p>所以最终得到5个畸变参数：</p>
-<script type="math/tex; mode=display">
-D=(k_{1},k_{2},p_{1},p_{2},k_{3})</script><h2 id="齐次坐标"><a href="#齐次坐标" class="headerlink" title="齐次坐标"></a>齐次坐标</h2><p>就是将一个原本是n维的向量用一个n+1维向量来表示。<br>许多图形应用涉及到几何变换，主要包括平移、旋转、缩放。以矩阵表达式来计算这些变换时，平移是矩阵相加，旋转和缩放则是矩阵相乘，综合起来可以表示为 x = R ∗ X + t （注：因为习惯的原因，实际使用时一般使用变化矩阵左乘向量）(R 旋转缩放矩阵，t 为平移矩阵，X 为原向量，x 为变换后的向量)。引入齐次坐标的目的主要是合并矩阵运算中的乘法和加法，表示为 x = P ∗ X 的形式。即它提供了用矩阵运算把二维、三维甚至高维空间中的一个点集从一个坐标系变换到另一个坐标系的有效方法。和上面的计算过程是对应的。</p>
+<p><span class="math display">\[
+D=(k_{1},k_{2},p_{1},p_{2},k_{3})
+\]</span></p>
+<h2 id="齐次坐标">齐次坐标</h2>
+<p>就是将一个原本是n维的向量用一个n+1维向量来表示。 许多图形应用涉及到几何变换，主要包括平移、旋转、缩放。以矩阵表达式来计算这些变换时，平移是矩阵相加，旋转和缩放则是矩阵相乘，综合起来可以表示为 x = R ∗ X + t （注：因为习惯的原因，实际使用时一般使用变化矩阵左乘向量）(R 旋转缩放矩阵，t 为平移矩阵，X 为原向量，x 为变换后的向量)。引入齐次坐标的目的主要是合并矩阵运算中的乘法和加法，表示为 x = P ∗ X 的形式。即它提供了用矩阵运算把二维、三维甚至高维空间中的一个点集从一个坐标系变换到另一个坐标系的有效方法。和上面的计算过程是对应的。</p>
 
     </div>
 
@@ -449,7 +507,7 @@ D=(k_{1},k_{2},p_{1},p_{2},k_{3})</script><h2 id="齐次坐标"><a href="#齐次
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%B8%E6%9C%BA%E6%A0%87%E5%AE%9A%E7%9A%84%E7%9B%AE%E7%9A%84%E5%92%8C%E6%84%8F%E4%B9%89"><span class="nav-number">1.</span> <span class="nav-text">相机标定的目的和意义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%B8%E6%9C%BA%E5%9D%90%E6%A0%87%E7%B3%BB%E8%BD%AC%E6%8D%A2%E5%88%B0%E5%9B%BE%E5%83%8F%E5%9D%90%E6%A0%87%E7%B3%BB"><span class="nav-number">2.</span> <span class="nav-text">相机坐标系转换到图像坐标系</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9D%90%E6%A0%87%E7%B3%BB%E4%BB%8B%E7%BB%8D"><span class="nav-number">2.1.</span> <span class="nav-text">坐标系介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%B8%E6%9C%BA%E8%BD%AC%E6%8D%A2%E5%88%B0%E5%83%8F%E5%B9%B3%E9%9D%A2"><span class="nav-number">2.2.</span> <span class="nav-text">相机转换到像平面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A0%E5%85%A5%E5%81%8F%E7%A7%BB%E9%87%8F"><span class="nav-number">2.3.</span> <span class="nav-text">加入偏移量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%83%8F%E7%B4%A0%E5%9D%90%E6%A0%87"><span class="nav-number">2.4.</span> <span class="nav-text">像素坐标</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%96%E7%95%8C%E5%9D%90%E6%A0%87%E7%B3%BB%E8%BD%AC%E6%8D%A2%E5%88%B0%E5%9B%BE%E5%83%8F%E5%9D%90%E6%A0%87%E7%B3%BB"><span class="nav-number">3.</span> <span class="nav-text">世界坐标系转换到图像坐标系</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9D%90%E6%A0%87%E7%B3%BB%E4%BB%8B%E7%BB%8D-1"><span class="nav-number">3.1.</span> <span class="nav-text">坐标系介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%96%E7%95%8C%E8%BD%AC%E6%8D%A2%E5%88%B0%E7%9B%B8%E6%9C%BA"><span class="nav-number">3.2.</span> <span class="nav-text">世界转换到相机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%96%E7%95%8C%E8%BD%AC%E6%8D%A2%E5%88%B0%E5%9B%BE%E5%83%8F"><span class="nav-number">3.3.</span> <span class="nav-text">世界转换到图像</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%95%B8%E5%8F%98%E5%8F%82%E6%95%B0-distortion-parameters"><span class="nav-number">4.</span> <span class="nav-text">畸变参数(distortion parameters)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BE%84%E5%90%91%E7%95%B8%E5%8F%98%EF%BC%88Radial-distortion%EF%BC%89"><span class="nav-number">4.1.</span> <span class="nav-text">径向畸变（Radial distortion）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%87%E5%90%91%E7%95%B8%E5%8F%98%EF%BC%88tangential-distortion%EF%BC%89"><span class="nav-number">4.2.</span> <span class="nav-text">切向畸变（tangential distortion）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%BD%90%E6%AC%A1%E5%9D%90%E6%A0%87"><span class="nav-number">5.</span> <span class="nav-text">齐次坐标</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%B8%E6%9C%BA%E6%A0%87%E5%AE%9A%E7%9A%84%E7%9B%AE%E7%9A%84%E5%92%8C%E6%84%8F%E4%B9%89"><span class="nav-number">1.</span> <span class="nav-text">相机标定的目的和意义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%B8%E6%9C%BA%E5%9D%90%E6%A0%87%E7%B3%BB%E8%BD%AC%E6%8D%A2%E5%88%B0%E5%9B%BE%E5%83%8F%E5%9D%90%E6%A0%87%E7%B3%BB"><span class="nav-number">2.</span> <span class="nav-text">相机坐标系转换到图像坐标系</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9D%90%E6%A0%87%E7%B3%BB%E4%BB%8B%E7%BB%8D"><span class="nav-number">2.1.</span> <span class="nav-text">坐标系介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%B8%E6%9C%BA%E8%BD%AC%E6%8D%A2%E5%88%B0%E5%83%8F%E5%B9%B3%E9%9D%A2"><span class="nav-number">2.2.</span> <span class="nav-text">相机转换到像平面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A0%E5%85%A5%E5%81%8F%E7%A7%BB%E9%87%8F"><span class="nav-number">2.3.</span> <span class="nav-text">加入偏移量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%83%8F%E7%B4%A0%E5%9D%90%E6%A0%87"><span class="nav-number">2.4.</span> <span class="nav-text">像素坐标</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%96%E7%95%8C%E5%9D%90%E6%A0%87%E7%B3%BB%E8%BD%AC%E6%8D%A2%E5%88%B0%E5%9B%BE%E5%83%8F%E5%9D%90%E6%A0%87%E7%B3%BB"><span class="nav-number">3.</span> <span class="nav-text">世界坐标系转换到图像坐标系</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9D%90%E6%A0%87%E7%B3%BB%E4%BB%8B%E7%BB%8D-1"><span class="nav-number">3.1.</span> <span class="nav-text">坐标系介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%96%E7%95%8C%E8%BD%AC%E6%8D%A2%E5%88%B0%E7%9B%B8%E6%9C%BA"><span class="nav-number">3.2.</span> <span class="nav-text">世界转换到相机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%96%E7%95%8C%E8%BD%AC%E6%8D%A2%E5%88%B0%E5%9B%BE%E5%83%8F"><span class="nav-number">3.3.</span> <span class="nav-text">世界转换到图像</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%95%B8%E5%8F%98%E5%8F%82%E6%95%B0distortion-parameters"><span class="nav-number">4.</span> <span class="nav-text">畸变参数(distortion parameters)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BE%84%E5%90%91%E7%95%B8%E5%8F%98radial-distortion"><span class="nav-number">4.1.</span> <span class="nav-text">径向畸变（Radial distortion）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%87%E5%90%91%E7%95%B8%E5%8F%98tangential-distortion"><span class="nav-number">4.2.</span> <span class="nav-text">切向畸变（tangential distortion）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%BD%90%E6%AC%A1%E5%9D%90%E6%A0%87"><span class="nav-number">5.</span> <span class="nav-text">齐次坐标</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -478,7 +536,7 @@ D=(k_{1},k_{2},p_{1},p_{2},k_{3})</script><h2 id="齐次坐标"><a href="#齐次
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
