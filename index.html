@@ -157,6 +157,94 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://wangwenlonggg.github.io/2021/05/29/ubuntu%E9%85%8D%E7%BD%AEPCL/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/laugh.jpg">
+      <meta itemprop="name" content="wangwenlonggg">
+      <meta itemprop="description" content="奋发图强">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="wangwenlonggg">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/05/29/ubuntu%E9%85%8D%E7%BD%AEPCL/" class="post-title-link" itemprop="url">ubuntu配置PCL</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-05-29 17:54:00 / 修改时间：19:14:19" itemprop="dateCreated datePublished" datetime="2021-05-29T17:54:00+08:00">2021-05-29</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h4 id="安装各种依赖包">安装各种依赖包</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update </span><br><span class="line">sudo apt-get install git build-essential linux-libc-dev</span><br><span class="line">sudo apt-get install cmake cmake-gui</span><br><span class="line">sudo apt-get install libusb-1.0-0-dev libusb-dev libudev-dev</span><br><span class="line">sudo apt-get install mpi-default-dev openmpi-bin openmpi-common </span><br><span class="line"></span><br><span class="line">sudo apt-get install libflann1.9 libflann-dev</span><br><span class="line">sudo apt-get install libeigen3-dev //这个需要自己下载正确版本安装</span><br><span class="line">sudo apt-get install libboost-all-dev</span><br><span class="line">sudo apt-get install libvtk7.1-qt</span><br><span class="line">sudo apt-get install libvtk7.1 </span><br><span class="line">sudo apt-get install libvtk7-qt-dev（按照错误提示一步一步安装所需要的东西）</span><br><span class="line">sudo apt-get install libqhull* libgtest-dev</span><br><span class="line">sudo apt-get install freeglut3-dev pkg-config</span><br><span class="line">sudo apt-get install libxmu-dev libxi-dev</span><br><span class="line">sudo apt-get install mono-complete</span><br><span class="line">sudo apt-get install openjdk-8-jdk openjdk-8-jre</span><br><span class="line"></span><br><span class="line">sudo apt-get install libopencv-dev</span><br></pre></td></tr></table></figure>
+<h4 id="下载pcl">下载PCL</h4>
+<pre><code>git clone https://github.com/PointCloudLibrary/pcl.git</code></pre>
+<ul>
+<li>速度受限制的话可以clone到码云再下载</li>
+<li><strong>下载后的文件名称 一定要是pcl，不能带有其他字符</strong></li>
+</ul>
+<h4 id="编译">编译</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cd pcl </span><br><span class="line">mkdir build </span><br><span class="line">cd build</span><br><span class="line">cmake -DCMAKE_BUILD_TYPE=None -DCMAKE_INSTALL_PREFIX=/usr \ -DBUILD_GPU=ON-DBUILD_apps=ON -DBUILD_examples=ON \ -DCMAKE_INSTALL_PREFIX=/usr .. </span><br><span class="line">make  //在build目录里，make -j4或-j8可加速</span><br><span class="line">sudo make install</span><br></pre></td></tr></table></figure>
+<p>第五步make编译的时候可能会报错：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">/usr/lib/x86_64-linux-gnu/libSM.so: undefined reference to `uuid_generate@UUID_1.0&#x27;</span><br><span class="line">/usr/lib/x86_64-linux-gnu/libSM.so: undefined reference to `uuid_unparse_lower@UUID_1.0&#x27;</span><br><span class="line">collect2: error: ld returned 1 exit status</span><br><span class="line">outofcore/tools/CMakeFiles/pcl_outofcore_viewer.dir/build.make:367: recipe for target &#x27;bin/pcl_outofcore_viewer&#x27; failed</span><br><span class="line">make[2]: *** [bin/pcl_outofcore_viewer] Error 1</span><br><span class="line">CMakeFiles/Makefile2:1853: recipe for target &#x27;outofcore/tools/CMakeFiles/pcl_outofcore_viewer.dir/all&#x27; failed</span><br><span class="line">make[1]: *** [outofcore/tools/CMakeFiles/pcl_outofcore_viewer.dir/all] Error 2</span><br><span class="line">Makefile:151: recipe for target &#x27;all&#x27; failed</span><br><span class="line">make: *** [all] Error 2</span><br></pre></td></tr></table></figure>
+<p>解决办法：</p>
+<ol type="1">
+<li>清空build里的文件 <code>rm -r build</code></li>
+<li>输入获取当前环境变量的命令</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">echo $PATH </span><br><span class="line">/opt/ros/melodic/bin:/usr/local/anaconda3/bin:/usr/local/anaconda3/condabin:</span><br><span class="line">/home/qm/.local/bin:/usr/local/anconda3/bin:/usr/local/sbin:/usr/local/bin:</span><br><span class="line">/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin</span><br></pre></td></tr></table></figure>
+<ol start="3" type="1">
+<li>把路径中带有conda的内容删掉并复制剩余内容</li>
+<li>终端执行<code>PATH=NEW_PATH</code>，其中NEW_PATH就是刚才复制的新路径（临时更改环境变量）</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">PATH=/usr/local/sbin:/usr/local/bin:</span><br><span class="line">/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin</span><br></pre></td></tr></table></figure>
+<ol start="5" type="1">
+<li>再次执行<code>echo $PATH</code>发现带有conda的目录被移除</li>
+<li><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cmake -DCMAKE_BUILD_TYPE=None -DCMAKE_INSTALL_PREFIX=/usr \ -DBUILD_GPU=ON-DBUILD_apps=ON -DBUILD_examples=ON \ -DCMAKE_INSTALL_PREFIX=/usr .. </span><br><span class="line">make -j4/8 </span><br><span class="line">sudo make install</span><br></pre></td></tr></table></figure></li>
+<li><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install pcl-tools</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h4 id="安装完成并验证">安装完成并验证</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd到pcl/test目录中</span><br><span class="line">pcl_viewer car6.pcd</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://wangwenlonggg.github.io/2021/05/27/%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -571,96 +659,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://wangwenlonggg.github.io/2021/05/21/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E4%B8%8E%E5%8F%82%E8%80%83%E6%A8%A1%E5%9E%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/laugh.jpg">
-      <meta itemprop="name" content="wangwenlonggg">
-      <meta itemprop="description" content="奋发图强">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="wangwenlonggg">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/05/21/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E4%B8%8E%E5%8F%82%E8%80%83%E6%A8%A1%E5%9E%8B/" class="post-title-link" itemprop="url">计算机网络体系结构与参考模型</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-05-21 10:29:00" itemprop="dateCreated datePublished" datetime="2021-05-21T10:29:00+08:00">2021-05-21</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-05-27 08:10:15" itemprop="dateModified" datetime="2021-05-27T08:10:15+08:00">2021-05-27</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">计算机网络</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="计算机网络体系结构">计算机网络体系结构</h1>
-<h3 id="概念">概念</h3>
-<ul>
-<li>网络体系结构是从<strong>功能</strong>上描述计算机网络结构。</li>
-<li>计算机网络体系结构是<strong>分层结构</strong>。</li>
-<li>每层遵循某些<strong>网络协议</strong>以完成本层功能。</li>
-<li>计算机网络体系结构是计算机网络的<strong>各层及其协议</strong>的集合。</li>
-<li>第n层向n+1层提供服务时，此服务不仅包含第n层本身的功能，还包括由下层服务提供的功能。</li>
-<li>仅仅在相邻层间有接口，且所提供服务的具体实现细节对上一层完全屏蔽。</li>
-</ul>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/05/21/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E4%B8%8E%E5%8F%82%E8%80%83%E6%A8%A1%E5%9E%8B/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -732,7 +730,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-count">9</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
