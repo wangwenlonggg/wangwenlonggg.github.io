@@ -182,7 +182,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2021-06-04 11:07:05 / 修改时间：11:42:23" itemprop="dateCreated datePublished" datetime="2021-06-04T11:07:05+08:00">2021-06-04</time>
+              <time title="创建时间：2021-06-04 11:07:05 / 修改时间：11:47:00" itemprop="dateCreated datePublished" datetime="2021-06-04T11:07:05+08:00">2021-06-04</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -205,144 +205,16 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="DGCP简介"><a href="#DGCP简介" class="headerlink" title="DGCP简介"></a>DGCP简介</h3><p>&emsp;&emsp;DHCP（<strong>Dynamic Host Configuration Protocol，动态主机配置协议</strong>）使用UDP协议工作，采用67（DHCP服务器端）和68（DHCP客户端）两个端口号。546号端口用于DHCPv6 Client，而不用于DHCPv4，是为DHCP failover服务。DHCP客户端向DHCP服务器发送的报文称之为DHCP请求报文，而DHCP服务器向DHCP客户端发送的报文称之为DHCP应答报文。DHCP采用C/S（客户端/服务器）模式，可以为客户机自动分配IP地址、子网掩码以及缺省网关、DNS服务器的IP地址等，并能够提升地址的使用率。</p>
-<ul>
-<li>DHCP三种机制分配IP地址：</li>
-</ul>
-<ol>
-<li>自动分配方式（Automatic Allocation），DHCP服务器为主机指定一个永久性的IP地址，一旦DHCP客户端第一次成功从DHCP服务器端租用到IP地址后，就可以永久性的使用该地址。</li>
-<li>动态分配方式（Dynamic Allocation），DHCP服务器给主机指定一个具有时间限制的IP地址，时间到期或主机明确表示放弃该地址时，该地址可以被其他主机使用。</li>
-<li>手工分配方式（Manual Allocation），客户端的IP地址是由网络管理员指定的，DHCP服务器只是将指定的IP地址告诉客户端主机。</li>
-</ol>
-<h3 id="DHCP报文"><a href="#DHCP报文" class="headerlink" title="DHCP报文"></a>DHCP报文</h3><h4 id="DHCP协议中的报文"><a href="#DHCP协议中的报文" class="headerlink" title="DHCP协议中的报文"></a>DHCP协议中的报文</h4><p>DHCP一共有8种报文，分别为DHCP Discover、DHCP Offer、DHCP Request、DHCP ACK、DHCP NAK、DHCP Release、DHCP Decline、DHCP Inform。各种类型报文的基本功能如下：</p>
-<ol>
-<li>DHCP Discover(广播)</li>
-</ol>
-<p>&emsp;&emsp;DHCP客户端在请求IP地址时并不知道DHCP服务器的位置，因此DHCP客户端会在本地网络内以广播方式发送Discover请求报文，以发现网络中的DHCP服务器。所有收到Discover报文的DHCP服务器都会发送应答报文，DHCP客户端据此可以知道网络中存在的DHCP服务器的位置。</p>
-<ol>
-<li>DHCP Offer(广播，单播)</li>
-</ol>
-<p>&emsp;&emsp;DHCP服务器收到Discover报文后，就会在所配置的地址池中查找一个合适的IP地址，加上相应的租约期限和其他配置信息（如网关、DNS服务器等），构造一个Offer报文，发送给DHCP客户端，告知用户本服务器可以为其提供IP地址。但这个报文只是告诉DHCP客户端可以提供IP地址，最终还需要客户端通过ARP来检测该IP地址是否重复。</p>
-<ol>
-<li>DHCP Request(广播，单播)</li>
-</ol>
-<p>&emsp;&emsp;DHCP客户端可能会收到很多Offer请求报文，所以必须在这些应答中选择一个。通常是选择第一个Offer应答报文的服务器作为自己的目标服务器，并向该服务器发送一个广播的Request请求报文，通告选择的服务器，希望获得所分配的IP地址。另外，DHCP客户端在成功获取IP地址后，在地址使用租期达到50%时，会向DHCP服务器发送单播Request请求报文请求续延租约，如果没有收到ACK报文，在租期达到87.5%时，会再次发送单播的Request请求报文以请求续延租约。</p>
-<ol>
-<li>DHCP ACK(广播，单播)</li>
-</ol>
-<p>&emsp;&emsp;DHCP服务器收到Request请求报文后，根据Request报文中携带的用户MAC来查找有没有相应的租约记录，如果有则发送ACK应答报文，通知用户可以使用分配的IP地址。</p>
-<ol>
-<li>DHCP NAK(广播，单播)</li>
-</ol>
-<p>&emsp;&emsp;如果DHCP服务器收到Request请求报文后，没有发现有相应的租约记录或者由于某些原因无法正常分配IP地址，则向DHCP客户端发送NAK应答报文，通知用户无法分配合适的IP地址。</p>
-<ol>
-<li>DHCP Release(单播)</li>
-</ol>
-<p>&emsp;&emsp;当DHCP客户端不再需要使用分配IP地址时，就会主动向DHCP服务器发送RELEASE请求报文，告知服务器用户不再需要分配IP地址，请求DHCP服务器释放对应的IP地址。</p>
-<ol>
-<li>DHCP Decline(单播)</li>
-</ol>
-<p>&emsp;&emsp;DHCP客户端收到DHCP服务器ACK应答报文后，通过地址冲突检测发现服务器分配的地址冲突或者由于其他原因导致不能使用，则会向DHCP服务器发送Decline请求报文，通知服务器所分配的IP地址不可用，以期获得新的IP地址。</p>
-<ol>
-<li>DHCP Inform(单播)</li>
-</ol>
-<p>&emsp;&emsp;DHCP客户端如果需要从DHCP服务器端获取更为详细的配置信息，则向DHCP服务器发送Inform请求报文；DHCP服务器在收到该报文后，将根据租约进行查找到相应的配置信息后，向DHCP客户端发送ACK应答报文。目前基本上不用了。</p>
-<h4 id="DHCP报文格式"><a href="#DHCP报文格式" class="headerlink" title="DHCP报文格式"></a>DHCP报文格式</h4><p>&emsp;&emsp;DHCP服务的8种报文的格式是相同的，不同类型的报文只是报文中的某些字段取值不同。DHCP报文格式基于BOOTP的报文格式。下面是各字段的说明。</p>
-<p><img src="/2021/06/04/DHCP%E5%8D%8F%E8%AE%AE/20181011222431442.png" alt></p>
-<ol>
-<li>OP</li>
-</ol>
-<p>报文的操作类型。分为请求报文和响应报文。1：请求报文，2：应答报文。即client送给server的封包，设为1，反之为2。请求报文：DHCP Discover、DHCP Request、DHCP Release、DHCP Inform和DHCP Decline。应答报文：DHCP Offer、DHCP ACK和DHCP NAK。</p>
-<ol>
-<li>Htype</li>
-</ol>
-<p>DHCP客户端的MAC地址类型。MAC地址类型其实是指明网络类型，Htype值为1时表示为最常见的以太网MAC地址类型。</p>
-<ol>
-<li>Hen</li>
-</ol>
-<p>DHCP客户端的MAC地址长度。以太网MAC地址长度为6个字节，即以太网时Hlen值为6。</p>
-<ol>
-<li>Hops</li>
-</ol>
-<p>DHCP报文经过的DHCP中继的数目，默认为0。DHCP请求报文每经过一个DHCP中继，该字段就会增加1。没有经过DHCP中继时值为0。(若数据包需经过router传送，每站加1，若在同一网内，为0。)</p>
-<ol>
-<li>Xid</li>
-</ol>
-<p>客户端通过DHCP Discover报文发起一次IP地址请求时选择的随机数，相当于请求标识。用来标识一次IP地址请求过程。在一次请求中所有报文的Xid都是一样的。</p>
-<ol>
-<li>Secs</li>
-</ol>
-<p>DHCP客户端从获取到IP地址或者续约过程开始到现在所消耗的时间，以秒为单位。在没有获得IP地址前该字段始终为0。(DHCP客户端开始DHCP请求后所经过的时间。目前尚未使用，固定为0。)</p>
-<ol>
-<li>Flags</li>
-</ol>
-<p>标志位，只使用第0比特位，是广播应答标识位，用来标识DHCP服务器应答报文是采用单播还是广播发送，0表示采用单播发送方式，1表示采用广播发送方式。其余位尚未使用。(即从0-15bits，最左1bit为1时表示server将以广播方式传送封包给client。)</p>
-<hr>
-<p>【注意】在客户端正式分配了IP地址之前的第一次IP地址请求过程中，所有DHCP报文都是以广播方式发送的，包括客户端发送的DHCP Discover和DHCP Request报文，以及DHCP服务器发送的DHCP Offer、DHCP ACK和DHCP NAK报文。当然，如果是由DHCP中继器转的报文，则都是以单播方式发送的。另外，IP地址续约、IP地址释放的相关报文都是采用单播方式进行发送的。</p>
-<hr>
-<ol>
-<li>Ciaddr</li>
-</ol>
-<p>DHCP客户端的IP地址。仅在DHCP服务器发送的ACK报文中显示，在其他报文中均显示0，因为在得到DHCP服务器确认前，DHCP客户端是还没有分配到IP地址的。只有客户端是Bound、Renew、Rebinding状态，并且能响应ARP请求时，才能被填充。</p>
-<ol>
-<li>Yiaddr</li>
-</ol>
-<p>DHCP服务器分配给客户端的IP地址。仅在DHCP服务器发送的Offer和ACK报文中显示，其他报文中显示为0。</p>
-<ol>
-<li>Siaddr</li>
-</ol>
-<p>下一个为DHCP客户端分配IP地址等信息的DHCP服务器IP地址。仅在DHCP Offer、DHCP ACK报文中显示，其他报文中显示为0。(用于bootstrap过程中的IP地址)</p>
-<ol>
-<li>Giaddr</li>
-</ol>
-<p>DHCP客户端发出请求报文后经过的第一个DHCP中继的IP地址。如果没有经过DHCP中继，则显示为0。(转发代理（网关）IP地址)</p>
-<ol>
-<li>Chaddr</li>
-</ol>
-<p>DHCP客户端的MAC地址。在每个报文中都会显示对应DHCP客户端的MAC地址。</p>
-<ol>
-<li>Sname</li>
-</ol>
-<p>为DHCP客户端分配IP地址的DHCP服务器名称（DNS域名格式）。在Offer和ACK报文中显示发送报文的DHCP服务器名称，其他报文显示为0。</p>
-<ol>
-<li>File</li>
-</ol>
-<p>DHCP服务器为DHCP客户端指定的启动配置文件名称及路径信息。仅在DHCP Offer报文中显示，其他报文中显示为空。</p>
-<ol>
-<li>Options：可选项字段，长度可变，格式为”代码+长度+数据”</li>
-</ol>
-<h3 id="DHCP工作流程"><a href="#DHCP工作流程" class="headerlink" title="DHCP工作流程"></a>DHCP工作流程</h3><p><img src="/2021/06/04/DHCP%E5%8D%8F%E8%AE%AE/20181011222609778.png" alt></p>
-<ol>
-<li><p>DHCP Client发现阶段</p>
-<p><img src="/2021/06/04/DHCP%E5%8D%8F%E8%AE%AE/20181011222719823.png" alt></p>
-</li>
-</ol>
-<p>&emsp;&emsp;DHCP客户机寻找DHCP服务器的阶段。DHCP客户机以广播方式（因为DHCP服务器的IP地址对于客户机来说是未知的）发送 DHCP discover发现信息来寻找DHCP服务器，源地址为0.0.0.0目的地址为255.255.255.255。网络上每一台安装了TCP/IP协议的主机 都会接收到这种广播信息，但只有DHCP服务器才会做出响应。</p>
-<ol>
-<li>DHCP Server提供阶段</li>
-</ol>
-<p><img src="/2021/06/04/DHCP%E5%8D%8F%E8%AE%AE/20181011222747190.png" alt></p>
-<p>&emsp;&emsp;DHCP服务器提供IP地址的阶段。在网络中接收到DHCP discover发现信息的DHCP服务器都会做出响应，它从尚未出租的IP地址中挑选一个分配给DHCP客户机，向DHCP客户机发送一个包含出租的 IP地址和其他设置的DHCP offer信息。</p>
-<ol>
-<li>DHCP Client选择阶段</li>
-</ol>
-<p><img src="/2021/06/04/DHCP%E5%8D%8F%E8%AE%AE/20181011222812125.png" alt></p>
-<p>&emsp;&emsp;DHCP客户机选择某台DHCP服务器提供的IP地址的阶段。如果有多台DHCP服务器向DHCP客户机发来的DHCP offer提供信息，则DHCP客户机只接受第一个收到的DHCP offer提供信息，然后它就以广播方式回答一个DHCP request请求信息，该信息中包含向它所选定的DHCP服务器请求IP地址的内容。之所以要以广播方式回答，是为了通知所有的DHCP服务器，他将选择某台DHCP服务器所提供的IP地址。</p>
-<ol>
-<li>DHCP Server确认阶段</li>
-</ol>
-<p><img src="/2021/06/04/DHCP%E5%8D%8F%E8%AE%AE/20181011222842285.png" alt></p>
-<p>&emsp;&emsp;DHCP服务器确认所提供的IP地址的阶段。当DHCP服务器收到DHCP客户机回答的DHCP request请求信息之后，它便向DHCP客户机发送一个包含它所提供的IP地址和其他设置的DHCP ack确认信息，告诉DHCP客户机可以使用它所提供的IP地址。然后DHCP客户机便将其TCP/IP协议与网卡绑定。</p>
-<p>另外，除DHCP客户机选中的服务器外，其他的DHCP服务器都将收回之前为其提供的IP地址。</p>
-<ul>
-<li>DHCP Client重新登录</li>
-</ul>
-<p>&emsp;&emsp;以后DHCP客户机每次重新登录网络时，就不需要再发送DHCP discover发现信息了，而是直接发送包含前一次所分配的IP地址的DHCP request请求信息。当DHCP服务器收到这一信息后，它会尝试让DHCP客户机继续使用原来的IP地址，并回答一个DHCP ack确认信息。如果此IP地址已无法再分配给原来的DHCP客户机使用时（比如此IP地址已分配给其它DHCP客户机使用），则DHCP服务器给 DHCP客户机回答一个DHCP nack否认信息。当原来的DHCP客户机收到此DHCP nack否认信息后，它就必须重新发送DHCP discover发现信息来请求新的IP地址。</p>
-<ul>
-<li>DHCP Client更新租约</li>
-</ul>
-<p>&emsp;&emsp;DHCP服务器向DHCP客户机出租的IP地址一般都有一个租借期限，期满后DHCP服务器便会收回出租的IP地址。如果DHCP客户 机要延长其IP租约，则必须更新其IP租约。DHCP客户机启动时和IP租约期限过一半时，DHCP客户机都会自动向DHCP服务器发送更新其IP租约的 信息。1/2第一次续约失败，7/8进行第二次续约。</p>
-
+          <h3 id="dgcp简介">DGCP简介</h3>
+<p>  DHCP（<strong>Dynamic Host Configuration Protocol，动态主机配置协议</strong>）使用UDP协议工作，采用67（DHCP服务器端）和68（DHCP客户端）两个端口号。546号端口用于DHCPv6 Client，而不用于DHCPv4，是为DHCP failover服务。DHCP客户端向DHCP服务器发送的报文称之为DHCP请求报文，而DHCP服务器向DHCP客户端发送的报文称之为DHCP应答报文。DHCP采用C/S（客户端/服务器）模式，可以为客户机自动分配IP地址、子网掩码以及缺省网关、DNS服务器的IP地址等，并能够提升地址的使用率。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/06/04/DHCP%E5%8D%8F%E8%AE%AE/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -415,8 +287,8 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>&emsp;&emsp;”网络层（在TCP/IP体系结构中称为网际互连层）既要解决不同网络节点间通信的路由和协议识别问题，又要通过路由选择策略解决网络拥塞问题，尽可能提高网络通信的可靠性。”</p>
-<p>&emsp;&emsp;”网络层中的每个网络都通过其网络地址，即NSAP（网络服务访问点）来标识，网络中的每个节点都有一个NASP，这个NASP就是由对应网络所运行的网络层通信协议来定义的，在TCP/IP协议网络中，这个协议就是IP协议，对应的NASP就是IP地址。”</p>
+          <p>  "网络层（在TCP/IP体系结构中称为网际互连层）既要解决不同网络节点间通信的路由和协议识别问题，又要通过路由选择策略解决网络拥塞问题，尽可能提高网络通信的可靠性。"</p>
+<p>  "网络层中的每个网络都通过其网络地址，即NSAP（网络服务访问点）来标识，网络中的每个节点都有一个NASP，这个NASP就是由对应网络所运行的网络层通信协议来定义的，在TCP/IP协议网络中，这个协议就是IP协议，对应的NASP就是IP地址。"</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2021/06/03/%E7%BD%91%E7%BB%9C%E5%B1%82/#more" rel="contents">
@@ -492,10 +364,10 @@
 
       
           <p>PPA软件源，全称是Personal Package Archives</p>
-<ol>
+<ol type="1">
 <li>介绍</li>
 </ol>
-<p>&emsp;&emsp;虽然Ubuntu官方软件仓库尽可能囊括所有的开源软件，但仍有很多软件包由于各种原因不能进入官方软件仓库。为了方便Ubuntu用户使用，launchpad.net提供了个人软件包集，即PPA，允许用户建立自己的软件仓库，通过Launchpad进行编译并发布为2进制软件包，作为apt/新的源供其他用户下载和更新。PPA也被用来对一些打算进入Ubuntu官方仓库的软件，或者某些软件的新版本进行测试。</p>
+<p>  虽然Ubuntu官方软件仓库尽可能囊括所有的开源软件，但仍有很多软件包由于各种原因不能进入官方软件仓库。为了方便Ubuntu用户使用，launchpad.net提供了个人软件包集，即PPA，允许用户建立自己的软件仓库，通过Launchpad进行编译并发布为2进制软件包，作为apt/新的源供其他用户下载和更新。PPA也被用来对一些打算进入Ubuntu官方仓库的软件，或者某些软件的新版本进行测试。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2021/05/30/Ubuntu-PPA%E8%BD%AF%E4%BB%B6%E6%BA%90%E7%9A%84%E4%BB%8B%E7%BB%8D%E4%B8%8E%E4%BD%BF%E7%94%A8/#more" rel="contents">
@@ -657,7 +529,8 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>&emsp;&emsp;”我们已经说过了物理层的作用是要尽可能地屏蔽掉不同传输媒体和通信手段的差异来传输比特流，这样能使物理层上面的数据链路层感觉不到这些差异。<br>&emsp;&emsp;数据链路层和它下面的物理层其实本质作用都是一样的，就是用来构建进行网络通信、访问的通道，只不过物理层构建的是一条物理通道，而数据链路层构建的是真正用于数据传输的逻辑通道。”</p>
+          <p>  "我们已经说过了物理层的作用是要尽可能地屏蔽掉不同传输媒体和通信手段的差异来传输比特流，这样能使物理层上面的数据链路层感觉不到这些差异。<br>
+  数据链路层和它下面的物理层其实本质作用都是一样的，就是用来构建进行网络通信、访问的通道，只不过物理层构建的是一条物理通道，而数据链路层构建的是真正用于数据传输的逻辑通道。"</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2021/05/27/%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/#more" rel="contents">
@@ -738,7 +611,8 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p>点云配准（Point Cloud Registration）指的是输入两幅点云 $P_s$ (source) 和 $P_t$ (target) ，输出一个变换 T 使得 T( $P_s$ ) 和 $P_t$ 的重合程度尽可能高。变换 T 可以是刚性的(rigid)，也可以不是，本文下面只考虑刚性变换，即变换只包括旋转、平移。</p>
+          <h2 id="问题描述">问题描述</h2>
+<p>点云配准（Point Cloud Registration）指的是输入两幅点云 <span class="math inline">\(P_s\)</span> (source) 和 <span class="math inline">\(P_t\)</span> (target) ，输出一个变换 T 使得 T( <span class="math inline">\(P_s\)</span> ) 和 <span class="math inline">\(P_t\)</span> 的重合程度尽可能高。变换 T 可以是刚性的(rigid)，也可以不是，本文下面只考虑刚性变换，即变换只包括旋转、平移。</p>
 <p>点云配准可以分为粗配准（Coarse Registration）和精配准（Fine Registration）两步。粗配准指的是在两幅点云之间的变换完全未知的情况下进行较为粗糙的配准，目的主要是为精配准提供较好的变换初值；精配准则是给定一个初始变换，进一步优化得到更精确的变换。</p>
 <p>目前应用最广泛的点云精配准算法是迭代最近点算法（Iterative Closest Point, ICP）及各种变种 ICP 算法。</p>
           <!--noindex-->
