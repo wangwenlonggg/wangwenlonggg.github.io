@@ -33,8 +33,9 @@
 <meta property="og:image" content="http://wangwenlonggg.github.io/2021/06/03/%E7%BD%91%E7%BB%9C%E5%B1%82/2020021213081897.png">
 <meta property="og:image" content="http://wangwenlonggg.github.io/2021/06/03/%E7%BD%91%E7%BB%9C%E5%B1%82/20170515201755572.png">
 <meta property="og:image" content="http://wangwenlonggg.github.io/2021/06/03/%E7%BD%91%E7%BB%9C%E5%B1%82/20170515203315361.png">
+<meta property="og:image" content="http://wangwenlonggg.github.io/2021/06/03/%E7%BD%91%E7%BB%9C%E5%B1%82/1562145-20190305154740233-694524388.png">
 <meta property="article:published_time" content="2021-06-03T01:40:08.000Z">
-<meta property="article:modified_time" content="2021-06-03T14:17:47.425Z">
+<meta property="article:modified_time" content="2021-06-04T00:56:47.936Z">
 <meta property="article:author" content="wangwenlonggg">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://wangwenlonggg.github.io/2021/06/03/%E7%BD%91%E7%BB%9C%E5%B1%82/20200212125332774.png">
@@ -189,10 +190,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2021-06-03 09:40:08 / 修改时间：22:17:47" itemprop="dateCreated datePublished" datetime="2021-06-03T09:40:08+08:00">2021-06-03</time>
+              <time title="创建时间：2021-06-03 09:40:08" itemprop="dateCreated datePublished" datetime="2021-06-03T09:40:08+08:00">2021-06-03</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-06-04 08:56:47" itemprop="dateModified" datetime="2021-06-04T08:56:47+08:00">2021-06-04</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -415,9 +422,62 @@
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/syzdev/article/details/104694066">RIP协议</a></li>
 <li><a target="_blank" rel="noopener" href="https://racns.com/558.html">OSPF协议</a></li>
 </ol>
-<h4 id="参考">参考</h4>
-<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/josie-xu/p/10477291.html">二层交换机和三层交换机</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/josie-xu/p/10477177.html">三层交换机和路由器的区别</a></p>
+<h4 id="二层交换机和三层交换机">二层交换机和三层交换机</h4>
+<ul>
+<li>二层交换机</li>
+</ul>
+<p>  二层交换机就是传统意义上的交换，使用mac地址作为转发依据，建立起mac到端口的映射（mac表，类似于（00:08:06:09:ab:01 port1））。</p>
+<p>  二层交换技术是发展比较成熟，二层交换机属数据链路层设备，可以识别数据包中的MAC地址信息，根据MAC地址进行转发，并将这些MAC地址与对应的端口记录在自己内部的一个地址表(mac表)中。具体的工作流程如下：</p>
+<ol type="1">
+<li><p>当交换机从某个端口收到一个数据帧，它先读取帧头中的源MAC地址，这样它就知道源MAC地址的主机是连在哪个端口上的；（学习的是源mac）</p></li>
+<li><p>再去读取帧头中的目的MAC地址，并在mac表中查找相应的端口；</p></li>
+<li><p>如果mac表中有与这目的MAC地址对应的端口，把数据帧直接复制到这端口上；</p></li>
+<li><p>如果mac表中找不到相应的端口，则把数据帧广播到所有端口上，当目的主机对源主机进行回应时，交换机又可以学习一目的MAC地址与哪个端口对应，在下次传送数据时就不再需要对所有端口进行广播了。</p></li>
+</ol>
+<p>不断的循环这个过程，对于全网的MAC地址信息都可以学习到，二层交换机就是这样建立和维护它自己的地址表。</p>
+<ul>
+<li>三层交换机</li>
+</ul>
+<p>  二层交换机的二层数据交换一般都是使用ASIC（Application Specific Integrated Circuit ，专用集成电路）的硬件芯片中的CAM表来实现的，因为是硬件转发，所以转发性能非常高。而三层交换机的三层转发也是依靠ASIC芯片完成的（路由器的路由功能主要依靠CPU软件进行的），但其中除了二层交换用的CAM表外，还保存有专门用于三层转发的三层硬件转发表。</p>
+<p>三层交换示例:</p>
+<p>  在三层交换中，同一交换机上的不同网段主机通信和不同交换机上的不同网段主机通信的基本原理是一样的，只是具体流程有所区别。本节仅以比较简单的"同一交换机上的不同网段主机通信"这种情形来解释上节介绍的三层交换原理。   如图所示，通信的源、目的主机连接在同一台三层交换机上，但它们位于不同VLAN（也位于不同网段）。对于三层交换机来说，这两台主机都位于它的直连网段内，它们的IP对应的路由都是直连路由。图中已标明了两台主机的MAC地址、IP地址、网关IP地址（也就是对应VLAN接口IP地址），以及三层交换机的MAC地址。</p>
+<p>【说明】本示例中虽然划分了VLAN，但是在下面的数据转发流程中我们并没有提到VLAN标记，那是因为在本示例中，通信双方主机都连接到同一个三层交换机上，端口类型均为Access类型，发送和接收的数据帧都是无VLAN标记的。在下节介绍的示例中，在数据的转发过程中将会涉及到VLAN标记问题。</p>
+<p><img src="/2021/06/03/%E7%BD%91%E7%BB%9C%E5%B1%82/1562145-20190305154740233-694524388.png"></p>
+<p>  当 PC A 要第一次向 PC B 发数据包时，数据包的传输流程如下：（假设三层交换机上当前还未建立任何硬件转发表项）</p>
+<ol type="1">
+<li><p>PC A首先检查出目的IP地址2.1.1.2（PC B）与自己不在同一网段，觉得就这样直接发送肯定不行，于是把要发送的数据包先缓存起来。它知道这个数据包必须经过网关来转发，所以先查看一下自己是已经知道网关的MAC地址（也就是在PC A主机的ARP表中查看是否有与网关IP地址对应的MAC地址表项）。如果有，则直接把要发送给PC B的数据包在封装成数据帧时，把“目的MAC地址”字段的值设为网关的MAC地址（也就是三层交换机的MAC地址MAC S，交换机上各端口、各VLAN是共享一个或多个MAC地址的）。</p></li>
+<li><p>如果PC A在自己的ARP表中没有找到网关MAC地址，则先向网关发出（其实是会向本VLAN内所有节点发出）一个ARP广播请求报文，以获取网关IP地址1.1.1.1所对应的MAC地址。此ARP请求报文的“源MAC地址”字段是PC A的MAC地址“MAC A”，“目的MAC地址”因为未知，以全0格式填充；“源IP地址”和“目的IP地址”字段分别填上PC A的IP地址（1.1.1.2）和网关的IP地址（1.1.1.1）。</p></li>
+</ol>
+<p>  ARP请求报文向下传输到了以太网数据链路层后被再次封装成以太网帧，以太网帧头中的“源MAC地址”字段值仍为PC A的MAC地址“MAC A”，“目的MAC地址”字段值为广播MAC地址FF-FF-FF-FF-FF-FF，“帧类型”字段填上ARP的协议号0x0806。</p>
+<ol start="3" type="1">
+<li>三层交换机在收到PC A发来的ARP请求报文后，检查请求报文发现被请求IP地址（也就是“目的IP地址”）是自己的三层接口IP地址，于是向 PCA 发回一个ARP应答报文，并将对应的三层接口MAC（MAC S）填充在应答报文中的“目的MAC地址“字段其中。同时通过对PC A发送的ARP请求报文分析，把PC A的IP地址与MAC地址对应关系（1.1.1.2&lt;==&gt;MAC A）记录到自己的ARP表中去，然后把PC A的IP地址（作为“目的IP地址”）、MAC地址（作为“下一跳MAC地址”），以及与交换机直接相连的端口号等信息下发到三层交换机ASIC芯片中的三层硬件转发表。此时在三层硬件转发表中就有了第一个转发表项，即PC A的转发表项。</li>
+</ol>
+<p>【说明】在三层交换机中，最关键的就是它有一个专门用于三层转发的“三层硬件转发表”，它和“ARP表”之间有联系，但也有区别。ARP表中只是IP地址和MAC地址的映射关系，不包括转发出口，也不包括对应的VLAN ID，而三层硬件转发表中则包括了全部这些，形成一个：目的IP地址、VLAN ID、端口和下一跳MAC地址的关系表项。因为在进行三层转发时，改变的是帧封装后的源和目的MAC地址这两个字段，原来输入IP包中的“目的MAC地址”作为转发的“下一跳MAC地址”，原来的“源MAC地址”改为三层交换机自身的MAC地址，源和目的IP地址都不变（因为这是封装在帧的“数据”部分）。另外，三层转发表是存储在ASCI硬件芯片上的，直接由ASIC芯片调用，而ARP表是存储在内存中，由CPU软件调用。但三层硬件转发表项还是由CPU提供的。</p>
+<ol start="4" type="1">
+<li><p>PC A在收到网关的ARP应答报文后，把要发送给PC B的数据包经过帧封装后的 “目的MAC地址”修改为网关MAC地址（MAC S1），其它不变，先把数据包发给网关（三层交换机）。</p></li>
+<li><p>三层交换机在收到这个数据包后，因为“目的MAC地址”为交换机自己的MAC地址，而且“目的IP地址”和“源IP地址”不在同一网段，所以会直接提交到负责三层交换的ASIC芯片，根据包中的“目的IP地址”（PC B的IP地址2.1.1.2）在三层硬件转发表中查看有无对应表项，因为是第一次通信，所以结果是查找失败，于是将数据包再转送到CPU去进行软件路由处理。</p></li>
+<li><p>CPU同样会根据包中的“目的IP地址”去查找其软件路由表，发现匹配了一个直连网段（PC B对应的网段），于是继续查在ARP表中查找对应的MAC地址项。同样是由于是第一次查找，所以仍然查找失败。如果在ARP表中找到了对应的MAC地址，则数据可以直接由软件路由表转发了。</p></li>
+<li><p>下面仍以在ARP表中也没找到PC B对应的MAC地址为例进行介绍。此时三层交换机CPU会在PC B所在网段的AN 3中所有端口发送一个ARP广播请求报文，查找“目的IP地址”为2.1.1.2所对应MAC地址。报文经过帧封装后的“源MAC地址”是三层交换机的MAC地址（MAC S），“目的MAC地址”全为0，“源IP地址”是VLAN 3网段的网关IP地址（2.1.1.1），“目的IP地址”是PC B的IP地址（2.1.1.2）。</p></li>
+<li><p>PC B在收到三层交换机CPU发送的ARP请求报文后，检查发现被请求的IP地址是自己的IP地址，于是发送一个ARP应答报文，并将自己的MAC地址（MAC B）包含在其中。同时，将三层交换机上VLAN 3网段的网关IP地址与MAC地址的对应关系（2.1.1.1&lt;==&gt;MAC S）记录到自己的ARP表中去。</p></li>
+<li><p>三层交换机CPU在收到PC B的ARP应答报文后，将其IP地址和MAC地址对应关系（2.1.1.2&lt;==&gt;MAC B）记录到自己的ARP表中去，把PC B的IP地址、MAC地址、进入交换机的端口号等信息下发到三层交换机的三层转发中。此时转发表中就有到达PC A和PC B这两条对应的表项了。</p></li>
+<li><p>三层交换机CPU根据获得的PC B的MAC地址和端口信息，以及软件路由表信息，把由PC A发来的IP数据包转发给PC B，这样就完成了PC A到PC B的第一次单向通信。</p></li>
+</ol>
+<p>  由于芯片内部的三层引擎中已经保存了从PC A到达PC B的完整转发路径信息，所以以后PC A与PC B之间进行通信，或其它网段的站点想要与PC A或PC B进行通信时，三层交换机的ASIC芯片就会直接把包从对应的三层硬件转发表项中指定的端口转发出去，而不必再把包交给CPU进行路由处理。这就是所谓的“一次路由（指通过CPU路由表查到了对应的直连网段），多次交换”的原理，大大提高了转发速度。</p>
+<h4 id="三层交换机和路由器的区别">三层交换机和路由器的区别</h4>
+<p>  三层交换机与路由器的主要区别，之所以有人搞不清三层交换机和路由器之间的区别，最根本就是三层交换机也具有“路由”功能，与传统路由器的路由功能总体上是一致的。虽然如此，三层交换机与路由器还是存在着相当大的本质区别的。</p>
+<ol type="1">
+<li>主要功能不同</li>
+</ol>
+<p>  虽然三层交换机与路由器都具有路由功能，但我们不能因此而把它们等同起来，正如现在许多网络设备同时具备多种传统网络设备功能一样，就如现在有许多宽带路由器不仅具有路由功能，还提供了交换机端口、硬件防火墙功能，但不能把它与交换机或者防火墙等同起来一样。因为这些路由器的主要功能还是路由功能，其它功能只不过是其附加功能，其目的是使设备适用面更广、使其更加实用。这里的三层交换机也一样，它仍是交换机产品，只不过它是具备了一些基本的路由功能的交换机，它的主要功能仍是数据交换。也就是说它同时具备了数据交换和路由转发两种功能，但其主要功能还是数据交换；而路由器仅具有路由转发这一种主要功能。</p>
+<ol start="2" type="1">
+<li>主要适用的环境不一样</li>
+</ol>
+<p>  三层交换机的路由功能通常比较简单，因为它所面对的主要是简单的局域网连接。正因如此，三层交换机的路由功能通常比较简单，路由路径远没有路由器那么复杂。它用在局域网中的主要用途还是提供快速数据交换功能，满足局域网数据交换频繁的应用特点。 而路由器则不同，它的设计初哀就是为了满足不同类型的网络连接，虽然也适用于局域网之间的连接，但它的路由功能更多的体现在不同类型网络之间的互联上，如局域网与广域网之间的连接、不同协议的网络之间的连接等，所以路由器主要是用于不同类型的网络之间。它最主要的功能就是路由转发，解决好各种复杂路由路径网络的连接就是它的最终目的，所以路由器的路由功能通常非常强大，不仅适用于同种协议的局域网间，更适用于不同协议的局域网与广域网间。它的优势在于选择最佳路由、负荷分担、链路备份及和其他网络进行路由信息的交换等等路由器所具有功能。</p>
+<ol start="3" type="1">
+<li>性能体现不一样</li>
+</ol>
+<p>  从技术上讲，路由器和三层交换机在数据包交换操作上存在着明显区别。路由器一般由基于cpu的软件路由引擎执行数据包交换，而三层交换机通过硬件执行数据包交换。三层交换机在对第一个数据流进行路由后，它将会产生一个MAC地址与IP地址的映射表，当同样的数据流再次通过时，将根据此表直接从二层通过而不是再次路由，从而消除了路由器进行路由选择而造成网络的延迟，提高了数据包转发的效率。同时，三层交换机的路由查找是针对数据流的，它利用缓存技术，很容易利用ASIC技术来实现，因此，可以大大节约成本，并实现快速转发。而路由器的转发采用最长匹配的方式，实现复杂，通常使用软件来实现，转发效率较低。 正因如此，从整体性能上比较的话，三层交换机的性能要远优于路由器，非常适用于数据交换频繁的局域网中；而路由器虽然路由功能非常强大，但它的数据包转发效率远低于三层交换机，更适合于数据交换不是很频繁的不同类型网络的互联，如局域网与互联网的互联。如果把路由器，特别是高档路由器用于局域网中，则在相当大程度上是一种浪费（就其强大的路由功能而言），而且还不能很好地满足局域网通信性能需求，影响子网间的正常通信。</p>
+<p>  综上所述，三层交换机与路由器之间还是存在着非常大的本质区别的。无论从哪方面来说，在局域网中进行多子网连接，最好还选用三层交换机，特别是在不同子网数据交换频繁的环境中。一方面可以确保子网间的通信性能需求，另一方面省去了另外购买交换机的投资。当然，如果子网间的通信不是很频繁，采用路由器也无可厚非，也可达到子网安全隔离相互通信的目的，具体要根据实际需求来定。</p>
 
     </div>
 
@@ -495,7 +555,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E5%B1%82%E4%B8%BB%E8%A6%81%E4%BD%9C%E7%94%A8"><span class="nav-number">1.</span> <span class="nav-text">网络层主要作用：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ip%E5%8D%8F%E8%AE%AE%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%8A%9F%E8%83%BD"><span class="nav-number">2.</span> <span class="nav-text">IP协议的基本功能：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ipv4%E6%95%B0%E6%8D%AE%E6%8A%A5%E5%A4%B4%E9%83%A8%E6%A0%BC%E5%BC%8F"><span class="nav-number">3.</span> <span class="nav-text">IPv4数据报头部格式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%89%88%E6%9C%ACversion"><span class="nav-number">3.1.</span> <span class="nav-text">版本（Version）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A4%B4%E9%83%A8%E9%95%BF%E5%BA%A6header-length"><span class="nav-number">3.2.</span> <span class="nav-text">头部长度（Header Length）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8C%BA%E5%88%86%E6%9C%8D%E5%8A%A1differentialted-services"><span class="nav-number">3.3.</span> <span class="nav-text">区分服务（Differentialted Services）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%80%BB%E9%95%BF%E5%BA%A6total-length"><span class="nav-number">3.4.</span> <span class="nav-text">总长度（Total Length）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A0%87%E8%AF%86identification"><span class="nav-number">3.5.</span> <span class="nav-text">标识（Identification）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A0%87%E5%BF%97flags"><span class="nav-number">3.6.</span> <span class="nav-text">标志（Flags）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%AE%B5%E5%81%8F%E7%A7%BBfragment-offset"><span class="nav-number">3.7.</span> <span class="nav-text">段偏移（Fragment Offset）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%94%9F%E5%AD%98%E6%97%B6%E9%97%B4time-to-live"><span class="nav-number">3.8.</span> <span class="nav-text">生存时间（Time To Live）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8D%8F%E8%AE%AEprotocol"><span class="nav-number">3.9.</span> <span class="nav-text">协议（Protocol）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A0%A1%E9%AA%8C%E5%92%8Cchecksum"><span class="nav-number">3.10.</span> <span class="nav-text">校验和（Checksum）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%BA%90%E5%9C%B0%E5%9D%80%E7%9B%AE%E7%9A%84%E5%9C%B0%E5%9D%80source-addressdestination-address"><span class="nav-number">3.11.</span> <span class="nav-text">源地址&#x2F;目的地址（Source Address&#x2F;Destination Address）</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#arp%E5%8D%8F%E8%AE%AE"><span class="nav-number">4.</span> <span class="nav-text">ARP协议</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#arp%E5%8D%8F%E8%AE%AE%E6%8A%A5%E6%96%87%E6%A0%BC%E5%BC%8F"><span class="nav-number">4.1.</span> <span class="nav-text">ARP协议报文格式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#arp%E5%9C%B0%E5%9D%80%E8%A7%A3%E6%9E%90%E5%8E%9F%E7%90%86"><span class="nav-number">4.2.</span> <span class="nav-text">ARP地址解析原理</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#icmp%E5%8D%8F%E8%AE%AE"><span class="nav-number">5.</span> <span class="nav-text">ICMP协议</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#icmp%E5%8D%8F%E8%AE%AE%E6%8A%A5%E6%96%87%E6%A0%BC%E5%BC%8F"><span class="nav-number">5.1.</span> <span class="nav-text">ICMP协议报文格式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84icmp%E6%8A%A5%E6%96%87"><span class="nav-number">5.2.</span> <span class="nav-text">常见的ICMP报文</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B7%AF%E7%94%B1%E5%92%8C%E8%B7%AF%E7%94%B1%E7%AE%97%E6%B3%95"><span class="nav-number">6.</span> <span class="nav-text">路由和路由算法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%B7%AF%E7%94%B1%E7%9A%84%E5%88%86%E7%B1%BB"><span class="nav-number">6.1.</span> <span class="nav-text">路由的分类</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%B7%AF%E7%94%B1%E7%AE%97%E6%B3%95"><span class="nav-number">6.2.</span> <span class="nav-text">路由算法</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">7.</span> <span class="nav-text">参考</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E5%B1%82%E4%B8%BB%E8%A6%81%E4%BD%9C%E7%94%A8"><span class="nav-number">1.</span> <span class="nav-text">网络层主要作用：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ip%E5%8D%8F%E8%AE%AE%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%8A%9F%E8%83%BD"><span class="nav-number">2.</span> <span class="nav-text">IP协议的基本功能：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ipv4%E6%95%B0%E6%8D%AE%E6%8A%A5%E5%A4%B4%E9%83%A8%E6%A0%BC%E5%BC%8F"><span class="nav-number">3.</span> <span class="nav-text">IPv4数据报头部格式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%89%88%E6%9C%ACversion"><span class="nav-number">3.1.</span> <span class="nav-text">版本（Version）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A4%B4%E9%83%A8%E9%95%BF%E5%BA%A6header-length"><span class="nav-number">3.2.</span> <span class="nav-text">头部长度（Header Length）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8C%BA%E5%88%86%E6%9C%8D%E5%8A%A1differentialted-services"><span class="nav-number">3.3.</span> <span class="nav-text">区分服务（Differentialted Services）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%80%BB%E9%95%BF%E5%BA%A6total-length"><span class="nav-number">3.4.</span> <span class="nav-text">总长度（Total Length）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A0%87%E8%AF%86identification"><span class="nav-number">3.5.</span> <span class="nav-text">标识（Identification）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A0%87%E5%BF%97flags"><span class="nav-number">3.6.</span> <span class="nav-text">标志（Flags）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%AE%B5%E5%81%8F%E7%A7%BBfragment-offset"><span class="nav-number">3.7.</span> <span class="nav-text">段偏移（Fragment Offset）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%94%9F%E5%AD%98%E6%97%B6%E9%97%B4time-to-live"><span class="nav-number">3.8.</span> <span class="nav-text">生存时间（Time To Live）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8D%8F%E8%AE%AEprotocol"><span class="nav-number">3.9.</span> <span class="nav-text">协议（Protocol）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A0%A1%E9%AA%8C%E5%92%8Cchecksum"><span class="nav-number">3.10.</span> <span class="nav-text">校验和（Checksum）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%BA%90%E5%9C%B0%E5%9D%80%E7%9B%AE%E7%9A%84%E5%9C%B0%E5%9D%80source-addressdestination-address"><span class="nav-number">3.11.</span> <span class="nav-text">源地址&#x2F;目的地址（Source Address&#x2F;Destination Address）</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#arp%E5%8D%8F%E8%AE%AE"><span class="nav-number">4.</span> <span class="nav-text">ARP协议</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#arp%E5%8D%8F%E8%AE%AE%E6%8A%A5%E6%96%87%E6%A0%BC%E5%BC%8F"><span class="nav-number">4.1.</span> <span class="nav-text">ARP协议报文格式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#arp%E5%9C%B0%E5%9D%80%E8%A7%A3%E6%9E%90%E5%8E%9F%E7%90%86"><span class="nav-number">4.2.</span> <span class="nav-text">ARP地址解析原理</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#icmp%E5%8D%8F%E8%AE%AE"><span class="nav-number">5.</span> <span class="nav-text">ICMP协议</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#icmp%E5%8D%8F%E8%AE%AE%E6%8A%A5%E6%96%87%E6%A0%BC%E5%BC%8F"><span class="nav-number">5.1.</span> <span class="nav-text">ICMP协议报文格式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84icmp%E6%8A%A5%E6%96%87"><span class="nav-number">5.2.</span> <span class="nav-text">常见的ICMP报文</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B7%AF%E7%94%B1%E5%92%8C%E8%B7%AF%E7%94%B1%E7%AE%97%E6%B3%95"><span class="nav-number">6.</span> <span class="nav-text">路由和路由算法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%B7%AF%E7%94%B1%E7%9A%84%E5%88%86%E7%B1%BB"><span class="nav-number">6.1.</span> <span class="nav-text">路由的分类</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%B7%AF%E7%94%B1%E7%AE%97%E6%B3%95"><span class="nav-number">6.2.</span> <span class="nav-text">路由算法</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%8C%E5%B1%82%E4%BA%A4%E6%8D%A2%E6%9C%BA%E5%92%8C%E4%B8%89%E5%B1%82%E4%BA%A4%E6%8D%A2%E6%9C%BA"><span class="nav-number">7.</span> <span class="nav-text">二层交换机和三层交换机</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%89%E5%B1%82%E4%BA%A4%E6%8D%A2%E6%9C%BA%E5%92%8C%E8%B7%AF%E7%94%B1%E5%99%A8%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">8.</span> <span class="nav-text">三层交换机和路由器的区别</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
