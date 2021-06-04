@@ -215,37 +215,34 @@
       
         <p>记录被坑惨的一天</p>
 <span id="more"></span>
-<h4 id="安装各种依赖包">安装各种依赖包</h4>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update </span><br><span class="line">sudo apt-get install git build-essential linux-libc-dev</span><br><span class="line">sudo apt-get install cmake cmake-gui</span><br><span class="line">sudo apt-get install libusb-1.0-0-dev libusb-dev libudev-dev</span><br><span class="line">sudo apt-get install mpi-default-dev openmpi-bin openmpi-common </span><br><span class="line"></span><br><span class="line">sudo apt-get install libflann1.9 libflann-dev</span><br><span class="line">sudo apt-get install libeigen3-dev //这个需要自己下载正确版本安装</span><br><span class="line">sudo apt-get install libboost-all-dev</span><br><span class="line">sudo apt-get install libvtk7.1-qt</span><br><span class="line">sudo apt-get install libvtk7.1 </span><br><span class="line">sudo apt-get install libvtk7-qt-dev（按照错误提示一步一步安装所需要的东西）</span><br><span class="line">sudo apt-get install libqhull* libgtest-dev</span><br><span class="line">sudo apt-get install freeglut3-dev pkg-config</span><br><span class="line">sudo apt-get install libxmu-dev libxi-dev</span><br><span class="line">sudo apt-get install mono-complete</span><br><span class="line">sudo apt-get install openjdk-8-jdk openjdk-8-jre</span><br><span class="line"></span><br><span class="line">sudo apt-get install libopencv-dev</span><br></pre></td></tr></table></figure>
-<h4 id="下载pcl">下载PCL</h4>
-<pre><code>git clone https://github.com/PointCloudLibrary/pcl.git</code></pre>
-<ul>
+<h4 id="安装各种依赖包"><a href="#安装各种依赖包" class="headerlink" title="安装各种依赖包"></a>安装各种依赖包</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update </span><br><span class="line">sudo apt-get install git build-essential linux-libc-dev</span><br><span class="line">sudo apt-get install cmake cmake-gui</span><br><span class="line">sudo apt-get install libusb-1.0-0-dev libusb-dev libudev-dev</span><br><span class="line">sudo apt-get install mpi-default-dev openmpi-bin openmpi-common </span><br><span class="line"></span><br><span class="line">sudo apt-get install libflann1.9 libflann-dev</span><br><span class="line">sudo apt-get install libeigen3-dev //这个需要自己下载正确版本安装</span><br><span class="line">sudo apt-get install libboost-all-dev</span><br><span class="line">sudo apt-get install libvtk7.1-qt</span><br><span class="line">sudo apt-get install libvtk7.1 </span><br><span class="line">sudo apt-get install libvtk7-qt-dev（按照错误提示一步一步安装所需要的东西）</span><br><span class="line">sudo apt-get install libqhull* libgtest-dev</span><br><span class="line">sudo apt-get install freeglut3-dev pkg-config</span><br><span class="line">sudo apt-get install libxmu-dev libxi-dev</span><br><span class="line">sudo apt-get install mono-complete</span><br><span class="line">sudo apt-get install openjdk-8-jdk openjdk-8-jre</span><br><span class="line"></span><br><span class="line">sudo apt-get install libopencv-dev</span><br></pre></td></tr></table></figure>
+<h4 id="下载PCL"><a href="#下载PCL" class="headerlink" title="下载PCL"></a>下载PCL</h4><pre><code>git clone https://github.com/PointCloudLibrary/pcl.git
+</code></pre><ul>
 <li>速度受限制的话可以clone到码云再下载</li>
 <li><strong>下载后的文件名称 一定要是pcl，不能带有其他字符</strong></li>
 </ul>
-<h4 id="编译">编译</h4>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cd pcl </span><br><span class="line">mkdir build </span><br><span class="line">cd build</span><br><span class="line">cmake -DCMAKE_BUILD_TYPE=None -DCMAKE_INSTALL_PREFIX=/usr \ -DBUILD_GPU=ON-DBUILD_apps=ON -DBUILD_examples=ON \ -DCMAKE_INSTALL_PREFIX=/usr .. </span><br><span class="line">make  //在build目录里，make -j4或-j8可加速</span><br><span class="line">sudo make install</span><br></pre></td></tr></table></figure>
+<h4 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cd pcl </span><br><span class="line">mkdir build </span><br><span class="line">cd build</span><br><span class="line">cmake -DCMAKE_BUILD_TYPE=None -DCMAKE_INSTALL_PREFIX=/usr \ -DBUILD_GPU=ON-DBUILD_apps=ON -DBUILD_examples=ON \ -DCMAKE_INSTALL_PREFIX=/usr .. </span><br><span class="line">make  //在build目录里，make -j4或-j8可加速</span><br><span class="line">sudo make install</span><br></pre></td></tr></table></figure>
 <p>第五步make编译的时候可能会报错：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">/usr/lib/x86_64-linux-gnu/libSM.so: undefined reference to `uuid_generate@UUID_1.0&#x27;</span><br><span class="line">/usr/lib/x86_64-linux-gnu/libSM.so: undefined reference to `uuid_unparse_lower@UUID_1.0&#x27;</span><br><span class="line">collect2: error: ld returned 1 exit status</span><br><span class="line">outofcore/tools/CMakeFiles/pcl_outofcore_viewer.dir/build.make:367: recipe for target &#x27;bin/pcl_outofcore_viewer&#x27; failed</span><br><span class="line">make[2]: *** [bin/pcl_outofcore_viewer] Error 1</span><br><span class="line">CMakeFiles/Makefile2:1853: recipe for target &#x27;outofcore/tools/CMakeFiles/pcl_outofcore_viewer.dir/all&#x27; failed</span><br><span class="line">make[1]: *** [outofcore/tools/CMakeFiles/pcl_outofcore_viewer.dir/all] Error 2</span><br><span class="line">Makefile:151: recipe for target &#x27;all&#x27; failed</span><br><span class="line">make: *** [all] Error 2</span><br></pre></td></tr></table></figure>
 <p>解决办法：</p>
-<ol type="1">
+<ol>
 <li>清空build里的文件 <code>rm -r build</code></li>
 <li>输入获取当前环境变量的命令</li>
 </ol>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">echo $PATH </span><br><span class="line">/opt/ros/melodic/bin:/usr/local/anaconda3/bin:/usr/local/anaconda3/condabin:</span><br><span class="line">/home/qm/.local/bin:/usr/local/anconda3/bin:/usr/local/sbin:/usr/local/bin:</span><br><span class="line">/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin</span><br></pre></td></tr></table></figure>
-<ol start="3" type="1">
+<ol>
 <li>把路径中带有conda的内容删掉并复制剩余内容</li>
 <li>终端执行<code>PATH=NEW_PATH</code>，其中NEW_PATH就是刚才复制的新路径（临时更改环境变量）</li>
 </ol>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">PATH=/usr/local/sbin:/usr/local/bin:</span><br><span class="line">/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin</span><br></pre></td></tr></table></figure>
-<ol start="5" type="1">
+<ol>
 <li>再次执行<code>echo $PATH</code>发现带有conda的目录被移除</li>
-<li><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cmake -DCMAKE_BUILD_TYPE=None -DCMAKE_INSTALL_PREFIX=/usr \ -DBUILD_GPU=ON-DBUILD_apps=ON -DBUILD_examples=ON \ -DCMAKE_INSTALL_PREFIX=/usr .. </span><br><span class="line">make -j4/8 </span><br><span class="line">sudo make install</span><br></pre></td></tr></table></figure></li>
-<li><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install pcl-tools</span><br></pre></td></tr></table></figure></li>
+<li><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cmake -DCMAKE_BUILD_TYPE=None -DCMAKE_INSTALL_PREFIX=/usr \ -DBUILD_GPU=ON-DBUILD_apps=ON -DBUILD_examples=ON \ -DCMAKE_INSTALL_PREFIX=/usr .. </span><br><span class="line">make -j4/8 </span><br><span class="line">sudo make install</span><br></pre></td></tr></table></figure>
+</li>
+<li><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install pcl-tools</span><br></pre></td></tr></table></figure>
+</li>
 </ol>
-<h4 id="安装完成并验证">安装完成并验证</h4>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd到pcl/test目录中</span><br><span class="line">pcl_viewer car6.pcd</span><br></pre></td></tr></table></figure>
-
+<h4 id="安装完成并验证"><a href="#安装完成并验证" class="headerlink" title="安装完成并验证"></a>安装完成并验证</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd到pcl/test目录中</span><br><span class="line">pcl_viewer car6.pcd</span><br></pre></td></tr></table></figure>
     </div>
 
     
@@ -325,7 +322,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E5%90%84%E7%A7%8D%E4%BE%9D%E8%B5%96%E5%8C%85"><span class="nav-number">1.</span> <span class="nav-text">安装各种依赖包</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%8B%E8%BD%BDpcl"><span class="nav-number">2.</span> <span class="nav-text">下载PCL</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BC%96%E8%AF%91"><span class="nav-number">3.</span> <span class="nav-text">编译</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E5%AE%8C%E6%88%90%E5%B9%B6%E9%AA%8C%E8%AF%81"><span class="nav-number">4.</span> <span class="nav-text">安装完成并验证</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E5%90%84%E7%A7%8D%E4%BE%9D%E8%B5%96%E5%8C%85"><span class="nav-number">1.</span> <span class="nav-text">安装各种依赖包</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%8B%E8%BD%BDPCL"><span class="nav-number">2.</span> <span class="nav-text">下载PCL</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BC%96%E8%AF%91"><span class="nav-number">3.</span> <span class="nav-text">编译</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E5%AE%8C%E6%88%90%E5%B9%B6%E9%AA%8C%E8%AF%81"><span class="nav-number">4.</span> <span class="nav-text">安装完成并验证</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -341,7 +338,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-count">12</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -354,7 +351,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-count">12</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
