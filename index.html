@@ -268,7 +268,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2021-06-05 10:03:30 / 修改时间：10:35:25" itemprop="dateCreated datePublished" datetime="2021-06-05T10:03:30+08:00">2021-06-05</time>
+              <time title="创建时间：2021-06-05 10:03:30 / 修改时间：11:45:08" itemprop="dateCreated datePublished" datetime="2021-06-05T10:03:30+08:00">2021-06-05</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -352,14 +352,25 @@
 <li>慢开始门限 ssthresh（状态变量）：防止拥塞窗口cwnd增长过大引起网络拥塞，当我们发送的报文段数量达到慢开始门限后，就会从慢开始阶段转换为拥塞避免阶段</li>
 </ul>
 <blockquote>
-<p>慢开始门限 ssthresh 的用法如下： 当 cwnd &lt; ssthresh 时，使用慢开始算法 当 cwnd &gt; ssthresh 时，停止使用慢开始算法而改用拥塞避免算法 当 cwnd = ssthresh 时，既可使用慢开始算法，也可使用拥塞避免算法</p>
+<p>慢开始门限 ssthresh 的用法如下：</p>
+<ul>
+<li><p>当 cwnd &lt; ssthresh 时，使用慢开始算法</p></li>
+<li><p>当 cwnd &gt; ssthresh 时，停止使用慢开始算法而改用拥塞避免算法</p></li>
+<li><p>当 cwnd = ssthresh 时，既可使用慢开始算法，也可使用拥塞避免算法</p></li>
+</ul>
 </blockquote>
 <ul>
 <li>拥塞窗口 cwnd 控制方法：在每收到一个对新的报文段的确认后，可以把拥塞窗口增加最多一个 SMSS 的数值，拥塞窗口 cwnd 每次的增加量 = min{N, SMSS}，即在N和SMSS之中取一个最小值，其中** N 是原先未被确认的，但现在是被刚收到的确认报文段所确认的字节数**，不难看出，当 N &lt; SMSS 时，拥塞窗口每次的增加量要小于 SMSS。用这样的方法逐步增大发送方的拥塞窗口 cwnd，可以使分组注入到网络的速率更加合理</li>
 </ul>
 <p><img src="/2021/06/05/TCP%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6/20200307225634244.png"></p>
 <blockquote>
-<p>传输轮次： 使用慢开始算法后，每经过一个传输轮次 (transmission round)，拥塞窗口 cwnd 就加倍 一个传输轮次所经历的时间其实就是往返时间 RTT "传输轮次"更加强调：把拥塞窗口 cwnd 所允许发送的报文段都连续发送出去，并收到了对已发送的最后一个字节的确认 例如，拥塞窗口 cwnd = 4，这时的往返时间 RTT 就是发送方连续发送 4 个报文段，并收到这 4 个报文段的确认，总共经历的时间</p>
+<p>传输轮次：</p>
+<ul>
+<li><p>使用慢开始算法后，每经过一个传输轮次 (transmission round)，拥塞窗口 cwnd 就加倍</p></li>
+<li><p>一个传输轮次所经历的时间其实就是往返时间 RTT</p></li>
+<li><p>"传输轮次"更加强调：把拥塞窗口 cwnd 所允许发送的报文段都连续发送出去，并收到了对已发送的最后一个字节的确认</p></li>
+<li><p>例如，拥塞窗口 cwnd = 4，这时的往返时间 RTT 就是发送方连续发送 4 个报文段，并收到这 4 个报文段的确认，总共经历的时间</p></li>
+</ul>
 </blockquote>
 <h4 id="拥塞避免算法">拥塞避免算法</h4>
 <p>首先要提出一点，拥塞避免算法并不是完全避免拥塞，而是让拥塞来的更慢一些</p>
@@ -473,7 +484,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2021-06-05 09:09:34 / 修改时间：11:01:27" itemprop="dateCreated datePublished" datetime="2021-06-05T09:09:34+08:00">2021-06-05</time>
+              <time title="创建时间：2021-06-05 09:09:34 / 修改时间：11:42:55" itemprop="dateCreated datePublished" datetime="2021-06-05T09:09:34+08:00">2021-06-05</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
