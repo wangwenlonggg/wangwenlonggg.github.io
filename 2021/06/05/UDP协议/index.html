@@ -20,12 +20,12 @@
     var CONFIG = {"hostname":"wangwenlonggg.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="概述 用户数据报协议（UDP，User Datagram Protocol），UDP作为传输层的一个重要的协议，它的主要的功能是在IP端到端的服务之上，增加了有限的两个功能：  复用和分用的功能 差错检测的功能">
+  <meta name="description" content="概述用户数据报协议（UDP，User Datagram Protocol），UDP作为传输层的一个重要的协议，它的主要的功能是在IP端到端的服务之上，增加了有限的两个功能：  复用和分用的功能 差错检测的功能">
 <meta property="og:type" content="article">
 <meta property="og:title" content="UDP协议">
 <meta property="og:url" content="http://wangwenlonggg.github.io/2021/06/05/UDP%E5%8D%8F%E8%AE%AE/index.html">
 <meta property="og:site_name" content="wangwenlonggg">
-<meta property="og:description" content="概述 用户数据报协议（UDP，User Datagram Protocol），UDP作为传输层的一个重要的协议，它的主要的功能是在IP端到端的服务之上，增加了有限的两个功能：  复用和分用的功能 差错检测的功能">
+<meta property="og:description" content="概述用户数据报协议（UDP，User Datagram Protocol），UDP作为传输层的一个重要的协议，它的主要的功能是在IP端到端的服务之上，增加了有限的两个功能：  复用和分用的功能 差错检测的功能">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://wangwenlonggg.github.io/2021/06/05/UDP%E5%8D%8F%E8%AE%AE/20200307141819316.png">
 <meta property="og:image" content="http://wangwenlonggg.github.io/2021/06/05/UDP%E5%8D%8F%E8%AE%AE/20200307142357399.png">
@@ -215,20 +215,18 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="概述">概述</h3>
-<p>用户数据报协议（UDP，User Datagram Protocol），UDP作为传输层的一个重要的协议，它的主要的功能是在IP端到端的服务之上，增加了有限的两个功能：</p>
-<ol type="1">
+        <h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>用户数据报协议（UDP，User Datagram Protocol），UDP作为传输层的一个重要的协议，它的主要的功能是在IP端到端的服务之上，增加了有限的两个功能：</p>
+<ol>
 <li>复用和分用的功能</li>
 <li>差错检测的功能</li>
 </ol>
 <span id="more"></span>
 <p>另外，虽然UDP协议只提供不可靠的交付，看起来似乎非常不完美，但是UDP协议在某些方面具有特殊的优点：</p>
-<ol type="1">
+<ol>
 <li>比如我们在看在线视频的时候我们要求数据是最新的最快的，如果这个时候要求数据的准确性，那么会带来较大的延迟，就像我们在看直播球赛的时候，我们希望看到准备直播画面，而不是有延迟半分钟或一分钟的画面</li>
 <li>另外一个典型的例子，比如在网络管理过程中我们希望采集到网络的实时数据，这个时候网络管理会使用某种基于UDP协议的方式，采集到最新最快的数据，若是采集过来的数据有延迟，那么这个数据已经不是实时数据了，不能表示此时网络的状况了</li>
 </ol>
-<h3 id="udp的主要特点">UDP的主要特点</h3>
-<ol type="1">
+<h3 id="UDP的主要特点"><a href="#UDP的主要特点" class="headerlink" title="UDP的主要特点"></a>UDP的主要特点</h3><ol>
 <li>UDP 是<strong>无连接</strong>的：发送数据之前不需要建立连接，因此减少了开销和发送数据之前的时延，这个特点是UDP协议的首要特点，可以这么说，UDP其他的特点，都是或多或少源自于这个特点</li>
 <li>UDP 使用尽最大努力交付：即不保证可靠交付，因此主机不需要维持复杂的连接状态表，发送端只需要把数据打包成UDP数据报，交给IP协议传输，中间经过了哪些路由器，最后有没有到达目的主机，数据有没有出错，需不需要重传，这些主机问题都不知道</li>
 <li>UDP 是<strong>面向报文</strong>的：所谓报文就是应用层交下来的报文，应用层有各种各样的报文，比如HTTP报文，FTP报文等，根据不同的应用层协议封装成不同的报文，UDP 对应用层交下来的报文，既不合并，也不拆分，而是保留这些报文的边界。UDP 一次交付一个完整的报文，在网络层，IP协议可能会进行拆分工作</li>
@@ -236,47 +234,44 @@
 <blockquote>
 <p>应用程序必须选择合适大小的报文</p>
 <ul>
-<li><p>若报文太长，UDP 把它交给 IP 层后，IP 层在传送时可能要进行分片，这会降低 IP 层的效率</p></li>
-<li><p>若报文太短，UDP 把它交给 IP 层后，会使 IP 数据报的首部的相对长度太大，这也降低了 IP 层的效率</p></li>
+<li><p>若报文太长，UDP 把它交给 IP 层后，IP 层在传送时可能要进行分片，这会降低 IP 层的效率</p>
+</li>
+<li><p>若报文太短，UDP 把它交给 IP 层后，会使 IP 数据报的首部的相对长度太大，这也降低了 IP 层的效率</p>
+</li>
 </ul>
 </blockquote>
-<ol start="4" type="1">
+<ol>
 <li>UDP 没有拥塞控制：因此网络出现的拥塞不会使源主机的发送速率降低。这对某些实时应用是很重要的。很适合多媒体通信的要求，也就是说使用UDP协议的发送端，完全不会感知当前网路的状态是拥塞还是通畅，UDP协议还是会发送出去</li>
 <li>UDP 支持一对一、一对多、多对一和多对多的交互通信：这时目的主机不一定是单个主机，有可能是多个主机同时接收到发送端发送的UDP报文</li>
 <li>UDP 的首部开销小：<strong>只有 8 个字节</strong>，比 TCP 的 20 个字节的首部要短，这样也就意味着把数据组成UDP报文时所要做的工作更少，消耗资源小，发送速度也更快</li>
 </ol>
-<h3 id="udp首部格式">UDP首部格式</h3>
-<h4 id="传输关系">传输关系</h4>
-<p>UDP协议作为传输层的一个经典协议，它和上下层的传输关系如下：</p>
-<ol type="1">
+<h3 id="UDP首部格式"><a href="#UDP首部格式" class="headerlink" title="UDP首部格式"></a>UDP首部格式</h3><h4 id="传输关系"><a href="#传输关系" class="headerlink" title="传输关系"></a>传输关系</h4><p>UDP协议作为传输层的一个经典协议，它和上下层的传输关系如下：</p>
+<ol>
 <li>应用层会把应用层报文交付给运输层</li>
 <li>运输层的UDP协议，直接把上层交付下来的所有数据当作UDP数据报的数据部分，再加上UDP首部交付给下层IP层</li>
 <li>IP层把运输层交付下来的整个UDP数据报当作IP数据报的数据部分，再加上IP首部，继续交给下一层</li>
 </ol>
-<p><img src="/2021/06/05/UDP%E5%8D%8F%E8%AE%AE/20200307141819316.png"></p>
-<p><img src="/2021/06/05/UDP%E5%8D%8F%E8%AE%AE/20200307142357399.png"></p>
-<h4 id="首部格式">首部格式</h4>
-<ul>
+<p><img src="/2021/06/05/UDP%E5%8D%8F%E8%AE%AE/20200307141819316.png" alt></p>
+<p><img src="/2021/06/05/UDP%E5%8D%8F%E8%AE%AE/20200307142357399.png" alt></p>
+<h4 id="首部格式"><a href="#首部格式" class="headerlink" title="首部格式"></a>首部格式</h4><ul>
 <li>除去两个端口号字段，还有一个长度字段，它用来标明整个UDP报文的长度是多少，最后一个字段是校验和字段，它实现了对整个UDP报文的校验功能</li>
 </ul>
-<p><img src="/2021/06/05/UDP%E5%8D%8F%E8%AE%AE/2020030714273429.png"></p>
-<h4 id="udp-基于端口的分用和复用">UDP 基于端口的分用和复用</h4>
-<ol type="1">
+<p><img src="/2021/06/05/UDP%E5%8D%8F%E8%AE%AE/2020030714273429.png" alt></p>
+<h4 id="UDP-基于端口的分用和复用"><a href="#UDP-基于端口的分用和复用" class="headerlink" title="UDP 基于端口的分用和复用"></a>UDP 基于端口的分用和复用</h4><ol>
 <li>在UDP首部前两个字段当中，是源端口和目的端口，从接收端来讲，当接收端从 UDP报文中拆解出两个端口号之后，会根据端口号标识的内容，发送给上一层的应用程序，从而实现了端口的分用</li>
 <li>复用是分用的相反过程，应用程序把数据交付下来之后，其中的端口号就标明了这是哪一个应用进程</li>
 </ol>
-<p><img src="/2021/06/05/UDP%E5%8D%8F%E8%AE%AE/2020030714330598.png"></p>
-<h4 id="udp校验">UDP校验</h4>
-<ul>
-<li>在计算检验和时，临时把"伪首部"和 UDP 用户数据报连接在一起。伪首部仅仅是为了计算检验和</li>
+<p><img src="/2021/06/05/UDP%E5%8D%8F%E8%AE%AE/2020030714330598.png" alt></p>
+<h4 id="UDP校验"><a href="#UDP校验" class="headerlink" title="UDP校验"></a>UDP校验</h4><ul>
+<li>在计算检验和时，临时把”伪首部”和 UDP 用户数据报连接在一起。伪首部仅仅是为了计算检验和</li>
 </ul>
-<p><img src="/2021/06/05/UDP%E5%8D%8F%E8%AE%AE/20200307143933688.png"></p>
+<p><img src="/2021/06/05/UDP%E5%8D%8F%E8%AE%AE/20200307143933688.png" alt></p>
 <ul>
 <li>所谓伪首部，可以理解它就是一个假的，它并没有一个实际的地址空间，在进行UDP报文封装的时候并没有这部分内容，要不然UDP协议的首部是20 (8+12) 个字节，而不是我们所说的8个字节，实际传输过程中，也并没有这样的字段</li>
 <li>设置这个伪首部，只是为了计算 校验和，这个伪首部包含的内容，如上图所示，这就有所疑问了，对于运输层来讲，本身没有IP地址这一概念，因为IP地址是在网络层中路由器转发所用的地址，为了计算校验和而强制引入的伪首部，包含IP地址信息，实际上会破坏网络分层，引入伪首部的目的，就是为了让UDP两次检查数据是不是正确的到达了目的地，其中一次是对UDP端口号和其他数据的校验，另一次是对IP地址的再校验，因为IP地址再路由器转发过程中，有可能会发现IP地址错误，所以UDP协议觉得IP地址校验是很有必要的</li>
 <li>如下就是校验的例子，简单来说就是把首部部分，每2个字节写成一行，然后按列排下来，每一列对应的每一位进行求和，得出来的结果再求反码，再将其放入校验和的位置中</li>
 </ul>
-<p><img src="/2021/06/05/UDP%E5%8D%8F%E8%AE%AE/20200307145415697.png"></p>
+<p><img src="/2021/06/05/UDP%E5%8D%8F%E8%AE%AE/20200307145415697.png" alt></p>
 
     </div>
 
@@ -360,7 +355,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#udp%E7%9A%84%E4%B8%BB%E8%A6%81%E7%89%B9%E7%82%B9"><span class="nav-number">2.</span> <span class="nav-text">UDP的主要特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#udp%E9%A6%96%E9%83%A8%E6%A0%BC%E5%BC%8F"><span class="nav-number">3.</span> <span class="nav-text">UDP首部格式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BC%A0%E8%BE%93%E5%85%B3%E7%B3%BB"><span class="nav-number">3.1.</span> <span class="nav-text">传输关系</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A6%96%E9%83%A8%E6%A0%BC%E5%BC%8F"><span class="nav-number">3.2.</span> <span class="nav-text">首部格式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#udp-%E5%9F%BA%E4%BA%8E%E7%AB%AF%E5%8F%A3%E7%9A%84%E5%88%86%E7%94%A8%E5%92%8C%E5%A4%8D%E7%94%A8"><span class="nav-number">3.3.</span> <span class="nav-text">UDP 基于端口的分用和复用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#udp%E6%A0%A1%E9%AA%8C"><span class="nav-number">3.4.</span> <span class="nav-text">UDP校验</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UDP%E7%9A%84%E4%B8%BB%E8%A6%81%E7%89%B9%E7%82%B9"><span class="nav-number">2.</span> <span class="nav-text">UDP的主要特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UDP%E9%A6%96%E9%83%A8%E6%A0%BC%E5%BC%8F"><span class="nav-number">3.</span> <span class="nav-text">UDP首部格式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BC%A0%E8%BE%93%E5%85%B3%E7%B3%BB"><span class="nav-number">3.1.</span> <span class="nav-text">传输关系</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A6%96%E9%83%A8%E6%A0%BC%E5%BC%8F"><span class="nav-number">3.2.</span> <span class="nav-text">首部格式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#UDP-%E5%9F%BA%E4%BA%8E%E7%AB%AF%E5%8F%A3%E7%9A%84%E5%88%86%E7%94%A8%E5%92%8C%E5%A4%8D%E7%94%A8"><span class="nav-number">3.3.</span> <span class="nav-text">UDP 基于端口的分用和复用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#UDP%E6%A0%A1%E9%AA%8C"><span class="nav-number">3.4.</span> <span class="nav-text">UDP校验</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

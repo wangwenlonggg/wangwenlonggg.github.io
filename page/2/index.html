@@ -211,8 +211,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="dhcp简介">DHCP简介</h3>
-<p>  DHCP（<strong>Dynamic Host Configuration Protocol，动态主机配置协议</strong>）使用UDP协议工作，采用67（DHCP服务器端）和68（DHCP客户端）两个端口号。546号端口用于DHCPv6 Client，而不用于DHCPv4，是为DHCP failover服务。DHCP客户端向DHCP服务器发送的报文称之为DHCP请求报文，而DHCP服务器向DHCP客户端发送的报文称之为DHCP应答报文。DHCP采用C/S（客户端/服务器）模式，可以为客户机自动分配IP地址、子网掩码以及缺省网关、DNS服务器的IP地址等，并能够提升地址的使用率。</p>
+          <h3 id="DHCP简介"><a href="#DHCP简介" class="headerlink" title="DHCP简介"></a>DHCP简介</h3><p>&emsp;&emsp;DHCP（<strong>Dynamic Host Configuration Protocol，动态主机配置协议</strong>）使用UDP协议工作，采用67（DHCP服务器端）和68（DHCP客户端）两个端口号。546号端口用于DHCPv6 Client，而不用于DHCPv4，是为DHCP failover服务。DHCP客户端向DHCP服务器发送的报文称之为DHCP请求报文，而DHCP服务器向DHCP客户端发送的报文称之为DHCP应答报文。DHCP采用C/S（客户端/服务器）模式，可以为客户机自动分配IP地址、子网掩码以及缺省网关、DNS服务器的IP地址等，并能够提升地址的使用率。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2021/06/04/DHCP%E5%8D%8F%E8%AE%AE/#more" rel="contents">
@@ -293,8 +292,8 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>  "网络层（在TCP/IP体系结构中称为网际互连层）既要解决不同网络节点间通信的路由和协议识别问题，又要通过路由选择策略解决网络拥塞问题，尽可能提高网络通信的可靠性。"</p>
-<p>  "网络层中的每个网络都通过其网络地址，即NSAP（网络服务访问点）来标识，网络中的每个节点都有一个NASP，这个NASP就是由对应网络所运行的网络层通信协议来定义的，在TCP/IP协议网络中，这个协议就是IP协议，对应的NASP就是IP地址。"</p>
+          <p>&emsp;&emsp;”网络层（在TCP/IP体系结构中称为网际互连层）既要解决不同网络节点间通信的路由和协议识别问题，又要通过路由选择策略解决网络拥塞问题，尽可能提高网络通信的可靠性。”</p>
+<p>&emsp;&emsp;”网络层中的每个网络都通过其网络地址，即NSAP（网络服务访问点）来标识，网络中的每个节点都有一个NASP，这个NASP就是由对应网络所运行的网络层通信协议来定义的，在TCP/IP协议网络中，这个协议就是IP协议，对应的NASP就是IP地址。”</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2021/06/03/%E7%BD%91%E7%BB%9C%E5%B1%82/#more" rel="contents">
@@ -370,10 +369,10 @@
 
       
           <p>PPA软件源，全称是Personal Package Archives</p>
-<ol type="1">
+<ol>
 <li>介绍</li>
 </ol>
-<p>  虽然Ubuntu官方软件仓库尽可能囊括所有的开源软件，但仍有很多软件包由于各种原因不能进入官方软件仓库。为了方便Ubuntu用户使用，launchpad.net提供了个人软件包集，即PPA，允许用户建立自己的软件仓库，通过Launchpad进行编译并发布为2进制软件包，作为apt/新的源供其他用户下载和更新。PPA也被用来对一些打算进入Ubuntu官方仓库的软件，或者某些软件的新版本进行测试。</p>
+<p>&emsp;&emsp;虽然Ubuntu官方软件仓库尽可能囊括所有的开源软件，但仍有很多软件包由于各种原因不能进入官方软件仓库。为了方便Ubuntu用户使用，launchpad.net提供了个人软件包集，即PPA，允许用户建立自己的软件仓库，通过Launchpad进行编译并发布为2进制软件包，作为apt/新的源供其他用户下载和更新。PPA也被用来对一些打算进入Ubuntu官方仓库的软件，或者某些软件的新版本进行测试。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2021/05/30/Ubuntu-PPA%E8%BD%AF%E4%BB%B6%E6%BA%90%E7%9A%84%E4%BB%8B%E7%BB%8D%E4%B8%8E%E4%BD%BF%E7%94%A8/#more" rel="contents">
@@ -535,8 +534,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>  "我们已经说过了物理层的作用是要尽可能地屏蔽掉不同传输媒体和通信手段的差异来传输比特流，这样能使物理层上面的数据链路层感觉不到这些差异。<br>
-  数据链路层和它下面的物理层其实本质作用都是一样的，就是用来构建进行网络通信、访问的通道，只不过物理层构建的是一条物理通道，而数据链路层构建的是真正用于数据传输的逻辑通道。"</p>
+          <p>&emsp;&emsp;”我们已经说过了物理层的作用是要尽可能地屏蔽掉不同传输媒体和通信手段的差异来传输比特流，这样能使物理层上面的数据链路层感觉不到这些差异。<br>&emsp;&emsp;数据链路层和它下面的物理层其实本质作用都是一样的，就是用来构建进行网络通信、访问的通道，只不过物理层构建的是一条物理通道，而数据链路层构建的是真正用于数据传输的逻辑通道。”</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2021/05/27/%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/#more" rel="contents">
@@ -617,8 +615,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="问题描述">问题描述</h2>
-<p>点云配准（Point Cloud Registration）指的是输入两幅点云 <span class="math inline">\(P_s\)</span> (source) 和 <span class="math inline">\(P_t\)</span> (target) ，输出一个变换 T 使得 T( <span class="math inline">\(P_s\)</span> ) 和 <span class="math inline">\(P_t\)</span> 的重合程度尽可能高。变换 T 可以是刚性的(rigid)，也可以不是，本文下面只考虑刚性变换，即变换只包括旋转、平移。</p>
+          <h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p>点云配准（Point Cloud Registration）指的是输入两幅点云 $P_s$ (source) 和 $P_t$ (target) ，输出一个变换 T 使得 T( $P_s$ ) 和 $P_t$ 的重合程度尽可能高。变换 T 可以是刚性的(rigid)，也可以不是，本文下面只考虑刚性变换，即变换只包括旋转、平移。</p>
 <p>点云配准可以分为粗配准（Coarse Registration）和精配准（Fine Registration）两步。粗配准指的是在两幅点云之间的变换完全未知的情况下进行较为粗糙的配准，目的主要是为精配准提供较好的变换初值；精配准则是给定一个初始变换，进一步优化得到更精确的变换。</p>
 <p>目前应用最广泛的点云精配准算法是迭代最近点算法（Iterative Closest Point, ICP）及各种变种 ICP 算法。</p>
           <!--noindex-->

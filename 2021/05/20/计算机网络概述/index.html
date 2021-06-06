@@ -20,12 +20,12 @@
     var CONFIG = {"hostname":"wangwenlonggg.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="计算机网络性能指标 速率：  速率即数据率或称数据传输率或比特率。 连接在计算机网络上的主机在数字信道上传送数据位数的速率，单位是b&#x2F;s kb&#x2F;s Mb&#x2F;s。">
+  <meta name="description" content="计算机网络性能指标速率： 速率即数据率或称数据传输率或比特率。 连接在计算机网络上的主机在数字信道上传送数据位数的速率，单位是b&#x2F;s kb&#x2F;s Mb&#x2F;s。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="计算机网络概述">
 <meta property="og:url" content="http://wangwenlonggg.github.io/2021/05/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E6%A6%82%E8%BF%B0/index.html">
 <meta property="og:site_name" content="wangwenlonggg">
-<meta property="og:description" content="计算机网络性能指标 速率：  速率即数据率或称数据传输率或比特率。 连接在计算机网络上的主机在数字信道上传送数据位数的速率，单位是b&#x2F;s kb&#x2F;s Mb&#x2F;s。">
+<meta property="og:description" content="计算机网络性能指标速率： 速率即数据率或称数据传输率或比特率。 连接在计算机网络上的主机在数字信道上传送数据位数的速率，单位是b&#x2F;s kb&#x2F;s Mb&#x2F;s。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-05-20T02:53:23.000Z">
 <meta property="article:modified_time" content="2021-05-27T00:10:03.675Z">
@@ -214,83 +214,74 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="计算机网络性能指标">计算机网络性能指标</h2>
-<h3 id="速率">速率：</h3>
-<ul>
+        <h2 id="计算机网络性能指标"><a href="#计算机网络性能指标" class="headerlink" title="计算机网络性能指标"></a>计算机网络性能指标</h2><h3 id="速率："><a href="#速率：" class="headerlink" title="速率："></a>速率：</h3><ul>
 <li>速率即数据率或称数据传输率或比特率。</li>
 <li>连接在计算机网络上的主机在数字信道上传送数据位数的速率，单位是b/s kb/s Mb/s。</li>
 </ul>
 <span id="more"></span>
-<h3 id="带宽">带宽：</h3>
-<ul>
+<h3 id="带宽："><a href="#带宽：" class="headerlink" title="带宽："></a>带宽：</h3><ul>
 <li>带宽原本指某个信号具有的频带宽度，即<strong>最高频率与最低频率之差</strong>，单位是赫兹（Hz）。</li>
-<li>计算机网络中，带宽用来指网络系统的通信链路（信道或者传输媒体）传输数据的能力，即表征单位时间内从网络中的某一点到另一点所能通过的"最高数据率"。</li>
+<li>计算机网络中，带宽用来指网络系统的通信链路（信道或者传输媒体）传输数据的能力，即表征单位时间内从网络中的某一点到另一点所能通过的”最高数据率”。<ul>
 <li>强调网络最大的数据传输速率，即传输数据率理论峰值。</li>
 </ul>
-<h3 id="吞吐量">吞吐量：</h3>
-<ul>
+</li>
+</ul>
+<h3 id="吞吐量："><a href="#吞吐量：" class="headerlink" title="吞吐量："></a>吞吐量：</h3><ul>
 <li>表示在<strong>单位时间</strong>内通过<strong>某个网络或信道、接口</strong>的数据量，单位是b/s kb/s Mb/s。</li>
-<li>吞吐量受网络的带宽或网络的额定速率的限制。</li>
+<li>吞吐量受网络的带宽或网络的额定速率的限制。 </li>
 </ul>
-<h3 id="时延">时延：</h3>
-<ul>
-<li><p>指数据（一个报文或分组）从网络（或链路）的一端传送到另一端所需要的总时间，它由4 部分构成：发送时延、传播时延、处理时延、排队时延。</p></li>
-<li><p>总时延=发送时延+传播时延+处理时延+排队时延</p></li>
+<h3 id="时延："><a href="#时延：" class="headerlink" title="时延："></a>时延：</h3><ul>
+<li><p>指数据（一个报文或分组）从网络（或链路）的一端传送到另一端所需要的总时间，它由4<br>部分构成：发送时延、传播时延、处理时延、排队时延。</p>
+</li>
+<li><p>总时延=发送时延+传播时延+处理时延+排队时延 </p>
+</li>
 </ul>
-<ol type="1">
+<ol>
 <li>发送时延：</li>
 </ol>
 <ul>
 <li>结点将分组的所有比特推向（传输）链路所需要的时间，即从发送分组的第一个比特算起，到该分组的最后一个比特推向传输链路所需要的时间。也称传输时延。</li>
 </ul>
-<p><span class="math display">\[
-发送时延 = \frac{分组长度(数据长度)}{信道宽度(发送速率)}
-\]</span></p>
-<ol start="2" type="1">
+<script type="math/tex; mode=display">
+发送时延 = \frac{分组长度(数据长度)}{信道宽度(发送速率)}</script><ol>
 <li>传播时延：</li>
 </ol>
 <ul>
 <li>电磁波在信道中传播一定的距离需要花费的时间，即一个比特从链路的一端传播到另一端所需要的时间。</li>
 </ul>
-<p><span class="math display">\[
-传播时延 = \frac{信道长度(链路长度)}{电磁波在信道中的传播速率(2\times 10^{8}左右)}
-\]</span></p>
-<ol start="3" type="1">
+<script type="math/tex; mode=display">
+传播时延 = \frac{信道长度(链路长度)}{电磁波在信道中的传播速率(2\times 10^{8}左右)}</script><ol>
 <li>排队时延：</li>
 </ol>
 <ul>
 <li>分组在进入路由器后要先在输入队列中排队等待处理。</li>
 </ul>
-<ol start="4" type="1">
+<ol>
 <li>处理时延：</li>
 </ol>
 <ul>
 <li>数据在交换结点为存储转发而进行的一些必要的处理所花费的时间。</li>
 </ul>
-<ol start="5" type="1">
+<ol>
 <li>时延带宽积：</li>
 </ol>
 <ul>
 <li>发送端发送的第一个比特即将到达终点时，发送端已经发出了多少个比特。</li>
 <li>时延带宽积又称为以比特为单位的链路长度；即某段链路现在有多少比特。</li>
 </ul>
-<p><span class="math display">\[
-时延带宽积 = {传播时延}\times{信道带宽}
-\]</span></p>
-<ol start="6" type="1">
+<script type="math/tex; mode=display">
+时延带宽积 = {传播时延}\times{信道带宽}</script><ol>
 <li>往返时延（RTT）：</li>
 </ol>
 <ul>
 <li>从发送方发送数据开始，到发送方收到接受方的确认（接收方收到数据后立即发送确认），总共经历的时延。</li>
 <li><strong>RTT越大，在收到确认之前，可以发送的数据越多。</strong></li>
 </ul>
-<ol start="7" type="1">
+<ol>
 <li>信道利用率：</li>
 </ol>
-<p><span class="math display">\[
-信道利用率 = \frac{有数据通过时间}{(有 + 无)数据通过时间}
-\]</span></p>
-<ul>
+<script type="math/tex; mode=display">
+信道利用率 = \frac{有数据通过时间}{(有 + 无)数据通过时间}</script><ul>
 <li><strong>信道利用率越高时延越大</strong>。</li>
 </ul>
 
@@ -373,7 +364,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87"><span class="nav-number">1.</span> <span class="nav-text">计算机网络性能指标</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%9F%E7%8E%87"><span class="nav-number">1.1.</span> <span class="nav-text">速率：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%A6%E5%AE%BD"><span class="nav-number">1.2.</span> <span class="nav-text">带宽：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%9E%E5%90%90%E9%87%8F"><span class="nav-number">1.3.</span> <span class="nav-text">吞吐量：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%B6%E5%BB%B6"><span class="nav-number">1.4.</span> <span class="nav-text">时延：</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87"><span class="nav-number">1.</span> <span class="nav-text">计算机网络性能指标</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%9F%E7%8E%87%EF%BC%9A"><span class="nav-number">1.1.</span> <span class="nav-text">速率：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%A6%E5%AE%BD%EF%BC%9A"><span class="nav-number">1.2.</span> <span class="nav-text">带宽：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%9E%E5%90%90%E9%87%8F%EF%BC%9A"><span class="nav-number">1.3.</span> <span class="nav-text">吞吐量：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%B6%E5%BB%B6%EF%BC%9A"><span class="nav-number">1.4.</span> <span class="nav-text">时延：</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
