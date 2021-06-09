@@ -20,12 +20,12 @@
     var CONFIG = {"hostname":"wangwenlonggg.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="&amp;emsp;&amp;emsp;”网络层（在TCP&#x2F;IP体系结构中称为网际互连层）既要解决不同网络节点间通信的路由和协议识别问题，又要通过路由选择策略解决网络拥塞问题，尽可能提高网络通信的可靠性。” &amp;emsp;&amp;emsp;”网络层中的每个网络都通过其网络地址，即NSAP（网络服务访问点）来标识，网络中的每个节点都有一个NASP，这个NASP就是由对应网络所运行的网络层通信协议来定义的，在TCP&#x2F;IP协议">
+  <meta name="description" content="&quot;网络层（在TCP&#x2F;IP体系结构中称为网际互连层）既要解决不同网络节点间通信的路由和协议识别问题，又要通过路由选择策略解决网络拥塞问题，尽可能提高网络通信的可靠性。&quot;   &quot;网络层中的每个网络都通过其网络地址，即NSAP（网络服务访问点）来标识，网络中的每个节点都有一个NASP，这个NASP就是由对应网络所运行的网络层通信协议来定义的，在TCP&#x2F;IP协议网络中，这个协议就是IP协议，对应的N">
 <meta property="og:type" content="article">
 <meta property="og:title" content="网络层">
 <meta property="og:url" content="http://wangwenlonggg.github.io/2021/06/03/%E7%BD%91%E7%BB%9C%E5%B1%82/index.html">
 <meta property="og:site_name" content="wangwenlonggg">
-<meta property="og:description" content="&amp;emsp;&amp;emsp;”网络层（在TCP&#x2F;IP体系结构中称为网际互连层）既要解决不同网络节点间通信的路由和协议识别问题，又要通过路由选择策略解决网络拥塞问题，尽可能提高网络通信的可靠性。” &amp;emsp;&amp;emsp;”网络层中的每个网络都通过其网络地址，即NSAP（网络服务访问点）来标识，网络中的每个节点都有一个NASP，这个NASP就是由对应网络所运行的网络层通信协议来定义的，在TCP&#x2F;IP协议">
+<meta property="og:description" content="&quot;网络层（在TCP&#x2F;IP体系结构中称为网际互连层）既要解决不同网络节点间通信的路由和协议识别问题，又要通过路由选择策略解决网络拥塞问题，尽可能提高网络通信的可靠性。&quot;   &quot;网络层中的每个网络都通过其网络地址，即NSAP（网络服务访问点）来标识，网络中的每个节点都有一个NASP，这个NASP就是由对应网络所运行的网络层通信协议来定义的，在TCP&#x2F;IP协议网络中，这个协议就是IP协议，对应的N">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://wangwenlonggg.github.io/2021/06/03/%E7%BD%91%E7%BB%9C%E5%B1%82/20200212125332774.png">
 <meta property="og:image" content="http://wangwenlonggg.github.io/2021/06/03/%E7%BD%91%E7%BB%9C%E5%B1%82/20170512125813184.png">
@@ -221,16 +221,18 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>&emsp;&emsp;”网络层（在TCP/IP体系结构中称为网际互连层）既要解决不同网络节点间通信的路由和协议识别问题，又要通过路由选择策略解决网络拥塞问题，尽可能提高网络通信的可靠性。”</p>
-<p>&emsp;&emsp;”网络层中的每个网络都通过其网络地址，即NSAP（网络服务访问点）来标识，网络中的每个节点都有一个NASP，这个NASP就是由对应网络所运行的网络层通信协议来定义的，在TCP/IP协议网络中，这个协议就是IP协议，对应的NASP就是IP地址。”</p>
+        <p>  "网络层（在TCP/IP体系结构中称为网际互连层）既要解决不同网络节点间通信的路由和协议识别问题，又要通过路由选择策略解决网络拥塞问题，尽可能提高网络通信的可靠性。"</p>
+<p>  "网络层中的每个网络都通过其网络地址，即NSAP（网络服务访问点）来标识，网络中的每个节点都有一个NASP，这个NASP就是由对应网络所运行的网络层通信协议来定义的，在TCP/IP协议网络中，这个协议就是IP协议，对应的NASP就是IP地址。"</p>
 <span id="more"></span>
-<h4 id="网络层主要作用："><a href="#网络层主要作用：" class="headerlink" title="网络层主要作用："></a>网络层主要作用：</h4><ol>
+<h4 id="网络层主要作用">网络层主要作用：</h4>
+<ol type="1">
 <li>网络层向传输层提供的服务有两种：面向连接的网络服务（虚电路）和无连接的网络服务（数据报服务）。</li>
 <li>为网络间通信提供路由选择（面向无连接的网络服务）</li>
 <li>数据包封装和解封装</li>
 <li>拥塞控制</li>
 </ol>
-<h4 id="IP协议的基本功能："><a href="#IP协议的基本功能：" class="headerlink" title="IP协议的基本功能："></a>IP协议的基本功能：</h4><ol>
+<h4 id="ip协议的基本功能">IP协议的基本功能：</h4>
+<ol type="1">
 <li>寻址</li>
 <li>数据报的封装</li>
 <li>分段与重组</li>
@@ -238,22 +240,36 @@
 <ul>
 <li>注：目前主流的IPv4协议簇中包括了三个协议：IP、ARP、ICMP</li>
 </ul>
-<h4 id="IPv4数据报头部格式"><a href="#IPv4数据报头部格式" class="headerlink" title="IPv4数据报头部格式"></a>IPv4数据报头部格式</h4><p><img src="/2021/06/03/%E7%BD%91%E7%BB%9C%E5%B1%82/20200212125332774.png" alt></p>
-<h5 id="版本（Version）"><a href="#版本（Version）" class="headerlink" title="版本（Version）"></a>版本（Version）</h5><p>&emsp;&emsp;版本字段指定了IP数据报中使用的IP协议版本，占四位。如果协议是IPV4，则值为0100。</p>
-<h5 id="头部长度（Header-Length）"><a href="#头部长度（Header-Length）" class="headerlink" title="头部长度（Header Length）"></a>头部长度（Header Length）</h5><p>&emsp;&emsp;头部长度字段指示IP数据报头部的总长度，IP数据报头部的总长度以4字节为单位，该字段占4位。当报头中无选项字段时，报头的总长度为5，也就是5×4=20字节（此时，报头长度的值为0101）。这就是说IP数据报头部固定部分长度为20字节。当IP头部长度为1111时，头部的固定长度为15×4=60字节。但报头长度必须是32位（四字节）的整数倍，如果不是，需要在选项字段的填充（PAD）字段中补0凑齐。</p>
-<h5 id="区分服务（Differentialted-Services）"><a href="#区分服务（Differentialted-Services）" class="headerlink" title="区分服务（Differentialted Services）"></a>区分服务（Differentialted Services）</h5><p>&emsp;&emsp;最开始IP数据报的这个字段为优先级和服务类型字段，又称为服务类型（ToS）字段，用于表示数据报的优先级和服务类型，占八位。它包括一个3位长度的优先级、4位长度的标志位。标志位分别是D（Delay延迟）、T（Throughput吞吐量）、R（Reliability可靠性）和C（Cost开销），分别表示延迟、吞吐量、可靠性和开销值，用来获得更好的服务。最高1位未用。</p>
-<p>&emsp;&emsp;1998年IETF在RFC2474中把IP数据报中ToS字段改名为服务字段，同样为8位，前6位构成DSCP（Different Services Code Point，区分服务码点），是IP优先级和服务类型字段的组合，定义了0~63共64个优先级。最后两位未使用。无论是哪种版本，该字段只有在使用区分服务时才起作用，如果没有区分服务，则该字段值为0。</p>
-<h5 id="总长度（Total-Length）"><a href="#总长度（Total-Length）" class="headerlink" title="总长度（Total Length）"></a>总长度（Total Length）</h5><p>&emsp;&emsp;总长度字段标识整个IP数据报的总长度，包括报头和数据部分，整个IP数据报的总长度以字节为单位，该字段占16位。由此可得出，IPv4数据报的最大长度为216−1字节即65535字节（64KB）。<br>说明：在网络层下面的每一种数据链路层都有自己的格式，其中包括表示数据字段的最大长度，这称为最大传送单元（Maximum Transfer Unit，MTU）。当一个数据报封装成链路层的帧时，此数据报的总长度（包括报头和数据部分）一定不能超过下面的数据链路层的MTU值</p>
-<h5 id="标识（Identification）"><a href="#标识（Identification）" class="headerlink" title="标识（Identification）"></a>标识（Identification）</h5><p>&emsp;&emsp;标识字段用于表示IP数据报的标识符，占16位，每个IP数据报有一个唯一的标识符。IP软件在存储器中维持一个计数器，每产生一个数据报，计数器就加1，并将此值赋给整个标识字段。但整个标识并不是序号，因为IP是无连接服务，数据报不存在按序接受的问题。当数据报由于长度超过下面数据链路层的MTU（最大传输单元）值而必须分段的时候，这个标识符的值就被复制到所有的数据报分段的标识字段中。相同的标识字段的值分段后的各数据报分段最后能正确地组装成原来的数据报。</p>
-<h5 id="标志（Flags）"><a href="#标志（Flags）" class="headerlink" title="标志（Flags）"></a>标志（Flags）</h5><p>&emsp;&emsp;标志字段用以指出该IP数据报后面是否还有分段，也就是这个字段时分段标志，占3位。目前只有前两位有意义：最低以为记为MF（More Fragment），如果MF=1，则表示后面还有分段，如果MF=0表示这已是某个数据报的最后一个分段；中间一位记为DF（Don’t Fragment），当DF=1时表示不允许分段，DF=0表示允许分段；最高1位没有使用。</p>
-<h5 id="段偏移（Fragment-Offset）"><a href="#段偏移（Fragment-Offset）" class="headerlink" title="段偏移（Fragment Offset）"></a>段偏移（Fragment Offset）</h5><p>&emsp;&emsp;段偏移字段用以指出该分段在数据报中的相对位置，也就是说，相对于用户数据字段的起点，该分段从何处开始，占13位。若有分段，段偏移以8字节为偏移单位，即每个分段的长度一定是8字节（64位）的整数倍。第一个分段偏移值就是0 0000 0000 0000，如果第一个分段一共是64字节，则0 0000 0000 1001，相当于10进制数的9，因为从第9个“8字节”数据块开始的。如果没有分段，则该字段值为0。</p>
-<h5 id="生存时间（Time-To-Live）"><a href="#生存时间（Time-To-Live）" class="headerlink" title="生存时间（Time To Live）"></a>生存时间（Time To Live）</h5><p>&emsp;&emsp;生存时间字段用来标识IP数据报在网络中传输的有效期，以秒来计数，占8位。最初的设计是以秒为单位，没经过一个路由器时，就在TTL（Time To Live）中减去数据报在路由器消耗掉的一段时间。若数据报在路由器消耗的时间小于1s，就把TTL值减1。TTL的建议值是32s，最长是28−1=255s。现在通常认为这个TTL是指数据报允许经过的路由器数，每经过一个路由器，则TTL减1，当TTL值为0时，就丢弃这个数据报。设定生存时间是为了防止数据报在网络中无限制地循环转发。</p>
-<h5 id="协议（Protocol）"><a href="#协议（Protocol）" class="headerlink" title="协议（Protocol）"></a>协议（Protocol）</h5><p>&emsp;&emsp;协议字段用来标识此IP数据报在传输层所采用的协议类型（如TCP、UDP或ICMP等等），以便使目的主机的IP层直到应将数据部分上交给哪个处理过程，占8位。如TCP的协议号是6，等于二进制的0000 1010，UDP的协议号是17，等于二进制的0001 0001。</p>
-<h5 id="校验和（Checksum）"><a href="#校验和（Checksum）" class="headerlink" title="校验和（Checksum）"></a>校验和（Checksum）</h5><p>&emsp;&emsp;校验和字段用来检验IP数据报的报头部分（不包过”数据”部分）在传输到接收端后是否发生了变化，占16位。这是因为数据报每经过一个路由器，路由器都要重新计算一下报头检验和（因为一些字段，如生存时间、标识、段偏移等都可能发生变化），不检验数据部分可减少计算的工作量。</p>
-<h5 id="源地址-目的地址（Source-Address-Destination-Address）"><a href="#源地址-目的地址（Source-Address-Destination-Address）" class="headerlink" title="源地址/目的地址（Source Address/Destination Address）"></a>源地址/目的地址（Source Address/Destination Address）</h5><p>&emsp;&emsp;源地址/目的地址这两个字段分别表示该IP数据报发送者和接受者的IP地址，各占32位。在这个数据报传送过程中，无论经过什么路由，无论如何分段，此两字段一直保持不变。</p>
-<h4 id="ARP协议"><a href="#ARP协议" class="headerlink" title="ARP协议"></a>ARP协议</h4><p>&emsp;&emsp;ARP（Address Resolution Protocal，地址解析协议）是将IP地址解析为以太网的MAC地址（或者称为物理地址）的协议。在局域网中，当主机或其他网络设备有数据要发送给另一个主机或设备时，它必须知道对方的网络层地址（即IP地址）。但是仅仅有IP地址还是不够的，因为IP数据报文必须封装成帧才能通过物理网络发送，因为发送站还必须有接收站的物理地址，所以需要一个从IP地址到物理地址的映射。ARP就是实现这个功能的协议。</p>
-<h5 id="ARP协议报文格式"><a href="#ARP协议报文格式" class="headerlink" title="ARP协议报文格式"></a>ARP协议报文格式</h5><p>&emsp;&emsp;ARP是一个独立的三层协议，所以ARP报文在向数据链路层传输时不需要经过IP协议的封装，而是直接生成自己的报文，其中包括ARP报头，到数据链路层后再由对应的数据链路层协议（如以太网协议）进行封装。ARP报文分为ARP请求和ARP应答报文两种，它们的报文格式可以统一为下图所示。</p>
-<p><img src="/2021/06/03/%E7%BD%91%E7%BB%9C%E5%B1%82/20170512125813184.png" alt></p>
+<h4 id="ipv4数据报头部格式">IPv4数据报头部格式</h4>
+<p><img src="/2021/06/03/%E7%BD%91%E7%BB%9C%E5%B1%82/20200212125332774.png"></p>
+<h5 id="版本version">版本（Version）</h5>
+<p>  版本字段指定了IP数据报中使用的IP协议版本，占四位。如果协议是IPV4，则值为0100。</p>
+<h5 id="头部长度header-length">头部长度（Header Length）</h5>
+<p>  头部长度字段指示IP数据报头部的总长度，IP数据报头部的总长度以4字节为单位，该字段占4位。当报头中无选项字段时，报头的总长度为5，也就是5×4=20字节（此时，报头长度的值为0101）。这就是说IP数据报头部固定部分长度为20字节。当IP头部长度为1111时，头部的固定长度为15×4=60字节。但报头长度必须是32位（四字节）的整数倍，如果不是，需要在选项字段的填充（PAD）字段中补0凑齐。</p>
+<h5 id="区分服务differentialted-services">区分服务（Differentialted Services）</h5>
+<p>  最开始IP数据报的这个字段为优先级和服务类型字段，又称为服务类型（ToS）字段，用于表示数据报的优先级和服务类型，占八位。它包括一个3位长度的优先级、4位长度的标志位。标志位分别是D（Delay延迟）、T（Throughput吞吐量）、R（Reliability可靠性）和C（Cost开销），分别表示延迟、吞吐量、可靠性和开销值，用来获得更好的服务。最高1位未用。</p>
+<p>  1998年IETF在RFC2474中把IP数据报中ToS字段改名为服务字段，同样为8位，前6位构成DSCP（Different Services Code Point，区分服务码点），是IP优先级和服务类型字段的组合，定义了0~63共64个优先级。最后两位未使用。无论是哪种版本，该字段只有在使用区分服务时才起作用，如果没有区分服务，则该字段值为0。</p>
+<h5 id="总长度total-length">总长度（Total Length）</h5>
+<p>  总长度字段标识整个IP数据报的总长度，包括报头和数据部分，整个IP数据报的总长度以字节为单位，该字段占16位。由此可得出，IPv4数据报的最大长度为216−1字节即65535字节（64KB）。 说明：在网络层下面的每一种数据链路层都有自己的格式，其中包括表示数据字段的最大长度，这称为最大传送单元（Maximum Transfer Unit，MTU）。当一个数据报封装成链路层的帧时，此数据报的总长度（包括报头和数据部分）一定不能超过下面的数据链路层的MTU值</p>
+<h5 id="标识identification">标识（Identification）</h5>
+<p>  标识字段用于表示IP数据报的标识符，占16位，每个IP数据报有一个唯一的标识符。IP软件在存储器中维持一个计数器，每产生一个数据报，计数器就加1，并将此值赋给整个标识字段。但整个标识并不是序号，因为IP是无连接服务，数据报不存在按序接受的问题。当数据报由于长度超过下面数据链路层的MTU（最大传输单元）值而必须分段的时候，这个标识符的值就被复制到所有的数据报分段的标识字段中。相同的标识字段的值分段后的各数据报分段最后能正确地组装成原来的数据报。</p>
+<h5 id="标志flags">标志（Flags）</h5>
+<p>  标志字段用以指出该IP数据报后面是否还有分段，也就是这个字段时分段标志，占3位。目前只有前两位有意义：最低以为记为MF（More Fragment），如果MF=1，则表示后面还有分段，如果MF=0表示这已是某个数据报的最后一个分段；中间一位记为DF（Don’t Fragment），当DF=1时表示不允许分段，DF=0表示允许分段；最高1位没有使用。</p>
+<h5 id="段偏移fragment-offset">段偏移（Fragment Offset）</h5>
+<p>  段偏移字段用以指出该分段在数据报中的相对位置，也就是说，相对于用户数据字段的起点，该分段从何处开始，占13位。若有分段，段偏移以8字节为偏移单位，即每个分段的长度一定是8字节（64位）的整数倍。第一个分段偏移值就是0 0000 0000 0000，如果第一个分段一共是64字节，则0 0000 0000 1001，相当于10进制数的9，因为从第9个“8字节”数据块开始的。如果没有分段，则该字段值为0。</p>
+<h5 id="生存时间time-to-live">生存时间（Time To Live）</h5>
+<p>  生存时间字段用来标识IP数据报在网络中传输的有效期，以秒来计数，占8位。最初的设计是以秒为单位，没经过一个路由器时，就在TTL（Time To Live）中减去数据报在路由器消耗掉的一段时间。若数据报在路由器消耗的时间小于1s，就把TTL值减1。TTL的建议值是32s，最长是28−1=255s。现在通常认为这个TTL是指数据报允许经过的路由器数，每经过一个路由器，则TTL减1，当TTL值为0时，就丢弃这个数据报。设定生存时间是为了防止数据报在网络中无限制地循环转发。</p>
+<h5 id="协议protocol">协议（Protocol）</h5>
+<p>  协议字段用来标识此IP数据报在传输层所采用的协议类型（如TCP、UDP或ICMP等等），以便使目的主机的IP层直到应将数据部分上交给哪个处理过程，占8位。如TCP的协议号是6，等于二进制的0000 1010，UDP的协议号是17，等于二进制的0001 0001。</p>
+<h5 id="校验和checksum">校验和（Checksum）</h5>
+<p>  校验和字段用来检验IP数据报的报头部分（不包过"数据"部分）在传输到接收端后是否发生了变化，占16位。这是因为数据报每经过一个路由器，路由器都要重新计算一下报头检验和（因为一些字段，如生存时间、标识、段偏移等都可能发生变化），不检验数据部分可减少计算的工作量。</p>
+<h5 id="源地址目的地址source-addressdestination-address">源地址/目的地址（Source Address/Destination Address）</h5>
+<p>  源地址/目的地址这两个字段分别表示该IP数据报发送者和接受者的IP地址，各占32位。在这个数据报传送过程中，无论经过什么路由，无论如何分段，此两字段一直保持不变。</p>
+<h4 id="arp协议">ARP协议</h4>
+<p>  ARP（Address Resolution Protocal，地址解析协议）是将IP地址解析为以太网的MAC地址（或者称为物理地址）的协议。在局域网中，当主机或其他网络设备有数据要发送给另一个主机或设备时，它必须知道对方的网络层地址（即IP地址）。但是仅仅有IP地址还是不够的，因为IP数据报文必须封装成帧才能通过物理网络发送，因为发送站还必须有接收站的物理地址，所以需要一个从IP地址到物理地址的映射。ARP就是实现这个功能的协议。</p>
+<h5 id="arp协议报文格式">ARP协议报文格式</h5>
+<p>  ARP是一个独立的三层协议，所以ARP报文在向数据链路层传输时不需要经过IP协议的封装，而是直接生成自己的报文，其中包括ARP报头，到数据链路层后再由对应的数据链路层协议（如以太网协议）进行封装。ARP报文分为ARP请求和ARP应答报文两种，它们的报文格式可以统一为下图所示。</p>
+<p><img src="/2021/06/03/%E7%BD%91%E7%BB%9C%E5%B1%82/20170512125813184.png"></p>
 <ul>
 <li>硬件类型：占两字节，表示ARP报文可以在哪种类型的网络上传输，值为1时表示为以太网地址。</li>
 <li>上层协议类型：占两字节，表示硬件地址要映射的协议地址类型，映射IP地址时的值为0x0800。</li>
@@ -266,16 +282,17 @@
 <li>目的IP地址：占4字节，表示接受方的IP地址。</li>
 </ul>
 <p>ARP报文不是直接在网络层上发送的，它还是需要向下传输到数据链路层，所以当ARP报文传输到数据链路层之后，需要再次进行封装。以以太网为例，ARP报文传输到以太网数据链路层后会形成ARP帧。ARP帧如下图所示，他就是在ARP报文前面加了一个以太网帧头。</p>
-<p><img src="/2021/06/03/%E7%BD%91%E7%BB%9C%E5%B1%82/20170512131909950.png" alt></p>
+<p><img src="/2021/06/03/%E7%BD%91%E7%BB%9C%E5%B1%82/20170512131909950.png"></p>
 <ul>
 <li>目的MAC地址：占6字节，如果是ARP请求帧，因为它是一个广播帧，所以要填上广播MAC地址（FF-FF-FF-FF-FF-FF），其目标主机是网络上的所有主机。</li>
 <li>源MAC地址：占6字节，这是发送ARP帧的节点MAC地址。</li>
 <li>帧类型：占两字节，这里用来标识帧封装的上层协议，因为本帧的数据部分是ARP报文，所以直接用ARP的协议号0x0806表示就可以了。</li>
 </ul>
-<h5 id="ARP地址解析原理"><a href="#ARP地址解析原理" class="headerlink" title="ARP地址解析原理"></a>ARP地址解析原理</h5><ul>
+<h5 id="arp地址解析原理">ARP地址解析原理</h5>
+<ul>
 <li>同一网段的ARP地址解析流程</li>
 </ul>
-<ol>
+<ol type="1">
 <li>主机A首先查看自己的ARP表（它是一个IP地址与MAC地址的映射表），确定其中是否包含有主机B的IP地址和对应的MAC地址。如果找到了对应的MAC地址，则主机A直接利用ARP表中的MAC地址对IP数据包进行帧封装，并将数据包发送给主机B。</li>
 <li>如果主机A在ARP表中找不到对应的MAC地址，则先缓存该数据报文，然后以广播方式（目的MAC地址为广播地址——FFFFFF，任意网段的节点都可以接受到）发送一个ARP请求报文。ARP请求报文中的发送端（源）IP地址和发送端MAC地址分别为主机A的IP地址（192.168.1.1）和MAC地址（0002-6779-0F4C），目的IP地址和目的MAC地址为主机B的IP地址（192.168.1.2）和全0的MAC地址。因为ARP请求报文是以广播方式发送，所以该网段上的所有主机都可以接收到该请求包，但只有其IP地址与目的IP地址一致的主机B才会对该请求进行处理。</li>
 <li>主机B将ARP请求报文中的发送端（即主机A）的IP地址和MAC地址存入自己的ARP表中。然后以单播方式向主机A发送一个ARP相应报文，应答报文中就包含了自己的MAC地址，也就是原来在请求报文中要请求的目的MAC地址。</li>
@@ -284,66 +301,73 @@
 <ul>
 <li>不同网段的ARP地址解析流程</li>
 </ul>
-<ol>
+<ol type="1">
 <li>如果主机A不知道网关的MAC地址（也就是主机A的ARP表中没有网关对应的MAC地址表项），则主机A先在本网段中发出一个ARP请求广播，ARP请求报文中的目的IP地址为网关的IP地址，代表其目的就是想获得网关的MAC地址。如果主机A已经知道网关的MAC地址，则略过此步。</li>
 <li>网关收到ARP广播包后同样会向主机A发回一个ARP应答包。当主机A收到的应答包中获得网关的MAC地址后，在主机A向主机B发送的原报文的目的MAC地址字段填上网关的MAC地址后发给网关。</li>
 <li>如果网关的ARP表中已有主机B对应的MAC地址，则网关直接将在来自主机A的报文中的目的MAC地址字段填上主机B的MAC地址后转发给B。</li>
 <li>如果网关ARP表中没有主机B的MAC地址，网关会再次向主机B所在的网段发送ARP广播请求，此时目的IP地址为主机B的IP地址，当网关从收到来自主机B的应答报文中获得主机B的MAC地址后，就可以将主机A发来的报文重新在目的MAC地址字段填上主机B的MAC地址后发送给B。</li>
 </ol>
-<h4 id="ICMP协议"><a href="#ICMP协议" class="headerlink" title="ICMP协议"></a>ICMP协议</h4><p>&emsp;&emsp;ICMP（Internet Control Message Protocol）因特网控制报文协议。它是IPv4协议簇中的一个子协议，用于IP主机、路由器之间传递控制消息。控制消息是在网络通不通、主机是否可达、路由是否可用等网络本身的消息。这些控制消息虽然不传输用户数据，但是对于用户数据的传递起着重要的作用。</p>
-<p>&emsp;&emsp;ICMP协议与ARP协议不同，ICMP靠IP协议来完成任务，所以ICMP报文中要封装IP头部。它与传输层协议（如TCP和UDP）的目的不同，一般不用来在端系统之间传送数据，不被用户网络程序直接使用，除了像<strong>Ping</strong>和<strong>Tracert</strong>这样的诊断程序。</p>
-<h5 id="ICMP协议报文格式"><a href="#ICMP协议报文格式" class="headerlink" title="ICMP协议报文格式"></a>ICMP协议报文格式</h5><p><img src="/2021/06/03/%E7%BD%91%E7%BB%9C%E5%B1%82/2020021213081897.png" alt></p>
+<h4 id="icmp协议">ICMP协议</h4>
+<p>  ICMP（Internet Control Message Protocol）因特网控制报文协议。它是IPv4协议簇中的一个子协议，用于IP主机、路由器之间传递控制消息。控制消息是在网络通不通、主机是否可达、路由是否可用等网络本身的消息。这些控制消息虽然不传输用户数据，但是对于用户数据的传递起着重要的作用。</p>
+<p>  ICMP协议与ARP协议不同，ICMP靠IP协议来完成任务，所以ICMP报文中要封装IP头部。它与传输层协议（如TCP和UDP）的目的不同，一般不用来在端系统之间传送数据，不被用户网络程序直接使用，除了像<strong>Ping</strong>和<strong>Tracert</strong>这样的诊断程序。</p>
+<h5 id="icmp协议报文格式">ICMP协议报文格式</h5>
+<p><img src="/2021/06/03/%E7%BD%91%E7%BB%9C%E5%B1%82/2020021213081897.png"></p>
 <ul>
 <li>类型：占一字节，标识ICMP报文的类型，目前已定义了14种，从类型值来看ICMP报文可以分为两大类。第一类是取值为1~127的差错报文，第2类是取值128以上的信息报文。</li>
 <li>代码：占一字节，标识对应ICMP报文的代码。它与类型字段一起共同标识了ICMP报文的详细类型。</li>
 <li>校验和：这是对包括ICMP报文数据部分在内的整个ICMP数据报的校验和，以检验报文在传输过程中是否出现了差错。</li>
 <li>标识：占两字节，用于标识本ICMP进程，但仅适用于回显请求和应答ICMP报文，对于目标不可达ICMP报文和超时ICMP报文等，该字段的值为0。</li>
 </ul>
-<div class="table-container">
 <table>
+<colgroup>
+<col style="width: 21%">
+<col style="width: 78%">
+</colgroup>
 <thead>
-<tr>
-<th style="text-align:center"><strong>ICMP消息类型</strong></th>
-<th style="text-align:center"><strong>用途说明</strong></th>
+<tr class="header">
+<th style="text-align: center;"><strong>ICMP消息类型</strong></th>
+<th style="text-align: center;"><strong>用途说明</strong></th>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td style="text-align:center">回显请求</td>
-<td style="text-align:center">Ping工具通过发送ICMP回显消息检查特定节点的IPv4连接以排查网络问题。类型值为0</td>
+<tr class="odd">
+<td style="text-align: center;">回显请求</td>
+<td style="text-align: center;">Ping工具通过发送ICMP回显消息检查特定节点的IPv4连接以排查网络问题。类型值为0</td>
 </tr>
-<tr>
-<td style="text-align:center">回显应答</td>
-<td style="text-align:center">节点发送回显答复消息响应ICMP回显消息。类型值为8</td>
+<tr class="even">
+<td style="text-align: center;">回显应答</td>
+<td style="text-align: center;">节点发送回显答复消息响应ICMP回显消息。类型值为8</td>
 </tr>
-<tr>
-<td style="text-align:center">重定向</td>
-<td style="text-align:center">路由器发送“重定向”消息，告诉发送主机到目标IPv4地址更好的路由。类型值为5</td>
+<tr class="odd">
+<td style="text-align: center;">重定向</td>
+<td style="text-align: center;">路由器发送“重定向”消息，告诉发送主机到目标IPv4地址更好的路由。类型值为5</td>
 </tr>
-<tr>
-<td style="text-align:center">源抑制</td>
-<td style="text-align:center">路由器发送“源结束”消息，告诉发送主机它们的IPv4数据报将被丢弃——因为路由器上发生了拥塞。于是，发送主机将以较低的频度发送数据报。类型值为4</td>
+<tr class="even">
+<td style="text-align: center;">源抑制</td>
+<td style="text-align: center;">路由器发送“源结束”消息，告诉发送主机它们的IPv4数据报将被丢弃——因为路由器上发生了拥塞。于是，发送主机将以较低的频度发送数据报。类型值为4</td>
 </tr>
-<tr>
-<td style="text-align:center">超时</td>
-<td style="text-align:center">这个消息有两种用途。第一，当超过IP生存期时向发送系统发出错误信息。第二，如果分段的IP数据报没有在某种期限内重新组合，这个消息将通知发送系统。类型值为11</td>
+<tr class="odd">
+<td style="text-align: center;">超时</td>
+<td style="text-align: center;">这个消息有两种用途。第一，当超过IP生存期时向发送系统发出错误信息。第二，如果分段的IP数据报没有在某种期限内重新组合，这个消息将通知发送系统。类型值为11</td>
 </tr>
-<tr>
-<td style="text-align:center">无法到达目标</td>
-<td style="text-align:center">路由器和目标主机发送“无法到达目标”消息，通知发送主机它们的数据无法传送。类型值为3</td>
+<tr class="even">
+<td style="text-align: center;">无法到达目标</td>
+<td style="text-align: center;">路由器和目标主机发送“无法到达目标”消息，通知发送主机它们的数据无法传送。类型值为3</td>
 </tr>
 </tbody>
 </table>
-</div>
-<h5 id="常见的ICMP报文"><a href="#常见的ICMP报文" class="headerlink" title="常见的ICMP报文"></a>常见的ICMP报文</h5><ol>
+<h5 id="常见的icmp报文">常见的ICMP报文</h5>
+<ol type="1">
 <li>响应请求</li>
 <li>目标不可达，源抑制和超时报文</li>
 <li>时间戳请求</li>
 </ol>
-<p>&emsp;&emsp;时间戳请求报文（类型值字段13）和时间戳应答报文（类型值字段14）用于测试两台主机之间数据报来回一次的传输时间。传输时，主机填充原始时间戳，接受方收到请求后填充接受时间戳后以类型值字段14的报文格式返回，发送方计算这个时间差。有些系统不响应这种报文。</p>
-<h4 id="路由和路由算法"><a href="#路由和路由算法" class="headerlink" title="路由和路由算法"></a>路由和路由算法</h4><p>&emsp;&emsp;网络层的主要功能就是将分组从源节点路由到目的节点中，而且在大多数计算机网络中，采用的是数据报分组交换的方式，数据报分组需要经过多跳（Hop，也就是要经过多少个路由器）才能到达目的地。<strong>路由功能其实是一种数据报分组交换路径选择行为，是网络层的一种基本功能。</strong></p>
-<h5 id="路由的分类"><a href="#路由的分类" class="headerlink" title="路由的分类"></a>路由的分类</h5><p>&emsp;&emsp;路由就是指三层设备从一个接口上收到数据包，根据数据包的目的地址进行定向，并转发到另一个接口的过程。但在这条路由路径上，至少需要一个中间结点，那就是提供路由功能的设备，如路由器和三层交换机。路由与桥接对比的主要区别在于，<strong>桥接发生在OSI参考协议的第二层（链接层），连接的是同一网络或同一子网的不同网段，而路由发生在第三层（网络层），连接的是不同网络或不同子网。</strong></p>
-<ol>
+<p>  时间戳请求报文（类型值字段13）和时间戳应答报文（类型值字段14）用于测试两台主机之间数据报来回一次的传输时间。传输时，主机填充原始时间戳，接受方收到请求后填充接受时间戳后以类型值字段14的报文格式返回，发送方计算这个时间差。有些系统不响应这种报文。</p>
+<h4 id="路由和路由算法">路由和路由算法</h4>
+<p>  网络层的主要功能就是将分组从源节点路由到目的节点中，而且在大多数计算机网络中，采用的是数据报分组交换的方式，数据报分组需要经过多跳（Hop，也就是要经过多少个路由器）才能到达目的地。<strong>路由功能其实是一种数据报分组交换路径选择行为，是网络层的一种基本功能。</strong></p>
+<h5 id="路由的分类">路由的分类</h5>
+<p>  路由就是指三层设备从一个接口上收到数据包，根据数据包的目的地址进行定向，并转发到另一个接口的过程。但在这条路由路径上，至少需要一个中间结点，那就是提供路由功能的设备，如路由器和三层交换机。路由与桥接对比的主要区别在于，<strong>桥接发生在OSI参考协议的第二层（链接层），连接的是同一网络或同一子网的不同网段，而路由发生在第三层（网络层），连接的是不同网络或不同子网。</strong></p>
+<ol type="1">
 <li>静态路由及特点</li>
 </ol>
 <ul>
@@ -351,29 +375,27 @@
 </ul>
 <p>静态路由中包括目的节点或目的网络的IP地址，及数据包从当前路由器开始路由的第一个下一跳（通常是网关）所对应的接口或者IP地址。</p>
 <ul>
-<li><p>路由路径固定不变</p>
-</li>
-<li><p>不可通告性</p>
-</li>
+<li><p>路由路径固定不变</p></li>
+<li><p>不可通告性</p></li>
 </ul>
 <p>静态路由信息在默认情况下是私有的，不会通告给其它路由器，也就是当在一个路由器上配置了某一条静态路由时，它不会被通告网络中相连的其它路由器。</p>
 <ul>
 <li>单向性</li>
 </ul>
 <p>静态路由具有单向性，也就是它仅为数据提供沿着下一跳的方向进行路由，不提供方向路由。所以如果你想要使源节点与目的节点或网络进行双向通信，就必须同时配置回程静态路由。</p>
-<p><img src="/2021/06/03/%E7%BD%91%E7%BB%9C%E5%B1%82/20170515201755572.png" alt></p>
-<p>&emsp;&emsp;正向路由：在R1路由器上配置了到达PC2的正向静态路由（以PC2 10.16.3.2/24 作为源节点，以C结点IP地址10.16.2.2/24 作为下一跳地址）；</p>
-<p>&emsp;&emsp;回程路由：在R2路由器上配置一条到达PC1的回程静态路由（以PC1 10.16.1.1/24 作为目的节点，以B结点IP地址10.16.2.1/24 作为下一跳地址），以提供Ping过程回程ICMP消息的路由路径。</p>
+<p><img src="/2021/06/03/%E7%BD%91%E7%BB%9C%E5%B1%82/20170515201755572.png"></p>
+<p>  正向路由：在R1路由器上配置了到达PC2的正向静态路由（以PC2 10.16.3.2/24 作为源节点，以C结点IP地址10.16.2.2/24 作为下一跳地址）；</p>
+<p>  回程路由：在R2路由器上配置一条到达PC1的回程静态路由（以PC1 10.16.1.1/24 作为目的节点，以B结点IP地址10.16.2.1/24 作为下一跳地址），以提供Ping过程回程ICMP消息的路由路径。</p>
 <ul>
 <li>接力性</li>
 </ul>
 <p>如果某条静态路由中间经过的跳数大于1（也就是整条路由经历了三个或以上的路由器结点），则必须在除最后一个路由器外的其它路由上依次配置到达相同目的节点或目的网络的静态路由，这就是静态路由的接力，否则仅在源路由器上配置静态路由还是不可以的。</p>
 <p>下图所示是一个三个路由器串联的简单网络，各个路由器及结点以及PC机的IP地址在图中做了标注，PC1已经配置好指向R1的A结点的地址的网关，现假设要使PC1能Ping通PC2，则需要配置一下四条路由（两条正向，两条反向）。</p>
-<p><img src="/2021/06/03/%E7%BD%91%E7%BB%9C%E5%B1%82/20170515203315361.png" alt></p>
-<p>&emsp;&emsp;在R1路由器上配置了到达PC2的正向静态路由（以PC2 10.16.4.2/24 作为目的节点，以C结点IP地址 10.16.2.2/24 作为下一跳地址）。</p>
-<p>&emsp;&emsp;在R2路由器上配置了到达PC2的正向静态路由（以PC2 10.16.4.2/24 作为目的节点，以E结点IP地址 10.16.3.2/24 作为下一跳地址）。</p>
-<p>&emsp;&emsp;在R3路由上配置一条到达PC1的回程静态路由（以PC1 10.16.1.1/24 作为目的节点，以D结点IP地址 10.16.3.1/24 作为下一跳地址），以提供Ping过程回程ICMP消息的路由路径。</p>
-<p>&emsp;&emsp;在R2路由器上配置一条到达PC1的回程静态路由（以PC1 10.16.1.1/24 作为目的节点，以B结点IP地址 10.16.2.1/24 作为下一跳地址），以提供Ping过程回程ICMP消息的接力路由路径。</p>
+<p><img src="/2021/06/03/%E7%BD%91%E7%BB%9C%E5%B1%82/20170515203315361.png"></p>
+<p>  在R1路由器上配置了到达PC2的正向静态路由（以PC2 10.16.4.2/24 作为目的节点，以C结点IP地址 10.16.2.2/24 作为下一跳地址）。</p>
+<p>  在R2路由器上配置了到达PC2的正向静态路由（以PC2 10.16.4.2/24 作为目的节点，以E结点IP地址 10.16.3.2/24 作为下一跳地址）。</p>
+<p>  在R3路由上配置一条到达PC1的回程静态路由（以PC1 10.16.1.1/24 作为目的节点，以D结点IP地址 10.16.3.1/24 作为下一跳地址），以提供Ping过程回程ICMP消息的路由路径。</p>
+<p>  在R2路由器上配置一条到达PC1的回程静态路由（以PC1 10.16.1.1/24 作为目的节点，以B结点IP地址 10.16.2.1/24 作为下一跳地址），以提供Ping过程回程ICMP消息的接力路由路径。</p>
 <ul>
 <li>优先级较高</li>
 </ul>
@@ -381,95 +403,81 @@
 <ul>
 <li>适用小型网络</li>
 </ul>
-<ol>
+<ol start="2" type="1">
 <li>动态路由</li>
 </ol>
-<p>&emsp;&emsp;静态路由对于小型化且变化不是很频繁的网络来说还是可行的，如局域网。但是对于较大型的广域网来说，由于拓扑结构较复杂，且网络结构可能经常变动，静态路由就不再适用了，通常采用更加灵活，更具自动特性的动态路由。总体来说，动态路由具有以下几个方面的特点：</p>
+<p>  静态路由对于小型化且变化不是很频繁的网络来说还是可行的，如局域网。但是对于较大型的广域网来说，由于拓扑结构较复杂，且网络结构可能经常变动，静态路由就不再适用了，通常采用更加灵活，更具自动特性的动态路由。总体来说，动态路由具有以下几个方面的特点：</p>
 <ul>
 <li>自动生成</li>
 </ul>
 <p>动态路由的一个最重要的特点就是在网络某条路由所包括的路由器同时启动了某种动态路由协议，通告了各自所直接连接的网络后，则这些路由器间就会自动生成这些路由器直接连接的网络间的路由表项，管理员无须一一手动创建。</p>
 <ul>
-<li><p>自动调整</p>
-</li>
-<li><p>自动通告</p>
-</li>
-<li><p>自动生成双向路由</p>
-</li>
-<li><p>仅可生成网络间的路由表项<br>动态路由仅可生成各路由器所直接连接的各个网络或子网间的路由表项，不能生成到达具体节点或主机的动态路由表项，如果仅需生成到达某个结点或主机的路由，则需要选择静态路由。</p>
-</li>
+<li><p>自动调整</p></li>
+<li><p>自动通告</p></li>
+<li><p>自动生成双向路由</p></li>
+<li><p>仅可生成网络间的路由表项 动态路由仅可生成各路由器所直接连接的各个网络或子网间的路由表项，不能生成到达具体节点或主机的动态路由表项，如果仅需生成到达某个结点或主机的路由，则需要选择静态路由。</p></li>
 </ul>
-<h5 id="路由算法"><a href="#路由算法" class="headerlink" title="路由算法"></a>路由算法</h5><ol>
+<h5 id="路由算法">路由算法</h5>
+<ol type="1">
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/syzdev/article/details/104694066">RIP协议</a></li>
 <li><a target="_blank" rel="noopener" href="https://racns.com/558.html">OSPF协议</a></li>
 </ol>
-<h4 id="二层交换机和三层交换机"><a href="#二层交换机和三层交换机" class="headerlink" title="二层交换机和三层交换机"></a>二层交换机和三层交换机</h4><ul>
+<h4 id="二层交换机和三层交换机">二层交换机和三层交换机</h4>
+<ul>
 <li>二层交换机</li>
 </ul>
-<p>&emsp;&emsp;二层交换机就是传统意义上的交换，使用mac地址作为转发依据，建立起mac到端口的映射（mac表，类似于（00:08:06:09:ab:01 port1））。</p>
-<p>&emsp;&emsp;二层交换技术是发展比较成熟，二层交换机属数据链路层设备，可以识别数据包中的MAC地址信息，根据MAC地址进行转发，并将这些MAC地址与对应的端口记录在自己内部的一个地址表(mac表)中。具体的工作流程如下：</p>
-<ol>
-<li><p>当交换机从某个端口收到一个数据帧，它先读取帧头中的源MAC地址，这样它就知道源MAC地址的主机是连在哪个端口上的；（学习的是源mac）</p>
-</li>
-<li><p>再去读取帧头中的目的MAC地址，并在mac表中查找相应的端口；</p>
-</li>
-<li><p>如果mac表中有与这目的MAC地址对应的端口，把数据帧直接复制到这端口上；</p>
-</li>
-<li><p>如果mac表中找不到相应的端口，则把数据帧广播到所有端口上，当目的主机对源主机进行回应时，交换机又可以学习一目的MAC地址与哪个端口对应，在下次传送数据时就不再需要对所有端口进行广播了。</p>
-</li>
+<p>  二层交换机就是传统意义上的交换，使用mac地址作为转发依据，建立起mac到端口的映射（mac表，类似于（00:08:06:09:ab:01 port1））。</p>
+<p>  二层交换技术是发展比较成熟，二层交换机属数据链路层设备，可以识别数据包中的MAC地址信息，根据MAC地址进行转发，并将这些MAC地址与对应的端口记录在自己内部的一个地址表(mac表)中。具体的工作流程如下：</p>
+<ol type="1">
+<li><p>当交换机从某个端口收到一个数据帧，它先读取帧头中的源MAC地址，这样它就知道源MAC地址的主机是连在哪个端口上的；（学习的是源mac）</p></li>
+<li><p>再去读取帧头中的目的MAC地址，并在mac表中查找相应的端口；</p></li>
+<li><p>如果mac表中有与这目的MAC地址对应的端口，把数据帧直接复制到这端口上；</p></li>
+<li><p>如果mac表中找不到相应的端口，则把数据帧广播到所有端口上，当目的主机对源主机进行回应时，交换机又可以学习一目的MAC地址与哪个端口对应，在下次传送数据时就不再需要对所有端口进行广播了。</p></li>
 </ol>
 <p>不断的循环这个过程，对于全网的MAC地址信息都可以学习到，二层交换机就是这样建立和维护它自己的地址表。</p>
 <ul>
 <li>三层交换机</li>
 </ul>
-<p>&emsp;&emsp;二层交换机的二层数据交换一般都是使用ASIC（Application Specific Integrated Circuit ，专用集成电路）的硬件芯片中的CAM表来实现的，因为是硬件转发，所以转发性能非常高。而三层交换机的三层转发也是依靠ASIC芯片完成的（路由器的路由功能主要依靠CPU软件进行的），但其中除了二层交换用的CAM表外，还保存有专门用于三层转发的三层硬件转发表。</p>
+<p>  二层交换机的二层数据交换一般都是使用ASIC（Application Specific Integrated Circuit ，专用集成电路）的硬件芯片中的CAM表来实现的，因为是硬件转发，所以转发性能非常高。而三层交换机的三层转发也是依靠ASIC芯片完成的（路由器的路由功能主要依靠CPU软件进行的），但其中除了二层交换用的CAM表外，还保存有专门用于三层转发的三层硬件转发表。</p>
 <p>三层交换示例:</p>
-<p>&emsp;&emsp;在三层交换中，同一交换机上的不同网段主机通信和不同交换机上的不同网段主机通信的基本原理是一样的，只是具体流程有所区别。本节仅以比较简单的”同一交换机上的不同网段主机通信”这种情形来解释上节介绍的三层交换原理。<br>&emsp;&emsp;如图所示，通信的源、目的主机连接在同一台三层交换机上，但它们位于不同VLAN（也位于不同网段）。对于三层交换机来说，这两台主机都位于它的直连网段内，它们的IP对应的路由都是直连路由。图中已标明了两台主机的MAC地址、IP地址、网关IP地址（也就是对应VLAN接口IP地址），以及三层交换机的MAC地址。</p>
+<p>  在三层交换中，同一交换机上的不同网段主机通信和不同交换机上的不同网段主机通信的基本原理是一样的，只是具体流程有所区别。本节仅以比较简单的"同一交换机上的不同网段主机通信"这种情形来解释上节介绍的三层交换原理。   如图所示，通信的源、目的主机连接在同一台三层交换机上，但它们位于不同VLAN（也位于不同网段）。对于三层交换机来说，这两台主机都位于它的直连网段内，它们的IP对应的路由都是直连路由。图中已标明了两台主机的MAC地址、IP地址、网关IP地址（也就是对应VLAN接口IP地址），以及三层交换机的MAC地址。</p>
 <p>【说明】本示例中虽然划分了VLAN，但是在下面的数据转发流程中我们并没有提到VLAN标记，那是因为在本示例中，通信双方主机都连接到同一个三层交换机上，端口类型均为Access类型，发送和接收的数据帧都是无VLAN标记的。在下节介绍的示例中，在数据的转发过程中将会涉及到VLAN标记问题。</p>
-<p><img src="/2021/06/03/%E7%BD%91%E7%BB%9C%E5%B1%82/1562145-20190305154740233-694524388.png" alt></p>
-<p>&emsp;&emsp;当 PC A 要第一次向 PC B 发数据包时，数据包的传输流程如下：（假设三层交换机上当前还未建立任何硬件转发表项）</p>
-<ol>
-<li><p>PC A首先检查出目的IP地址2.1.1.2（PC B）与自己不在同一网段，觉得就这样直接发送肯定不行，于是把要发送的数据包先缓存起来。它知道这个数据包必须经过网关来转发，所以先查看一下自己是已经知道网关的MAC地址（也就是在PC A主机的ARP表中查看是否有与网关IP地址对应的MAC地址表项）。如果有，则直接把要发送给PC B的数据包在封装成数据帧时，把“目的MAC地址”字段的值设为网关的MAC地址（也就是三层交换机的MAC地址MAC S，交换机上各端口、各VLAN是共享一个或多个MAC地址的）。</p>
-</li>
-<li><p>如果PC A在自己的ARP表中没有找到网关MAC地址，则先向网关发出（其实是会向本VLAN内所有节点发出）一个ARP广播请求报文，以获取网关IP地址1.1.1.1所对应的MAC地址。此ARP请求报文的“源MAC地址”字段是PC A的MAC地址“MAC A”，“目的MAC地址”因为未知，以全0格式填充；“源IP地址”和“目的IP地址”字段分别填上PC A的IP地址（1.1.1.2）和网关的IP地址（1.1.1.1）。</p>
-</li>
+<p><img src="/2021/06/03/%E7%BD%91%E7%BB%9C%E5%B1%82/1562145-20190305154740233-694524388.png"></p>
+<p>  当 PC A 要第一次向 PC B 发数据包时，数据包的传输流程如下：（假设三层交换机上当前还未建立任何硬件转发表项）</p>
+<ol type="1">
+<li><p>PC A首先检查出目的IP地址2.1.1.2（PC B）与自己不在同一网段，觉得就这样直接发送肯定不行，于是把要发送的数据包先缓存起来。它知道这个数据包必须经过网关来转发，所以先查看一下自己是已经知道网关的MAC地址（也就是在PC A主机的ARP表中查看是否有与网关IP地址对应的MAC地址表项）。如果有，则直接把要发送给PC B的数据包在封装成数据帧时，把“目的MAC地址”字段的值设为网关的MAC地址（也就是三层交换机的MAC地址MAC S，交换机上各端口、各VLAN是共享一个或多个MAC地址的）。</p></li>
+<li><p>如果PC A在自己的ARP表中没有找到网关MAC地址，则先向网关发出（其实是会向本VLAN内所有节点发出）一个ARP广播请求报文，以获取网关IP地址1.1.1.1所对应的MAC地址。此ARP请求报文的“源MAC地址”字段是PC A的MAC地址“MAC A”，“目的MAC地址”因为未知，以全0格式填充；“源IP地址”和“目的IP地址”字段分别填上PC A的IP地址（1.1.1.2）和网关的IP地址（1.1.1.1）。</p></li>
 </ol>
-<p>&emsp;&emsp;ARP请求报文向下传输到了以太网数据链路层后被再次封装成以太网帧，以太网帧头中的“源MAC地址”字段值仍为PC A的MAC地址“MAC A”，“目的MAC地址”字段值为广播MAC地址FF-FF-FF-FF-FF-FF，“帧类型”字段填上ARP的协议号0x0806。</p>
-<ol>
+<p>  ARP请求报文向下传输到了以太网数据链路层后被再次封装成以太网帧，以太网帧头中的“源MAC地址”字段值仍为PC A的MAC地址“MAC A”，“目的MAC地址”字段值为广播MAC地址FF-FF-FF-FF-FF-FF，“帧类型”字段填上ARP的协议号0x0806。</p>
+<ol start="3" type="1">
 <li>三层交换机在收到PC A发来的ARP请求报文后，检查请求报文发现被请求IP地址（也就是“目的IP地址”）是自己的三层接口IP地址，于是向 PCA 发回一个ARP应答报文，并将对应的三层接口MAC（MAC S）填充在应答报文中的“目的MAC地址“字段其中。同时通过对PC A发送的ARP请求报文分析，把PC A的IP地址与MAC地址对应关系（1.1.1.2&lt;==&gt;MAC A）记录到自己的ARP表中去，然后把PC A的IP地址（作为“目的IP地址”）、MAC地址（作为“下一跳MAC地址”），以及与交换机直接相连的端口号等信息下发到三层交换机ASIC芯片中的三层硬件转发表。此时在三层硬件转发表中就有了第一个转发表项，即PC A的转发表项。</li>
 </ol>
 <p>【说明】在三层交换机中，最关键的就是它有一个专门用于三层转发的“三层硬件转发表”，它和“ARP表”之间有联系，但也有区别。ARP表中只是IP地址和MAC地址的映射关系，不包括转发出口，也不包括对应的VLAN ID，而三层硬件转发表中则包括了全部这些，形成一个：目的IP地址、VLAN ID、端口和下一跳MAC地址的关系表项。因为在进行三层转发时，改变的是帧封装后的源和目的MAC地址这两个字段，原来输入IP包中的“目的MAC地址”作为转发的“下一跳MAC地址”，原来的“源MAC地址”改为三层交换机自身的MAC地址，源和目的IP地址都不变（因为这是封装在帧的“数据”部分）。另外，三层转发表是存储在ASCI硬件芯片上的，直接由ASIC芯片调用，而ARP表是存储在内存中，由CPU软件调用。但三层硬件转发表项还是由CPU提供的。</p>
-<ol>
-<li><p>PC A在收到网关的ARP应答报文后，把要发送给PC B的数据包经过帧封装后的 “目的MAC地址”修改为网关MAC地址（MAC S1），其它不变，先把数据包发给网关（三层交换机）。</p>
-</li>
-<li><p>三层交换机在收到这个数据包后，因为“目的MAC地址”为交换机自己的MAC地址，而且“目的IP地址”和“源IP地址”不在同一网段，所以会直接提交到负责三层交换的ASIC芯片，根据包中的“目的IP地址”（PC B的IP地址2.1.1.2）在三层硬件转发表中查看有无对应表项，因为是第一次通信，所以结果是查找失败，于是将数据包再转送到CPU去进行软件路由处理。</p>
-</li>
-<li><p>CPU同样会根据包中的“目的IP地址”去查找其软件路由表，发现匹配了一个直连网段（PC B对应的网段），于是继续查在ARP表中查找对应的MAC地址项。同样是由于是第一次查找，所以仍然查找失败。如果在ARP表中找到了对应的MAC地址，则数据可以直接由软件路由表转发了。</p>
-</li>
-<li><p>下面仍以在ARP表中也没找到PC B对应的MAC地址为例进行介绍。此时三层交换机CPU会在PC B所在网段的AN 3中所有端口发送一个ARP广播请求报文，查找“目的IP地址”为2.1.1.2所对应MAC地址。报文经过帧封装后的“源MAC地址”是三层交换机的MAC地址（MAC S），“目的MAC地址”全为0，“源IP地址”是VLAN 3网段的网关IP地址（2.1.1.1），“目的IP地址”是PC B的IP地址（2.1.1.2）。</p>
-</li>
-<li><p>PC B在收到三层交换机CPU发送的ARP请求报文后，检查发现被请求的IP地址是自己的IP地址，于是发送一个ARP应答报文，并将自己的MAC地址（MAC B）包含在其中。同时，将三层交换机上VLAN 3网段的网关IP地址与MAC地址的对应关系（2.1.1.1&lt;==&gt;MAC S）记录到自己的ARP表中去。</p>
-</li>
-<li><p>三层交换机CPU在收到PC B的ARP应答报文后，将其IP地址和MAC地址对应关系（2.1.1.2&lt;==&gt;MAC B）记录到自己的ARP表中去，把PC B的IP地址、MAC地址、进入交换机的端口号等信息下发到三层交换机的三层转发中。此时转发表中就有到达PC A和PC B这两条对应的表项了。</p>
-</li>
-<li><p>三层交换机CPU根据获得的PC B的MAC地址和端口信息，以及软件路由表信息，把由PC A发来的IP数据包转发给PC B，这样就完成了PC A到PC B的第一次单向通信。</p>
-</li>
+<ol start="4" type="1">
+<li><p>PC A在收到网关的ARP应答报文后，把要发送给PC B的数据包经过帧封装后的 “目的MAC地址”修改为网关MAC地址（MAC S1），其它不变，先把数据包发给网关（三层交换机）。</p></li>
+<li><p>三层交换机在收到这个数据包后，因为“目的MAC地址”为交换机自己的MAC地址，而且“目的IP地址”和“源IP地址”不在同一网段，所以会直接提交到负责三层交换的ASIC芯片，根据包中的“目的IP地址”（PC B的IP地址2.1.1.2）在三层硬件转发表中查看有无对应表项，因为是第一次通信，所以结果是查找失败，于是将数据包再转送到CPU去进行软件路由处理。</p></li>
+<li><p>CPU同样会根据包中的“目的IP地址”去查找其软件路由表，发现匹配了一个直连网段（PC B对应的网段），于是继续查在ARP表中查找对应的MAC地址项。同样是由于是第一次查找，所以仍然查找失败。如果在ARP表中找到了对应的MAC地址，则数据可以直接由软件路由表转发了。</p></li>
+<li><p>下面仍以在ARP表中也没找到PC B对应的MAC地址为例进行介绍。此时三层交换机CPU会在PC B所在网段的AN 3中所有端口发送一个ARP广播请求报文，查找“目的IP地址”为2.1.1.2所对应MAC地址。报文经过帧封装后的“源MAC地址”是三层交换机的MAC地址（MAC S），“目的MAC地址”全为0，“源IP地址”是VLAN 3网段的网关IP地址（2.1.1.1），“目的IP地址”是PC B的IP地址（2.1.1.2）。</p></li>
+<li><p>PC B在收到三层交换机CPU发送的ARP请求报文后，检查发现被请求的IP地址是自己的IP地址，于是发送一个ARP应答报文，并将自己的MAC地址（MAC B）包含在其中。同时，将三层交换机上VLAN 3网段的网关IP地址与MAC地址的对应关系（2.1.1.1&lt;==&gt;MAC S）记录到自己的ARP表中去。</p></li>
+<li><p>三层交换机CPU在收到PC B的ARP应答报文后，将其IP地址和MAC地址对应关系（2.1.1.2&lt;==&gt;MAC B）记录到自己的ARP表中去，把PC B的IP地址、MAC地址、进入交换机的端口号等信息下发到三层交换机的三层转发中。此时转发表中就有到达PC A和PC B这两条对应的表项了。</p></li>
+<li><p>三层交换机CPU根据获得的PC B的MAC地址和端口信息，以及软件路由表信息，把由PC A发来的IP数据包转发给PC B，这样就完成了PC A到PC B的第一次单向通信。</p></li>
 </ol>
-<p>&emsp;&emsp;由于芯片内部的三层引擎中已经保存了从PC A到达PC B的完整转发路径信息，所以以后PC A与PC B之间进行通信，或其它网段的站点想要与PC A或PC B进行通信时，三层交换机的ASIC芯片就会直接把包从对应的三层硬件转发表项中指定的端口转发出去，而不必再把包交给CPU进行路由处理。这就是所谓的“一次路由（指通过CPU路由表查到了对应的直连网段），多次交换”的原理，大大提高了转发速度。</p>
-<h4 id="三层交换机和路由器的区别"><a href="#三层交换机和路由器的区别" class="headerlink" title="三层交换机和路由器的区别"></a>三层交换机和路由器的区别</h4><p>&emsp;&emsp;三层交换机与路由器的主要区别，之所以有人搞不清三层交换机和路由器之间的区别，最根本就是三层交换机也具有“路由”功能，与传统路由器的路由功能总体上是一致的。虽然如此，三层交换机与路由器还是存在着相当大的本质区别的。</p>
-<ol>
-<li>主要功能不同 </li>
+<p>  由于芯片内部的三层引擎中已经保存了从PC A到达PC B的完整转发路径信息，所以以后PC A与PC B之间进行通信，或其它网段的站点想要与PC A或PC B进行通信时，三层交换机的ASIC芯片就会直接把包从对应的三层硬件转发表项中指定的端口转发出去，而不必再把包交给CPU进行路由处理。这就是所谓的“一次路由（指通过CPU路由表查到了对应的直连网段），多次交换”的原理，大大提高了转发速度。</p>
+<h4 id="三层交换机和路由器的区别">三层交换机和路由器的区别</h4>
+<p>  三层交换机与路由器的主要区别，之所以有人搞不清三层交换机和路由器之间的区别，最根本就是三层交换机也具有“路由”功能，与传统路由器的路由功能总体上是一致的。虽然如此，三层交换机与路由器还是存在着相当大的本质区别的。</p>
+<ol type="1">
+<li>主要功能不同</li>
 </ol>
-<p>&emsp;&emsp;虽然三层交换机与路由器都具有路由功能，但我们不能因此而把它们等同起来，正如现在许多网络设备同时具备多种传统网络设备功能一样，就如现在有许多宽带路由器不仅具有路由功能，还提供了交换机端口、硬件防火墙功能，但不能把它与交换机或者防火墙等同起来一样。因为这些路由器的主要功能还是路由功能，其它功能只不过是其附加功能，其目的是使设备适用面更广、使其更加实用。这里的三层交换机也一样，它仍是交换机产品，只不过它是具备了一些基本的路由功能的交换机，它的主要功能仍是数据交换。也就是说它同时具备了数据交换和路由转发两种功能，但其主要功能还是数据交换；而路由器仅具有路由转发这一种主要功能。</p>
-<ol>
+<p>  虽然三层交换机与路由器都具有路由功能，但我们不能因此而把它们等同起来，正如现在许多网络设备同时具备多种传统网络设备功能一样，就如现在有许多宽带路由器不仅具有路由功能，还提供了交换机端口、硬件防火墙功能，但不能把它与交换机或者防火墙等同起来一样。因为这些路由器的主要功能还是路由功能，其它功能只不过是其附加功能，其目的是使设备适用面更广、使其更加实用。这里的三层交换机也一样，它仍是交换机产品，只不过它是具备了一些基本的路由功能的交换机，它的主要功能仍是数据交换。也就是说它同时具备了数据交换和路由转发两种功能，但其主要功能还是数据交换；而路由器仅具有路由转发这一种主要功能。</p>
+<ol start="2" type="1">
 <li>主要适用的环境不一样</li>
 </ol>
-<p>&emsp;&emsp;三层交换机的路由功能通常比较简单，因为它所面对的主要是简单的局域网连接。正因如此，三层交换机的路由功能通常比较简单，路由路径远没有路由器那么复杂。它用在局域网中的主要用途还是提供快速数据交换功能，满足局域网数据交换频繁的应用特点。 而路由器则不同，它的设计初哀就是为了满足不同类型的网络连接，虽然也适用于局域网之间的连接，但它的路由功能更多的体现在不同类型网络之间的互联上，如局域网与广域网之间的连接、不同协议的网络之间的连接等，所以路由器主要是用于不同类型的网络之间。它最主要的功能就是路由转发，解决好各种复杂路由路径网络的连接就是它的最终目的，所以路由器的路由功能通常非常强大，不仅适用于同种协议的局域网间，更适用于不同协议的局域网与广域网间。它的优势在于选择最佳路由、负荷分担、链路备份及和其他网络进行路由信息的交换等等路由器所具有功能。</p>
-<ol>
-<li>性能体现不一样 </li>
+<p>  三层交换机的路由功能通常比较简单，因为它所面对的主要是简单的局域网连接。正因如此，三层交换机的路由功能通常比较简单，路由路径远没有路由器那么复杂。它用在局域网中的主要用途还是提供快速数据交换功能，满足局域网数据交换频繁的应用特点。 而路由器则不同，它的设计初哀就是为了满足不同类型的网络连接，虽然也适用于局域网之间的连接，但它的路由功能更多的体现在不同类型网络之间的互联上，如局域网与广域网之间的连接、不同协议的网络之间的连接等，所以路由器主要是用于不同类型的网络之间。它最主要的功能就是路由转发，解决好各种复杂路由路径网络的连接就是它的最终目的，所以路由器的路由功能通常非常强大，不仅适用于同种协议的局域网间，更适用于不同协议的局域网与广域网间。它的优势在于选择最佳路由、负荷分担、链路备份及和其他网络进行路由信息的交换等等路由器所具有功能。</p>
+<ol start="3" type="1">
+<li>性能体现不一样</li>
 </ol>
-<p>&emsp;&emsp;从技术上讲，路由器和三层交换机在数据包交换操作上存在着明显区别。路由器一般由基于cpu的软件路由引擎执行数据包交换，而三层交换机通过硬件执行数据包交换。三层交换机在对第一个数据流进行路由后，它将会产生一个MAC地址与IP地址的映射表，当同样的数据流再次通过时，将根据此表直接从二层通过而不是再次路由，从而消除了路由器进行路由选择而造成网络的延迟，提高了数据包转发的效率。同时，三层交换机的路由查找是针对数据流的，它利用缓存技术，很容易利用ASIC技术来实现，因此，可以大大节约成本，并实现快速转发。而路由器的转发采用最长匹配的方式，实现复杂，通常使用软件来实现，转发效率较低。 正因如此，从整体性能上比较的话，三层交换机的性能要远优于路由器，非常适用于数据交换频繁的局域网中；而路由器虽然路由功能非常强大，但它的数据包转发效率远低于三层交换机，更适合于数据交换不是很频繁的不同类型网络的互联，如局域网与互联网的互联。如果把路由器，特别是高档路由器用于局域网中，则在相当大程度上是一种浪费（就其强大的路由功能而言），而且还不能很好地满足局域网通信性能需求，影响子网间的正常通信。</p>
-<p>&emsp;&emsp;综上所述，三层交换机与路由器之间还是存在着非常大的本质区别的。无论从哪方面来说，在局域网中进行多子网连接，最好还选用三层交换机，特别是在不同子网数据交换频繁的环境中。一方面可以确保子网间的通信性能需求，另一方面省去了另外购买交换机的投资。当然，如果子网间的通信不是很频繁，采用路由器也无可厚非，也可达到子网安全隔离相互通信的目的，具体要根据实际需求来定。</p>
+<p>  从技术上讲，路由器和三层交换机在数据包交换操作上存在着明显区别。路由器一般由基于cpu的软件路由引擎执行数据包交换，而三层交换机通过硬件执行数据包交换。三层交换机在对第一个数据流进行路由后，它将会产生一个MAC地址与IP地址的映射表，当同样的数据流再次通过时，将根据此表直接从二层通过而不是再次路由，从而消除了路由器进行路由选择而造成网络的延迟，提高了数据包转发的效率。同时，三层交换机的路由查找是针对数据流的，它利用缓存技术，很容易利用ASIC技术来实现，因此，可以大大节约成本，并实现快速转发。而路由器的转发采用最长匹配的方式，实现复杂，通常使用软件来实现，转发效率较低。 正因如此，从整体性能上比较的话，三层交换机的性能要远优于路由器，非常适用于数据交换频繁的局域网中；而路由器虽然路由功能非常强大，但它的数据包转发效率远低于三层交换机，更适合于数据交换不是很频繁的不同类型网络的互联，如局域网与互联网的互联。如果把路由器，特别是高档路由器用于局域网中，则在相当大程度上是一种浪费（就其强大的路由功能而言），而且还不能很好地满足局域网通信性能需求，影响子网间的正常通信。</p>
+<p>  综上所述，三层交换机与路由器之间还是存在着非常大的本质区别的。无论从哪方面来说，在局域网中进行多子网连接，最好还选用三层交换机，特别是在不同子网数据交换频繁的环境中。一方面可以确保子网间的通信性能需求，另一方面省去了另外购买交换机的投资。当然，如果子网间的通信不是很频繁，采用路由器也无可厚非，也可达到子网安全隔离相互通信的目的，具体要根据实际需求来定。</p>
 
     </div>
 
@@ -550,7 +558,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E5%B1%82%E4%B8%BB%E8%A6%81%E4%BD%9C%E7%94%A8%EF%BC%9A"><span class="nav-number">1.</span> <span class="nav-text">网络层主要作用：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#IP%E5%8D%8F%E8%AE%AE%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%8A%9F%E8%83%BD%EF%BC%9A"><span class="nav-number">2.</span> <span class="nav-text">IP协议的基本功能：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#IPv4%E6%95%B0%E6%8D%AE%E6%8A%A5%E5%A4%B4%E9%83%A8%E6%A0%BC%E5%BC%8F"><span class="nav-number">3.</span> <span class="nav-text">IPv4数据报头部格式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%89%88%E6%9C%AC%EF%BC%88Version%EF%BC%89"><span class="nav-number">3.1.</span> <span class="nav-text">版本（Version）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A4%B4%E9%83%A8%E9%95%BF%E5%BA%A6%EF%BC%88Header-Length%EF%BC%89"><span class="nav-number">3.2.</span> <span class="nav-text">头部长度（Header Length）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8C%BA%E5%88%86%E6%9C%8D%E5%8A%A1%EF%BC%88Differentialted-Services%EF%BC%89"><span class="nav-number">3.3.</span> <span class="nav-text">区分服务（Differentialted Services）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%80%BB%E9%95%BF%E5%BA%A6%EF%BC%88Total-Length%EF%BC%89"><span class="nav-number">3.4.</span> <span class="nav-text">总长度（Total Length）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A0%87%E8%AF%86%EF%BC%88Identification%EF%BC%89"><span class="nav-number">3.5.</span> <span class="nav-text">标识（Identification）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A0%87%E5%BF%97%EF%BC%88Flags%EF%BC%89"><span class="nav-number">3.6.</span> <span class="nav-text">标志（Flags）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%AE%B5%E5%81%8F%E7%A7%BB%EF%BC%88Fragment-Offset%EF%BC%89"><span class="nav-number">3.7.</span> <span class="nav-text">段偏移（Fragment Offset）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%94%9F%E5%AD%98%E6%97%B6%E9%97%B4%EF%BC%88Time-To-Live%EF%BC%89"><span class="nav-number">3.8.</span> <span class="nav-text">生存时间（Time To Live）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8D%8F%E8%AE%AE%EF%BC%88Protocol%EF%BC%89"><span class="nav-number">3.9.</span> <span class="nav-text">协议（Protocol）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A0%A1%E9%AA%8C%E5%92%8C%EF%BC%88Checksum%EF%BC%89"><span class="nav-number">3.10.</span> <span class="nav-text">校验和（Checksum）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%BA%90%E5%9C%B0%E5%9D%80-%E7%9B%AE%E7%9A%84%E5%9C%B0%E5%9D%80%EF%BC%88Source-Address-Destination-Address%EF%BC%89"><span class="nav-number">3.11.</span> <span class="nav-text">源地址&#x2F;目的地址（Source Address&#x2F;Destination Address）</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ARP%E5%8D%8F%E8%AE%AE"><span class="nav-number">4.</span> <span class="nav-text">ARP协议</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#ARP%E5%8D%8F%E8%AE%AE%E6%8A%A5%E6%96%87%E6%A0%BC%E5%BC%8F"><span class="nav-number">4.1.</span> <span class="nav-text">ARP协议报文格式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ARP%E5%9C%B0%E5%9D%80%E8%A7%A3%E6%9E%90%E5%8E%9F%E7%90%86"><span class="nav-number">4.2.</span> <span class="nav-text">ARP地址解析原理</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ICMP%E5%8D%8F%E8%AE%AE"><span class="nav-number">5.</span> <span class="nav-text">ICMP协议</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#ICMP%E5%8D%8F%E8%AE%AE%E6%8A%A5%E6%96%87%E6%A0%BC%E5%BC%8F"><span class="nav-number">5.1.</span> <span class="nav-text">ICMP协议报文格式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84ICMP%E6%8A%A5%E6%96%87"><span class="nav-number">5.2.</span> <span class="nav-text">常见的ICMP报文</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B7%AF%E7%94%B1%E5%92%8C%E8%B7%AF%E7%94%B1%E7%AE%97%E6%B3%95"><span class="nav-number">6.</span> <span class="nav-text">路由和路由算法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%B7%AF%E7%94%B1%E7%9A%84%E5%88%86%E7%B1%BB"><span class="nav-number">6.1.</span> <span class="nav-text">路由的分类</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%B7%AF%E7%94%B1%E7%AE%97%E6%B3%95"><span class="nav-number">6.2.</span> <span class="nav-text">路由算法</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%8C%E5%B1%82%E4%BA%A4%E6%8D%A2%E6%9C%BA%E5%92%8C%E4%B8%89%E5%B1%82%E4%BA%A4%E6%8D%A2%E6%9C%BA"><span class="nav-number">7.</span> <span class="nav-text">二层交换机和三层交换机</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%89%E5%B1%82%E4%BA%A4%E6%8D%A2%E6%9C%BA%E5%92%8C%E8%B7%AF%E7%94%B1%E5%99%A8%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">8.</span> <span class="nav-text">三层交换机和路由器的区别</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E5%B1%82%E4%B8%BB%E8%A6%81%E4%BD%9C%E7%94%A8"><span class="nav-number">1.</span> <span class="nav-text">网络层主要作用：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ip%E5%8D%8F%E8%AE%AE%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%8A%9F%E8%83%BD"><span class="nav-number">2.</span> <span class="nav-text">IP协议的基本功能：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ipv4%E6%95%B0%E6%8D%AE%E6%8A%A5%E5%A4%B4%E9%83%A8%E6%A0%BC%E5%BC%8F"><span class="nav-number">3.</span> <span class="nav-text">IPv4数据报头部格式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%89%88%E6%9C%ACversion"><span class="nav-number">3.1.</span> <span class="nav-text">版本（Version）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A4%B4%E9%83%A8%E9%95%BF%E5%BA%A6header-length"><span class="nav-number">3.2.</span> <span class="nav-text">头部长度（Header Length）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8C%BA%E5%88%86%E6%9C%8D%E5%8A%A1differentialted-services"><span class="nav-number">3.3.</span> <span class="nav-text">区分服务（Differentialted Services）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%80%BB%E9%95%BF%E5%BA%A6total-length"><span class="nav-number">3.4.</span> <span class="nav-text">总长度（Total Length）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A0%87%E8%AF%86identification"><span class="nav-number">3.5.</span> <span class="nav-text">标识（Identification）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A0%87%E5%BF%97flags"><span class="nav-number">3.6.</span> <span class="nav-text">标志（Flags）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%AE%B5%E5%81%8F%E7%A7%BBfragment-offset"><span class="nav-number">3.7.</span> <span class="nav-text">段偏移（Fragment Offset）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%94%9F%E5%AD%98%E6%97%B6%E9%97%B4time-to-live"><span class="nav-number">3.8.</span> <span class="nav-text">生存时间（Time To Live）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8D%8F%E8%AE%AEprotocol"><span class="nav-number">3.9.</span> <span class="nav-text">协议（Protocol）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A0%A1%E9%AA%8C%E5%92%8Cchecksum"><span class="nav-number">3.10.</span> <span class="nav-text">校验和（Checksum）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%BA%90%E5%9C%B0%E5%9D%80%E7%9B%AE%E7%9A%84%E5%9C%B0%E5%9D%80source-addressdestination-address"><span class="nav-number">3.11.</span> <span class="nav-text">源地址&#x2F;目的地址（Source Address&#x2F;Destination Address）</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#arp%E5%8D%8F%E8%AE%AE"><span class="nav-number">4.</span> <span class="nav-text">ARP协议</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#arp%E5%8D%8F%E8%AE%AE%E6%8A%A5%E6%96%87%E6%A0%BC%E5%BC%8F"><span class="nav-number">4.1.</span> <span class="nav-text">ARP协议报文格式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#arp%E5%9C%B0%E5%9D%80%E8%A7%A3%E6%9E%90%E5%8E%9F%E7%90%86"><span class="nav-number">4.2.</span> <span class="nav-text">ARP地址解析原理</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#icmp%E5%8D%8F%E8%AE%AE"><span class="nav-number">5.</span> <span class="nav-text">ICMP协议</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#icmp%E5%8D%8F%E8%AE%AE%E6%8A%A5%E6%96%87%E6%A0%BC%E5%BC%8F"><span class="nav-number">5.1.</span> <span class="nav-text">ICMP协议报文格式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84icmp%E6%8A%A5%E6%96%87"><span class="nav-number">5.2.</span> <span class="nav-text">常见的ICMP报文</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B7%AF%E7%94%B1%E5%92%8C%E8%B7%AF%E7%94%B1%E7%AE%97%E6%B3%95"><span class="nav-number">6.</span> <span class="nav-text">路由和路由算法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%B7%AF%E7%94%B1%E7%9A%84%E5%88%86%E7%B1%BB"><span class="nav-number">6.1.</span> <span class="nav-text">路由的分类</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%B7%AF%E7%94%B1%E7%AE%97%E6%B3%95"><span class="nav-number">6.2.</span> <span class="nav-text">路由算法</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%8C%E5%B1%82%E4%BA%A4%E6%8D%A2%E6%9C%BA%E5%92%8C%E4%B8%89%E5%B1%82%E4%BA%A4%E6%8D%A2%E6%9C%BA"><span class="nav-number">7.</span> <span class="nav-text">二层交换机和三层交换机</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%89%E5%B1%82%E4%BA%A4%E6%8D%A2%E6%9C%BA%E5%92%8C%E8%B7%AF%E7%94%B1%E5%99%A8%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">8.</span> <span class="nav-text">三层交换机和路由器的区别</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

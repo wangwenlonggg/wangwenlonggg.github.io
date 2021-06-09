@@ -20,12 +20,12 @@
     var CONFIG = {"hostname":"wangwenlonggg.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="拥塞概念 在某段时间，若对网络中某资源的需求超过了该资源所能提供的可用部分，网络的性能就要变坏。这种现象称为拥塞 (congestion) 若网络中有许多资源同时产生拥塞，网络的性能就要明显变坏，整个网络的吞吐量将随输入负荷的增大而下降 出现拥塞的原因：∑ 对资源需求 &gt; 可用资源，这里的资源包括很多方面，比如路由器的缓存、路由器的处理速度、通信线路的容量等等 拥塞的现象和堵车的现象有点相似">
+  <meta name="description" content="拥塞概念  在某段时间，若对网络中某资源的需求超过了该资源所能提供的可用部分，网络的性能就要变坏。这种现象称为拥塞 (congestion) 若网络中有许多资源同时产生拥塞，网络的性能就要明显变坏，整个网络的吞吐量将随输入负荷的增大而下降 出现拥塞的原因：∑ 对资源需求 &gt; 可用资源，这里的资源包括很多方面，比如路由器的缓存、路由器的处理速度、通信线路的容量等等 拥塞的现象和堵车的">
 <meta property="og:type" content="article">
 <meta property="og:title" content="TCP拥塞控制">
 <meta property="og:url" content="http://wangwenlonggg.github.io/2021/06/05/TCP%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6/index.html">
 <meta property="og:site_name" content="wangwenlonggg">
-<meta property="og:description" content="拥塞概念 在某段时间，若对网络中某资源的需求超过了该资源所能提供的可用部分，网络的性能就要变坏。这种现象称为拥塞 (congestion) 若网络中有许多资源同时产生拥塞，网络的性能就要明显变坏，整个网络的吞吐量将随输入负荷的增大而下降 出现拥塞的原因：∑ 对资源需求 &gt; 可用资源，这里的资源包括很多方面，比如路由器的缓存、路由器的处理速度、通信线路的容量等等 拥塞的现象和堵车的现象有点相似">
+<meta property="og:description" content="拥塞概念  在某段时间，若对网络中某资源的需求超过了该资源所能提供的可用部分，网络的性能就要变坏。这种现象称为拥塞 (congestion) 若网络中有许多资源同时产生拥塞，网络的性能就要明显变坏，整个网络的吞吐量将随输入负荷的增大而下降 出现拥塞的原因：∑ 对资源需求 &gt; 可用资源，这里的资源包括很多方面，比如路由器的缓存、路由器的处理速度、通信线路的容量等等 拥塞的现象和堵车的">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://wangwenlonggg.github.io/2021/06/05/TCP%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6/20200307205309190.png">
 <meta property="og:image" content="http://wangwenlonggg.github.io/2021/06/05/TCP%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6/20200307215643248.png">
@@ -216,7 +216,8 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="拥塞概念"><a href="#拥塞概念" class="headerlink" title="拥塞概念"></a>拥塞概念</h3><ul>
+        <h3 id="拥塞概念">拥塞概念</h3>
+<ul>
 <li>在某段时间，若对网络中某资源的需求超过了该资源所能提供的可用部分，网络的性能就要变坏。这种现象称为拥塞 (congestion)</li>
 <li>若网络中有许多资源同时产生拥塞，网络的性能就要明显变坏，整个网络的吞吐量将随输入负荷的增大而下降</li>
 <li>出现拥塞的原因：∑ 对资源需求 &gt; 可用资源，这里的资源包括很多方面，比如路由器的缓存、路由器的处理速度、通信线路的容量等等</li>
@@ -234,14 +235,16 @@
 </ul>
 <hr>
 <p>拥塞控制与流量控制的区别：</p>
-<p><img src="/2021/06/05/TCP%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6/20200307205309190.png" alt></p>
-<h3 id="拥塞控制的一般原理"><a href="#拥塞控制的一般原理" class="headerlink" title="拥塞控制的一般原理"></a>拥塞控制的一般原理</h3><p><img src="/2021/06/05/TCP%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6/20200307215643248.png" alt></p>
+<p><img src="/2021/06/05/TCP%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6/20200307205309190.png"></p>
+<h3 id="拥塞控制的一般原理">拥塞控制的一般原理</h3>
+<p><img src="/2021/06/05/TCP%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6/20200307215643248.png"></p>
 <ul>
 <li>对理想的拥塞控制在达到资源上限之前，网络的吞吐量是平稳上升的，而达到最高点之后，整个网络的吞吐量可在最高点延续，这个时候哪怕有更多的分组注入网络，也能够以最高的吞吐量进行发送和接收数据</li>
 <li>实际的拥塞控制不可能达到理想拥塞控制的效果，随着注入网络的分组增加，吞吐量会逐渐增加，但达不到上限</li>
 <li>在设计拥塞算法时，由于拥塞都是动态的，每一时刻的可用资源和需求资源都是动态变化的，所以无法明确的确定一个边界，由于拥塞控制是一个全局问题，而发送方的一点无法获取到全局的网络状况，所以这使得拥塞控制的设计极为复杂</li>
 </ul>
-<h3 id="拥塞控制的方法"><a href="#拥塞控制的方法" class="headerlink" title="拥塞控制的方法"></a>拥塞控制的方法</h3><ul>
+<h3 id="拥塞控制的方法">拥塞控制的方法</h3>
+<ul>
 <li>TCP 采用基于窗口的方法进行拥塞控制。该方法属于闭环控制方法（反馈）</li>
 <li>TCP发送方维持一个<strong>拥塞窗口 cwnd (Congestion Window)</strong></li>
 <li>发送端利用拥塞窗口根据网络的拥塞情况调整发送的数据量</li>
@@ -261,13 +264,14 @@
 </ul>
 <hr>
 <p>TCP拥塞控制算法分为四种，分别用于数据传输的不同阶段：</p>
-<ol>
+<ol type="1">
 <li>慢开始 (slow-start)</li>
 <li>拥塞避免 (congestion avoidance)</li>
 <li>快重传 (fast retransmit)</li>
 <li>快恢复 (fast recovery)</li>
 </ol>
-<h4 id="慢开始-Slow-start"><a href="#慢开始-Slow-start" class="headerlink" title="慢开始 (Slow start)"></a>慢开始 (Slow start)</h4><ul>
+<h4 id="慢开始-slow-start">慢开始 (Slow start)</h4>
+<ul>
 <li>目的：用来确定网络的负载能力或拥塞程度</li>
 <li>算法的思路：由小到大逐渐增大拥塞窗口数值</li>
 <li>初始拥塞窗口cwnd设置：旧的规定在刚刚开始发送报文段时，先把初始拥塞窗口cwnd设置为1至2个发送方的最大报文段SMSS（ Sender Maximum Segment Size）的数值，新的RFC5681把初始拥塞窗口cwnd设置为不超过2至4个SMSS的数值</li>
@@ -276,32 +280,26 @@
 <blockquote>
 <p>慢开始门限 ssthresh 的用法如下：</p>
 <ul>
-<li><p>当 cwnd &lt; ssthresh 时，使用慢开始算法</p>
-</li>
-<li><p>当 cwnd &gt; ssthresh 时，停止使用慢开始算法而改用拥塞避免算法</p>
-</li>
-<li><p>当 cwnd = ssthresh 时，既可使用慢开始算法，也可使用拥塞避免算法</p>
-</li>
+<li><p>当 cwnd &lt; ssthresh 时，使用慢开始算法</p></li>
+<li><p>当 cwnd &gt; ssthresh 时，停止使用慢开始算法而改用拥塞避免算法</p></li>
+<li><p>当 cwnd = ssthresh 时，既可使用慢开始算法，也可使用拥塞避免算法</p></li>
 </ul>
 </blockquote>
 <ul>
-<li>拥塞窗口 cwnd 控制方法：在每收到一个对新的报文段的确认后，可以把拥塞窗口增加最多一个 SMSS 的数值，拥塞窗口 cwnd 每次的增加量 = min{N, SMSS}，即在N和SMSS之中取一个最小值，其中<strong> N 是原先未被确认的，但现在是被刚收到的确认报文段所确认的字节数</strong>，不难看出，当 N &lt; SMSS 时，拥塞窗口每次的增加量要小于 SMSS。用这样的方法逐步增大发送方的拥塞窗口 cwnd，可以使分组注入到网络的速率更加合理</li>
+<li>拥塞窗口 cwnd 控制方法：在每收到一个对新的报文段的确认后，可以把拥塞窗口增加最多一个 SMSS 的数值，拥塞窗口 cwnd 每次的增加量 = min{N, SMSS}，即在N和SMSS之中取一个最小值，其中** N 是原先未被确认的，但现在是被刚收到的确认报文段所确认的字节数**，不难看出，当 N &lt; SMSS 时，拥塞窗口每次的增加量要小于 SMSS。用这样的方法逐步增大发送方的拥塞窗口 cwnd，可以使分组注入到网络的速率更加合理</li>
 </ul>
-<p><img src="/2021/06/05/TCP%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6/20200307225634244.png" alt></p>
+<p><img src="/2021/06/05/TCP%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6/20200307225634244.png"></p>
 <blockquote>
 <p>传输轮次：</p>
 <ul>
-<li><p>使用慢开始算法后，每经过一个传输轮次 (transmission round)，拥塞窗口 cwnd 就加倍</p>
-</li>
-<li><p>一个传输轮次所经历的时间其实就是往返时间 RTT</p>
-</li>
-<li><p>“传输轮次”更加强调：把拥塞窗口 cwnd 所允许发送的报文段都连续发送出去，并收到了对已发送的最后一个字节的确认</p>
-</li>
-<li><p>例如，拥塞窗口 cwnd = 4，这时的往返时间 RTT 就是发送方连续发送 4 个报文段，并收到这 4 个报文段的确认，总共经历的时间</p>
-</li>
+<li><p>使用慢开始算法后，每经过一个传输轮次 (transmission round)，拥塞窗口 cwnd 就加倍</p></li>
+<li><p>一个传输轮次所经历的时间其实就是往返时间 RTT</p></li>
+<li><p>"传输轮次"更加强调：把拥塞窗口 cwnd 所允许发送的报文段都连续发送出去，并收到了对已发送的最后一个字节的确认</p></li>
+<li><p>例如，拥塞窗口 cwnd = 4，这时的往返时间 RTT 就是发送方连续发送 4 个报文段，并收到这 4 个报文段的确认，总共经历的时间</p></li>
 </ul>
 </blockquote>
-<h4 id="拥塞避免算法"><a href="#拥塞避免算法" class="headerlink" title="拥塞避免算法"></a>拥塞避免算法</h4><p>首先要提出一点，拥塞避免算法并不是完全避免拥塞，而是让拥塞来的更慢一些</p>
+<h4 id="拥塞避免算法">拥塞避免算法</h4>
+<p>首先要提出一点，拥塞避免算法并不是完全避免拥塞，而是让拥塞来的更慢一些</p>
 <ul>
 <li>思路：让拥塞窗口cwnd缓慢地增大，即毎经过一个往返时间RTT就把发送方的拥塞窗口cwnd加1，而不是加倍，使拥塞窗口cwnd按线性规律缓慢增长</li>
 <li>因此在拥塞避免阶段就有“加法增大”（ Additive Increase）的特点。这表明在拥塞避免阶段，拥塞窗口cwnd按线性规律缓慢增长，比慢开始算法的拥基窗口增长速率缓慢得多</li>
@@ -317,8 +315,8 @@
 </ul>
 <hr>
 <p>慢开始和拥塞避免算法的实现举例：</p>
-<p><img src="/2021/06/05/TCP%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6/20200307231451337.png" alt></p>
-<ol>
+<p><img src="/2021/06/05/TCP%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6/20200307231451337.png"></p>
+<ol type="1">
 <li>在执行慢开始算法时，拥塞窗口 cwnd=1，发送第一个报文段</li>
 <li>发送方每收到一个对新报文段的确认 ACK，就把拥塞窗口值加 1，然后开始下一轮的传输（请注意，横坐标是传输轮次，不是时间）。因此拥塞窗口 cwnd 随着传输轮次按指数规律增长</li>
 <li>当拥塞窗口 cwnd 增长到慢开始门限值 ssthresh 时（图中的点❶ ，此时拥塞窗口 cwnd = 16），就改为执行拥塞避免算法，拥塞窗口按线性规律增长</li>
@@ -328,36 +326,40 @@
 </ol>
 <hr>
 <p><strong>注意：</strong></p>
-<p>“拥塞避免”并非指完全能够避免了拥塞。利用以上的措施要完全避免网络拥塞还是不可能的<br>“拥塞避免”是说在拥塞避免阶段把拥塞窗口控制为按线性规律增长，使网络比较不容易出现拥塞</p>
-<h4 id="快重传算法"><a href="#快重传算法" class="headerlink" title="快重传算法"></a>快重传算法</h4><ul>
+<p>"拥塞避免"并非指完全能够避免了拥塞。利用以上的措施要完全避免网络拥塞还是不可能的 "拥塞避免"是说在拥塞避免阶段把拥塞窗口控制为按线性规律增长，使网络比较不容易出现拥塞</p>
+<h4 id="快重传算法">快重传算法</h4>
+<ul>
 <li>快重传和快恢复的目的，是为了防止因为报文段丢失重新进入到慢启动的过程，通过收到3-ACK（接收3次对同一报文的确认）判断</li>
 <li>发送方只要一连收到三个重复确认，就知道接收方确实没有收到报文段，因而应当立即进行重传（即“快重传”），这样就不会出现超时，发送方也不就会误认为出现了网络拥塞</li>
 <li>采用<strong>快重传 FR (Fast Retransmission)</strong> 算法可以让发送方尽早知道发生了个别报文段的丢失</li>
 <li>快重传算法首先要求接收方不要等待自己发送数据时才进行捎带确认，而是要立即发送确认，即使收到了失序的报文段也要立即发出对已收到的报文段的重复确认</li>
 </ul>
 <hr>
-<p><img src="/2021/06/05/TCP%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6/20200307233507221.png" alt></p>
-<ol>
+<p><img src="/2021/06/05/TCP%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6/20200307233507221.png"></p>
+<ol type="1">
 <li>发送方发送M3时传输过程中M3丢失，但是接收方接收到了M4报文段，那么接收方必须对M2进行重复的确认</li>
 <li>当发送方接收到连续3个对M2的确认后，发送方就知道了接收方没有接收到M3，应当立即重传M3，这也就是快重传的由来</li>
 <li>这样也不会出现超时，发送方也不会认为这是网络拥塞</li>
 </ol>
 <hr>
-<h4 id="快恢复算法"><a href="#快恢复算法" class="headerlink" title="快恢复算法"></a>快恢复算法</h4><p>当发送端收到连续三个重复的确认时，由于发送方现在认为网络很可能没有发生拥塞，因此现在不执行慢开始算法，而是执行<strong>快恢复算法 FR (Fast Recovery) 算法</strong>：</p>
+<h4 id="快恢复算法">快恢复算法</h4>
+<p>当发送端收到连续三个重复的确认时，由于发送方现在认为网络很可能没有发生拥塞，因此现在不执行慢开始算法，而是执行<strong>快恢复算法 FR (Fast Recovery) 算法</strong>：</p>
 <ul>
 <li>慢开始门限 ssthresh = 当前拥塞窗口 cwnd / 2</li>
 <li>新拥塞窗口 cwnd = 慢开始门限 ssthresh</li>
 <li>开始执行拥塞避免算法，使拥塞窗口缓慢地线性增大</li>
 </ul>
-<p><img src="/2021/06/05/TCP%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6/20200307234259997.png" alt></p>
+<p><img src="/2021/06/05/TCP%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6/20200307234259997.png"></p>
 <p><strong>加法增大，乘法减小 (AIMD)</strong></p>
 <ul>
 <li>可以看出，在拥塞避免阶段，拥塞窗口是按照线性规律增大的。这常称为“加法增大” AI (Additive Increase)</li>
 <li>当出现超时或3个重复的确认时，就要把门限值设置为当前拥塞窗口值的一半，并大大减小拥塞窗口的数值。这常称为“乘法减小”MD (Multiplicative Decrease)</li>
 <li>二者合在一起就是所谓的 AIMD 算法</li>
 </ul>
-<h4 id="拥塞控制流程图"><a href="#拥塞控制流程图" class="headerlink" title="拥塞控制流程图"></a>拥塞控制流程图</h4><p><img src="/2021/06/05/TCP%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6/20200307234633536.png" alt></p>
-<h4 id="发送窗口的上限值"><a href="#发送窗口的上限值" class="headerlink" title="发送窗口的上限值"></a>发送窗口的上限值</h4><ul>
+<h4 id="拥塞控制流程图">拥塞控制流程图</h4>
+<p><img src="/2021/06/05/TCP%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6/20200307234633536.png"></p>
+<h4 id="发送窗口的上限值">发送窗口的上限值</h4>
+<ul>
 <li>发送方的发送窗口的上限值应当取为接收方窗口 rwnd 和拥塞窗口 cwnd 这两个变量中较小的一个，即应按以下公式确定：发送窗口的上限值 = Min {rwnd, cwnd}</li>
 <li>当 rwnd &lt; cwnd 时，是接收方的接收能力限制发送窗口的最大值</li>
 <li>当 cwnd &lt; rwnd 时，则是网络的拥塞限制发送窗口的最大值</li>
@@ -447,7 +449,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8B%A5%E5%A1%9E%E6%A6%82%E5%BF%B5"><span class="nav-number">1.</span> <span class="nav-text">拥塞概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%E7%9A%84%E4%B8%80%E8%88%AC%E5%8E%9F%E7%90%86"><span class="nav-number">2.</span> <span class="nav-text">拥塞控制的一般原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">拥塞控制的方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%85%A2%E5%BC%80%E5%A7%8B-Slow-start"><span class="nav-number">3.1.</span> <span class="nav-text">慢开始 (Slow start)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8B%A5%E5%A1%9E%E9%81%BF%E5%85%8D%E7%AE%97%E6%B3%95"><span class="nav-number">3.2.</span> <span class="nav-text">拥塞避免算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BF%AB%E9%87%8D%E4%BC%A0%E7%AE%97%E6%B3%95"><span class="nav-number">3.3.</span> <span class="nav-text">快重传算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BF%AB%E6%81%A2%E5%A4%8D%E7%AE%97%E6%B3%95"><span class="nav-number">3.4.</span> <span class="nav-text">快恢复算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%E6%B5%81%E7%A8%8B%E5%9B%BE"><span class="nav-number">3.5.</span> <span class="nav-text">拥塞控制流程图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%91%E9%80%81%E7%AA%97%E5%8F%A3%E7%9A%84%E4%B8%8A%E9%99%90%E5%80%BC"><span class="nav-number">3.6.</span> <span class="nav-text">发送窗口的上限值</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8B%A5%E5%A1%9E%E6%A6%82%E5%BF%B5"><span class="nav-number">1.</span> <span class="nav-text">拥塞概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%E7%9A%84%E4%B8%80%E8%88%AC%E5%8E%9F%E7%90%86"><span class="nav-number">2.</span> <span class="nav-text">拥塞控制的一般原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">拥塞控制的方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%85%A2%E5%BC%80%E5%A7%8B-slow-start"><span class="nav-number">3.1.</span> <span class="nav-text">慢开始 (Slow start)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8B%A5%E5%A1%9E%E9%81%BF%E5%85%8D%E7%AE%97%E6%B3%95"><span class="nav-number">3.2.</span> <span class="nav-text">拥塞避免算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BF%AB%E9%87%8D%E4%BC%A0%E7%AE%97%E6%B3%95"><span class="nav-number">3.3.</span> <span class="nav-text">快重传算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BF%AB%E6%81%A2%E5%A4%8D%E7%AE%97%E6%B3%95"><span class="nav-number">3.4.</span> <span class="nav-text">快恢复算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%E6%B5%81%E7%A8%8B%E5%9B%BE"><span class="nav-number">3.5.</span> <span class="nav-text">拥塞控制流程图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%91%E9%80%81%E7%AA%97%E5%8F%A3%E7%9A%84%E4%B8%8A%E9%99%90%E5%80%BC"><span class="nav-number">3.6.</span> <span class="nav-text">发送窗口的上限值</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

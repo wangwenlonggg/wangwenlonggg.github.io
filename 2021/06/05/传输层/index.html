@@ -20,12 +20,12 @@
     var CONFIG = {"hostname":"wangwenlonggg.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="&amp;emsp;&amp;emsp;传输层的服务一般要经历传输连接建立阶段，数据传送阶段，传输连接释放阶段3个阶段才算完成一个完整的服务过程。而在数据传送阶段又分为一般数据传送和加速数据传送两种形式。传输层中最为常见的两个协议分别是传输控制协议TCP（Transmission Control Protocol）和用户数据报协议UDP（User Datagram Protocol） 。传输层提供逻辑连接的建立、">
+  <meta name="description" content="传输层的服务一般要经历传输连接建立阶段，数据传送阶段，传输连接释放阶段3个阶段才算完成一个完整的服务过程。而在数据传送阶段又分为一般数据传送和加速数据传送两种形式。传输层中最为常见的两个协议分别是传输控制协议TCP（Transmission Control Protocol）和用户数据报协议UDP（User Datagram Protocol） 。传输层提供逻辑连接的建立、传输层寻址、数据传输">
 <meta property="og:type" content="article">
 <meta property="og:title" content="传输层">
 <meta property="og:url" content="http://wangwenlonggg.github.io/2021/06/05/%E4%BC%A0%E8%BE%93%E5%B1%82/index.html">
 <meta property="og:site_name" content="wangwenlonggg">
-<meta property="og:description" content="&amp;emsp;&amp;emsp;传输层的服务一般要经历传输连接建立阶段，数据传送阶段，传输连接释放阶段3个阶段才算完成一个完整的服务过程。而在数据传送阶段又分为一般数据传送和加速数据传送两种形式。传输层中最为常见的两个协议分别是传输控制协议TCP（Transmission Control Protocol）和用户数据报协议UDP（User Datagram Protocol） 。传输层提供逻辑连接的建立、">
+<meta property="og:description" content="传输层的服务一般要经历传输连接建立阶段，数据传送阶段，传输连接释放阶段3个阶段才算完成一个完整的服务过程。而在数据传送阶段又分为一般数据传送和加速数据传送两种形式。传输层中最为常见的两个协议分别是传输控制协议TCP（Transmission Control Protocol）和用户数据报协议UDP（User Datagram Protocol） 。传输层提供逻辑连接的建立、传输层寻址、数据传输">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://wangwenlonggg.github.io/2021/06/05/%E4%BC%A0%E8%BE%93%E5%B1%82/20200225231759185.png">
 <meta property="og:image" content="http://wangwenlonggg.github.io/2021/06/05/%E4%BC%A0%E8%BE%93%E5%B1%82/2020022523201715.png">
@@ -211,24 +211,26 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>&emsp;&emsp;传输层的服务一般要经历传输连接建立阶段，数据传送阶段，传输连接释放阶段3个阶段才算完成一个完整的服务过程。而在数据传送阶段又分为一般数据传送和加速数据传送两种形式。传输层中最为常见的两个协议分别是传输控制协议TCP（Transmission Control Protocol）和用户数据报协议UDP（User Datagram Protocol） 。传输层提供逻辑连接的建立、传输层寻址、数据传输、传输连接释放、流量控制、拥塞控制、多路复用和解复用、崩溃恢复等服务。</p>
+        <p>  传输层的服务一般要经历传输连接建立阶段，数据传送阶段，传输连接释放阶段3个阶段才算完成一个完整的服务过程。而在数据传送阶段又分为一般数据传送和加速数据传送两种形式。传输层中最为常见的两个协议分别是传输控制协议TCP（Transmission Control Protocol）和用户数据报协议UDP（User Datagram Protocol） 。传输层提供逻辑连接的建立、传输层寻址、数据传输、传输连接释放、流量控制、拥塞控制、多路复用和解复用、崩溃恢复等服务。</p>
 <span id="more"></span>
-<h4 id="进程之间的通信"><a href="#进程之间的通信" class="headerlink" title="进程之间的通信"></a>进程之间的通信</h4><ul>
+<h4 id="进程之间的通信">进程之间的通信</h4>
+<ul>
 <li>从通信和信息处理的角度看，运输层向它上面的应用层提供通信服务，它属于面向通信部分的最高层，同时也是用户功能中的最低层</li>
 <li>当网络的边缘部分中的两个主机使用网络的核心部分的功能进行端到端的通信时，只有位于网络边缘部分的主机的协议栈才有运输层，而网络核心部分中的路由器在转发分组时都只用到下三层的功能</li>
 <li>运输层为相互通信的应用进程提供了逻辑通信</li>
 </ul>
-<p><img src="/2021/06/05/%E4%BC%A0%E8%BE%93%E5%B1%82/20200225231759185.png" alt></p>
+<p><img src="/2021/06/05/%E4%BC%A0%E8%BE%93%E5%B1%82/20200225231759185.png"></p>
 <ul>
 <li>两个主机进行通信实际上就是两个主机中的应用进程互相通信</li>
 <li>应用进程之间的通信又称为端到端的通信</li>
 <li>运输层的一个很重要的功能就是复用和分用。应用层不同进程的报文通过不同的端口向下交到运输层，再往下就共用网络层提供的服务</li>
-<li>“运输层提供应用进程间的逻辑通信”。“逻辑通信”的意思是：运输层之间的通信好像是沿水平方向传送数据。但事实上这两个运输层之间并没有一条水平方向的物理连接</li>
+<li>"运输层提供应用进程间的逻辑通信"。“逻辑通信”的意思是：运输层之间的通信好像是沿水平方向传送数据。但事实上这两个运输层之间并没有一条水平方向的物理连接</li>
 <li>运输层协议和网络层协议的主要区别：</li>
 </ul>
-<p><img src="/2021/06/05/%E4%BC%A0%E8%BE%93%E5%B1%82/2020022523201715.png" alt></p>
-<h4 id="传输层的两个主要协议"><a href="#传输层的两个主要协议" class="headerlink" title="传输层的两个主要协议"></a>传输层的两个主要协议</h4><p>TCP/IP 的运输层有两个不同的协议：</p>
-<ol>
+<p><img src="/2021/06/05/%E4%BC%A0%E8%BE%93%E5%B1%82/2020022523201715.png"></p>
+<h4 id="传输层的两个主要协议">传输层的两个主要协议</h4>
+<p>TCP/IP 的运输层有两个不同的协议：</p>
+<ol type="1">
 <li><a target="_blank" rel="noopener" href="http://xctx.online/2021/06/05/UDP%E5%8D%8F%E8%AE%AE/">用户数据报协议 UDP (User Datagram Protocol)</a></li>
 <li><a target="_blank" rel="noopener" href="http://xctx.online/2021/06/05/TCP%E5%8D%8F%E8%AE%AE/">传输控制协议 TCP (Transmission Control Protocol)</a></li>
 </ol>
@@ -239,12 +241,13 @@
 <li>UDP 传送的数据单位协议是 UDP 报文或用户数据报</li>
 </ul>
 <p>TCP/IP 体系中的运输层协议：</p>
-<p><img src="/2021/06/05/%E4%BC%A0%E8%BE%93%E5%B1%82/20200225232322184.png" alt></p>
+<p><img src="/2021/06/05/%E4%BC%A0%E8%BE%93%E5%B1%82/20200225232322184.png"></p>
 <ul>
 <li>UDP 在传送数据之前不需要先建立连接。对方的运输层在收到 UDP 报文后，不需要给出任何确认。虽然 UDP 不提供可靠交付，但在某些情况下 UDP 是一种最有效的工作方式</li>
 <li>TCP 则提供面向连接的服务。TCP 不提供广播或多播服务。由于 TCP 要提供可靠的、面向连接的运输服务，因此不可避免地增加了许多的开销。这不仅使协议数据单元的首部增大很多，还要占用许多的处理机资源</li>
 </ul>
-<h4 id="传输层的端口"><a href="#传输层的端口" class="headerlink" title="传输层的端口"></a>传输层的端口</h4><ul>
+<h4 id="传输层的端口">传输层的端口</h4>
+<ul>
 <li>运行在计算机中的进程是用进程标识符来标志的</li>
 <li>运行在应用层的各种应用进程却不应当让计算机操作系统指派它的进程标识符。这是因为在因特网上使用的计算机的操作系统种类很多，而不同的操作系统又使用不同格式的进程标识符</li>
 <li>为了使运行不同操作系统的计算机的应用进程能够互相通信，就必须用统一的方法对 TCP/IP 体系的应用进程进行标志</li>
@@ -277,7 +280,8 @@
 <li>登记端口号，数值为1024~49151，为没有熟知端口号的应用程序使用的。使用这个范围的端口号必须在 IANA 登记，以防止重复</li>
 <li>客户端口号或短暂端口号，数值为49152~65535，留给客户进程选择暂时使用。当服务器进程收到客户进程的报文时，就知道了客户进程所使用的动态端口号。通信结束后，这个端口号可供其他客户进程以后使用</li>
 </ul>
-<h4 id="传输层的协议"><a href="#传输层的协议" class="headerlink" title="传输层的协议"></a>传输层的协议</h4><ul>
+<h4 id="传输层的协议">传输层的协议</h4>
+<ul>
 <li><strong>面向连接的传输协议（TCP）</strong>：数据传输之前必须先建立连接,数据传输完成之后,必须释放连接。仅支持单播传输：每条传输连接只能有两个端点，只能进行点对点的连接，不支持多播和广播的传输方式,UDP是支持的。</li>
 <li>提供可靠的交付服务：传送的数据无差错。不丢失，不重复，且顺序与与源数据一致。</li>
 <li>传输单位是数据段：每次发送的数据段不固定,受应用层传送报文大小和网络中的MTU(最大传输单元)值大小的影响。最小数据段可能仅有21个字节(其中20个字节属于TCP头部,数据部分仅1字节)。</li>
@@ -287,27 +291,25 @@
 </ul>
 <blockquote>
 <ul>
-<li><p>字节编号机制：TCP数据段以字节为单位对数据段的”数据”部分进行一一编号，确保每一个字节的数据都可以有序传送和接收。</p>
-</li>
-<li><p>数据段确认机制：每接收一个数据段都必须有接收端向发送端返回确认数据段，其中的确认号表示已经正确接收的数据段序号。</p>
-</li>
-<li><p>超时重传机制：TCP中有一个重传定时器(RTT)，发送一个数据段的同时也开启这个定时器，如果定时器过期之时还没有返回确认，则定时器停止,重传该数据。</p>
-</li>
-<li>选择性确认机制：(Selective ACK,SACK)/只重传缺少部分的数据，不会重传那些已经正确接收的数据。</li>
+<li><p>字节编号机制：TCP数据段以字节为单位对数据段的"数据"部分进行一一编号，确保每一个字节的数据都可以有序传送和接收。</p></li>
+<li><p>数据段确认机制：每接收一个数据段都必须有接收端向发送端返回确认数据段，其中的确认号表示已经正确接收的数据段序号。</p></li>
+<li><p>超时重传机制：TCP中有一个重传定时器(RTT)，发送一个数据段的同时也开启这个定时器，如果定时器过期之时还没有返回确认，则定时器停止,重传该数据。</p></li>
+<li><p>选择性确认机制：(Selective ACK,SACK)/只重传缺少部分的数据，不会重传那些已经正确接收的数据。</p></li>
 </ul>
 </blockquote>
 <ul>
 <li>UDP 是User Datagram Protocol的简称， 中文名是用户数据报协议，是OSI（Open System Interconnection，开放式系统互联） 参考模型中一种<strong>无连接的传输层协议</strong>，提供面向事务的简单不可靠信息传送服务，IETF RFC 768是UDP的正式规范。UDP在IP报文的协议号是17 。</li>
 <li>UDP协议全称是用户数据报协议，在网络中它与TCP协议一样用于处理数据包，是一种无连接的协议。在OSI模型中，在第四层——传输层，处于IP协议的上一层。UDP有不提供数据包分组、组装和不能对数据包进行排序的缺点，也就是说，当报文发送之后，是无法得知其是否安全完整到达的。UDP用来支持那些需要在计算机之间传输数据的网络应用。包括网络视频会议系统在内的众多的<strong>客户/服务器模式</strong>的网络应用都需要使用UDP协议。UDP报文分为UDP报文头和UDP数据区域两个部分。报头由<strong>源端口，目的端口，报文长度以及校验和</strong>组成。UDP适合于实时数据传输，比如语音和视频通信。相比TCP，UDP的传输效率更高，开销更小，但是无法保证数据传输可靠性。UDP头部的标识如下：</li>
 </ul>
-<ol>
+<ol type="1">
 <li>16位源端口号：源主机的应用程序使用的端口号。</li>
 <li>16位目的端口号：目的主机的应用程序使用的端口号。</li>
 <li>16位UDP长度：是指UDP头部和UDP数据的字节长度。因为UDP头部长度是8字节，所以字段的最小值为8。</li>
 <li>16位UDP校验和：该字段提供了与TCP校验字段同样的功能；该字段是可选的。</li>
 </ol>
-<h4 id="传输层的重要性"><a href="#传输层的重要性" class="headerlink" title="传输层的重要性"></a>传输层的重要性</h4><p>&emsp;&emsp;传输层是整个协议层次结构的核心，是唯一负责总体数据传输和控制的一层。在OSI七层模型中传输层是负责数据通信的最高层，又是面向网络通信的低三层和面向信息处理的高三层之间的中间层。因为网络层不一定保证服务的可靠，而用户也不能直接对通信子网加以控制，因此在网络层之上，加一层即传输层以改善传输质量。</p>
-<p>&emsp;&emsp;传输层利用网络层提供的服务，并<strong>通过传输层地址提供给高层用户传输数据的通信端口</strong>，使系统间高层资源的共享不必考虑数据通信方面和不可靠的数据传输方面的问题。它的主要功能是：对一个进行的对话或连接提供可靠的传输服务，在通向网络的单一物理连接上实现该连接的复用，在单一连接上提供端到端的序号与流量控制、差错控制及恢复等服务。</p>
+<h4 id="传输层的重要性">传输层的重要性</h4>
+<p>  传输层是整个协议层次结构的核心，是唯一负责总体数据传输和控制的一层。在OSI七层模型中传输层是负责数据通信的最高层，又是面向网络通信的低三层和面向信息处理的高三层之间的中间层。因为网络层不一定保证服务的可靠，而用户也不能直接对通信子网加以控制，因此在网络层之上，加一层即传输层以改善传输质量。</p>
+<p>  传输层利用网络层提供的服务，并<strong>通过传输层地址提供给高层用户传输数据的通信端口</strong>，使系统间高层资源的共享不必考虑数据通信方面和不可靠的数据传输方面的问题。它的主要功能是：对一个进行的对话或连接提供可靠的传输服务，在通向网络的单一物理连接上实现该连接的复用，在单一连接上提供端到端的序号与流量控制、差错控制及恢复等服务。</p>
 
     </div>
 
